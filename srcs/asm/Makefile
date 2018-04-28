@@ -2,49 +2,64 @@
 ###                  Settings                 ###
 #################################################
 
-EXEC = asm
-CC = clang
-FLAGS = -Wall -Wextra -Werror
-SRC_DIR = ./srcs/
-INC_DIR = ./includes/
-OBJ_DIR = ./objs/
+EXEC	= asm
+CC		= clang
+FLAGS	= -Wall -Wextra -Werror -g3
+HEADER	= -I $(INC_DIR) -I ../libft/includes/
+SRC_DIR	= ./srcs/
+INC_DIR	= ./includes/
 
 #################################################
 ###                 Sources                   ###
 #################################################
 
-SRC =\
-	 asm_main.c
+SRC		= asm_main.c
 
 #################################################
 ###                   Format                  ###
 #################################################
 
-SRCS = $(addprefix $(SRC_DIR), $(SRC))
-OBJ = $(notdir $(SRC:.c=.o))
-OBJS = $(addprefix $(OBJ_DIR), $(OBJ))
+OBJ		= $(addprefix $(SRC_DIR),$(SRC:.c=.o))
+
+T		= $(words $(SRC))
+N		= 0
+C		= $(words $N)$(eval N := x $N)
+ECHO	= "[`expr $C '*' 100 / $T`%]"
+
+#COLOR
+_GREY=\x1b[30m
+_RED=\x1b[31m
+_GREEN=\x1b[32m
+_YELLOW=\x1b[33m
+_BLUE=\x1b[34m
+_PURPLE=\x1b[35m
+_CYAN=\x1b[36m
+_WHITE=\x1b[37m
+_END=\x1b[0m
 
 #################################################
 ###                   Rules                   ###
 #################################################
 
 .SILENT:
-.PHONY: all clean fclean re
 
 all: $(EXEC)
 
-$(OBJS): $(SRCS)
-	mkdir -p $(OBJ_DIR)
-	$(CC) -c $(FLAGS) -I$(INC_DIR) $^
-	mv -f $(OBJ) $(OBJ_DIR)
+$(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h
+	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ../libft/libft.a
+	@echo "$(_CYAN)Assembleur$(_END)	: $(_GREEN)compiled$(_end)"
 
-$(EXEC): $(OBJS)
-	$(CC) -o $@ $^
+%.o: %.c
+	@printf "%-60b\r" "$(ECHO)"
+	@$(CC) $(FLAGS) -c $< -o $@ $(HEADER)
 
 clean:
-	rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ)
 
 fclean: clean
-	rm -f $(EXEC)
+	@rm -f $(EXEC)
 
-re: fclean all
+re: fclean
+	@make all
+
+.PHONY: all clean fclean re

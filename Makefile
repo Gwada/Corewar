@@ -27,34 +27,32 @@ _END=\x1b[0m
 
 all: lib asm corewar
 
+lib:
+	@make -j3 -C $(LIB)
+
 asm:
-	@$(MAKE) -C $(ASM_SRCS)
+	@$(MAKE) -j3 -C $(ASM_SRCS)
 	@mv -i $(ASM_SRCS)$(ASM_EXEC_NAME) ./
-	@echo "$(_CYAN)$(ASM_EXEC_NAME)$(_END)			: $(_GREEN)compiled$(_END)"
 
 corewar:
-	@$(MAKE) -C $(VM_SRCS)
+	@$(MAKE) -j3 -C $(VM_SRCS)
 	@mv -i $(VM_SRCS)$(VM_EXEC_NAME) ./
-	@echo "$(_CYAN)$(VM_EXEC_NAME)$(_END)			: $(_GREEN)compiled$(_END)"
 
 clean:
 	@clear
 	@make -C $(LIB) clean
 	@$(MAKE) -C $(VM_SRCS) clean
 	@$(MAKE) -C $(ASM_SRCS) clean
-	@echo "$(_RED)clean$(_END)				: $(_GREEN)done$(_END)"
+	@echo "$(_RED)clean$(_END)		: $(_GREEN)done$(_END)"
 
 fclean: clean
 	@make -C $(LIB) fclean
 	@rm -f $(ASM_EXEC_NAME) $(VM_EXEC_NAME)
 	@$(MAKE) -C $(VM_SRCS) fclean
 	@$(MAKE) -C $(ASM_SRCS) fclean
-	@echo "$(_RED)fclean$(_END)				: $(_GREEN)done$(_END)"
+	@echo "$(_RED)fclean$(_END)		: $(_GREEN)done$(_END)"
 
 re: fclean
 	@make all
-
-lib:
-	@make -j3 -C $(LIB)
 
 .PHONY: all clean fclean re

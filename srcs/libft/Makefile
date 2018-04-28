@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/24 19:34:30 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/28 16:39:04 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/04/28 19:06:35 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME	= libft.a
 
 HEADER = -I includes/
 
-CFLAGS = -Wall -Wextra -Werror $(HEADER)
+CFLAGS = -Wall -Wextra -Werror $(HEADER) -g3
 
 SRC = mem/ft_memset.c \
 		ft_bzero.c \
@@ -145,7 +145,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $?
 	@ranlib $(NAME)
-	@echo "$(_CYAN)$(NAME)$(_END)			: $(_GREEN)edited$(_END)"
+	@echo "$(_CYAN)$(NAME)$(_END)		: $(_GREEN)edited$(_END)"
 
 %.o: %.c
 	@printf "%-60b\r" "$(ECHO)"
