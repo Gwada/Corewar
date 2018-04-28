@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/24 19:34:30 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/28 19:06:35 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/04/28 20:53:29 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -154,11 +154,9 @@ $(NAME): $(OBJ)
 clean:
 	@rm -f $(OBJ)
 	@rm -f libft.h.gch
-#	@echo "$(_RED)clean libft$(_END) :	$(_GREEN)done$(_END)"
 
 fclean:	clean
 	@rm -f $(NAME)
-#	@echo "$(_RED)fclean libft$(_END) :	$(_GREEN)done$(_END)"
 
 re: fclean
 	@make all
