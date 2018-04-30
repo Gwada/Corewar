@@ -28,11 +28,11 @@ all: libft asm corewar
 libft:
 	@make -j3 -C $(LIB)
 
-asm:
+asm: libft
 	@make -j3 -C $(ASM_SRCS)
 	@mv -i $(ASM_SRCS)$(ASM_EXEC_NAME) ./
 
-corewar:
+corewar: libft
 	@make -j3 -C $(VM_SRCS)
 	@mv -i $(VM_SRCS)$(VM_EXEC_NAME) ./
 
