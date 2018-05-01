@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.h                                              :+:      :+:    :+:   */
+/*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/01 13:44:02 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/01 17:47:14 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,30 @@
 # include <fcntl.h>
 # include "op.h"
 
-# define VALID_C_E_M		(1 << 0)
-# define INVALID_C_E_M		(1 << 1)
+# define VALID_MAG			(1 << 0)
+# define VALID_NAME_LEN		(1 << 1)
+# define VALID_CHAMP_LEN	(1 << 2)
 
-# define FILE_MAX_SIZE (4 + 128 + 4 + 4 + 2048 + 4 + (MEM_SIZE / 6))
+# define FILE_MAX_SIZE		(4 + 128 + 4 + 4 + 2048 + 4 + CHAMP_MAX_SIZE)
 
-typedef		struct			s_core
+typedef struct				s_player
+{
+	unsigned char			*name;
+	unsigned char			*comment;
+	unsigned char			*prog;
+	unsigned int			bd;
+	unsigned int			magic;
+	unsigned int			prog_size;
+	unsigned char			buff[FILE_MAX_SIZE];
+
+}							t_player;
+
+typedef struct				s_core
 {
 	unsigned char			ram[MEM_SIZE];
-	unsigned int			n_player;
 	unsigned int			bd;
+	unsigned int			player;
+	t_player				p[MAX_PLAYERS];
 }							t_core;
 
 #endif
