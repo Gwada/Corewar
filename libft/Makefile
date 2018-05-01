@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/24 19:34:30 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/28 20:53:29 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/05/01 21:11:00 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC = mem/ft_memset.c \
 		mem/ft_memmove.c \
 		mem/ft_memchr.c \
 		mem/ft_memcmp.c \
+		mem/ft_print_memory.c \
 		str/ft_strlen.c \
 		str/ft_strdup.c \
 		str/ft_strcpy.c \

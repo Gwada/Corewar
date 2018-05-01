@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/01 19:00:14 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/01 21:10:56 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static	void		get_magic_number(unsigned char **oct, t_core *c, int i)
 			*oct += PROG_NAME_LENGTH + 4;
 		}
 	}
-
 
 /*
 **	Debug Display
@@ -100,16 +99,24 @@ static	int			get_arg(char *param, t_core *c)
 			close(fd);
 			return (ft_printf("error read\n"));//
 		}
-
+		if (c->player == MAX_PLAYERS)
+		{
+			ft_printf("(%u > %d)", c->player + 1, MAX_PLAYERS);
+			ft_printf(" {red}too much players{eoc}\n");
+			return (1);
+		}
 //		ft_printf("FILE_MAX_SIZE = %d\tret = %d\n", FILE_MAX_SIZE, ret);//
 
 		get_magic_number(&oct, c, -1);
 		c->p[c->player].bd & VALID_NAME_LEN ? get_prog_size(&oct, c, -1) : 0;
+
 		ft_printf("(hex)%hhx (dec)%hhu\n\n", *oct, *oct);
-//		c->p[c->player].bd & VALID_CHAMP_LEN ? put_prog(&oct, c, -1) : 0;
+
+
 		if (!(c->p[c->player].bd & VALID_CHAMP_LEN))
 			return (1);
 		close(fd);
+		++c->player;
 	}
 	else
 	{
@@ -119,27 +126,48 @@ static	int			get_arg(char *param, t_core *c)
 	return (0);
 }
 
-int		main(int argc, char **argv)
+static	void		put_champ(t_core *c, unsigned int i)
 {
-	int		i;
-	t_core	c;
+	unsigned int	start;
+
+	ft_printf("MEM_SIZE = %u\n", MEM_SIZE);
+	start = 0;
+	while (i < c->player)
+	{
+		start = MEM_SIZE / c->player * i;
+		ft_printf("i = %u\n", start);
+		ft_memcpy(&c->ram[start], &c->p[i].prog, c->p[i].prog_size);
+		++i;
+	}
+	(void)c;
+	(void)i;
+}
+
+int					main(int argc, char **argv)
+{
+	unsigned int	i;
+	t_core			c;
 
 	i = 0;
 	if (argc > 1)
 	{
 		ft_bzero(&c, sizeof(c));
-		while (++i < argc && argv[i])
+		while (++i < (unsigned int)argc && argv[i])
 		{
 			ft_printf("{yellow}player %d{eoc}\n", c.player + 1);
 			if (get_arg(argv[i], &c)) // erreur lors du parsing
 				return (ft_printf("{red}error parsing\n{eoc}"));
-			++c.player;
 		}
+		put_champ(&c, 0);
+		ft_print_memory(c.ram, MEM_SIZE, 32);
+		i = 0;//
+		while (i < c.player)//
+		{
+			ft_printf("jr %d name %s\n", i + 1, c.p[i].name);//
+			++i;//
+		}//
 	}
 	else //fonction de display error
 		ft_printf("Usage: ./corewar <champion1.cor> <...>\n");
-	i = -1;//
-	while ((unsigned)++i < c.player)//
-		ft_printf("jr %d name %s\n", i + 1, c.p[i].name);//
 	return (0);
 }

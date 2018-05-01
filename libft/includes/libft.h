@@ -6,7 +6,7 @@
 /*   By: dlavaury <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:12:40 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/01/17 19:34:23 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/01 21:11:34 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,5 +147,6 @@ int					ft_strchri_up(const char *s, unsigned c);
 int					ft_strchri(const char *s, unsigned c);
 size_t				ft_wstrlen(wchar_t *ws);
 size_t				ft_wcharlen(wchar_t c);
+void				ft_print_memory(const void *mem, size_t size, size_t elem);
 
 #endif
