@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/01 17:47:14 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/01 19:00:20 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct				s_core
 	unsigned char			ram[MEM_SIZE];
 	unsigned int			bd;
 	unsigned int			player;
-	t_player				p[MAX_PLAYERS];
+	t_player				p[MAX_PLAYERS + 1];
 }							t_core;
 
 #endif
