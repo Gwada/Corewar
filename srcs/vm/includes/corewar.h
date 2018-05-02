@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/01 21:04:43 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/02 17:03:58 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ typedef struct				s_core
 	unsigned int			player;
 	t_player				p[MAX_PLAYERS + 1];
 }							t_core;
+
+void						corewar(t_core *core);
 
 #endif

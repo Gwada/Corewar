@@ -14,6 +14,7 @@ INC_DIR	= ./includes/
 #################################################
 
 SRC		= vm_main.c \
+		  corewar.c \
 		  display.c
 
 #################################################
@@ -49,6 +50,7 @@ all: $(EXEC)
 $(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h
 	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ../../libft/libft.a
 	@echo "$(_CYAN)$(EXEC)$(_END)		: $(_GREEN)compiled$(_end)"
+	@echo "$(_END)"
 
 %.o: %.c
 	@printf "%-60b\r" "$(ECHO)"
