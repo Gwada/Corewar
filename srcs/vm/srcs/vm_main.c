@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/02 17:03:56 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/02 21:05:43 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,14 @@ static	void		get_magic_number(unsigned char **oct, t_core *c, int i)
 		{
 			c->p[c->player].bd |= VALID_NAME_LEN;
 			*oct += PROG_NAME_LENGTH + 4;
+			return ;
 		}
-		else
-		{
-			ft_printf("('{red}%d{eoc}' > ", ft_strlen((const char*)*oct));
-			ft_printf("%u) invalid name length\n", PROG_NAME_LENGTH);
-		}
+		ft_printf("('{red}%d{eoc}' > ", ft_strlen((const char*)*oct));
+		ft_printf("%u) invalid name length '%s'\n", PROG_NAME_LENGTH, *oct);
+		return ;
 	}
-	else
-	{
-		ft_printf("'%s' magic number is invalid: ", *oct);
-		ft_printf("'{red}%x{eoc}'\n", c->p[c->player].magic);
-	}
+	ft_printf("'%s' magic number is invalid: ", *oct);
+	ft_printf("'{red}%x{eoc}'\n", c->p[c->player].magic);
 }
 
 static void			get_prog_size(unsigned char **oct, t_core *c, int i)
@@ -51,17 +47,22 @@ static void			get_prog_size(unsigned char **oct, t_core *c, int i)
 	}
 	if (c->p[c->player].prog_size <= CHAMP_MAX_SIZE)
 	{
-		c->p[c->player].bd |= VALID_CHAMP_LEN;
-		c->p[c->player].comment = *oct;
-		*oct += COMMENT_LENGTH + 4;
-		c->p[c->player].prog = *oct;
+		if (ft_strlen((const char *)*oct) <= COMMENT_LENGTH)
+		{
+			c->p[c->player].bd |= VALID_CHAMP_LEN;
+			c->p[c->player].comment = *oct;
+			*oct += COMMENT_LENGTH + 4;
+			c->p[c->player].prog = *oct;
+			return ;
+		}
+		ft_printf("'%s' comment length is invalid ", c->p[c->player].name);
+		ft_printf("({red}'%u' bytes{eoc} > ", ft_strlen((const char*)*oct));
+		ft_printf("'%u' bytes)\n", COMMENT_LENGTH);
+		return ;
 	}
-	else
-	{
-		ft_printf("'%s' prog size is invalid ", c->p[c->player].name);
-		ft_printf("({red}%u bytes{eoc} > ", c->p[c->player].prog_size);
-		ft_printf("%u bytes)\n", CHAMP_MAX_SIZE);
-	}
+	ft_printf("'%s' prog size is invalid ", c->p[c->player].name);
+	ft_printf("({red}%u bytes{eoc} > ", c->p[c->player].prog_size);
+	ft_printf("%u bytes)\n", CHAMP_MAX_SIZE);
 }
 
 static	int			get_arg(char *param, t_core *c, int fd, int ret)
@@ -125,7 +126,7 @@ int					main(int argc, char **argv)
 			if (get_arg(argv[i], &c, 0, 0))
 				return (ft_printf("{red}error parsing\n{eoc}"));
 		put_champ(&c, 0);
-		ft_print_mem(c.ram, MEM_SIZE, 64);//
+//		ft_print_mem(c.ram, MEM_SIZE, 64);//
 		corewar(&c);
 	}
 	else //fonction de display error

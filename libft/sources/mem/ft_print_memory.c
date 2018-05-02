@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:46:57 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/02 14:36:55 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/02 18:06:59 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static void				put_car(const unsigned char *s, size_t size,
 	write(1, buff, k);
 }
 
-void					ft_print_mem(const void *mem, size_t size, size_t elem)
+void					ft_print_mem(const void *mem, size_t size, size_t elem,
+						size_t opt)
 {
 	size_t				i;
 	const unsigned char	*s;
@@ -75,7 +76,7 @@ void					ft_print_mem(const void *mem, size_t size, size_t elem)
 	while (i < size)
 	{
 		put_hex(s, size, elem, i);
-		put_car(s, size, elem, i);
+		opt ? put_car(s, size, elem, i) : write(1, "\n", 1);
 		i += elem;
 	}
 }
