@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/05/03 09:33:12 by dlavaury          #+#    #+#              #
+#    Updated: 2018/05/03 16:09:32 by dlavaury         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 #################################################
 ###                  Settings                 ###
 #################################################
@@ -14,6 +26,7 @@ INC_DIR	= ./includes/
 #################################################
 
 SRC		= vm_main.c \
+		  init.c \
 		  corewar.c \
 		  display.c
 
@@ -49,8 +62,7 @@ all: $(EXEC)
 
 $(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h
 	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ../../libft/libft.a
-	@echo "$(_CYAN)$(EXEC)$(_END)		: $(_GREEN)compiled$(_end)"
-	@echo "$(_END)"
+	@echo "$(_CYAN)$(EXEC)$(_END)		: $(_GREEN)compiled$(_END)"
 
 %.o: %.c
 	@printf "%-60b\r" "$(ECHO)"
@@ -63,6 +75,7 @@ fclean: clean
 	@rm -f $(EXEC)
 
 re: fclean
+	@clear
 	@make all
 
 .PHONY: all clean fclean re

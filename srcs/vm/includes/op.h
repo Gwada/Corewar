@@ -40,21 +40,21 @@
 ** t_op
 */
 
-typedef struct			s_op
+typedef struct					s_op
 {
-	char				*name;
-	int					nb_param;
-	int					param[3];
-	int					op_code;
-	int					nb_cycles;
-	char				*description;
-	int					ocp;
-	int					label_size;
-}						t_op;
+	char						*name;
+	int							nb_param;
+	int							param[3];
+	int							op_code;
+	int							nb_cycles;
+	char						*description;
+	int							ocp;
+	int							label_size;
+}								t_op;
 
-extern t_op				g_op_tab[];
+extern t_op						g_op_tab[];
 
-typedef char			t_arg_type;
+typedef char					t_arg_type;
 
 # define T_REG					1
 # define T_DIR					2
@@ -69,12 +69,12 @@ typedef char			t_arg_type;
 # define COMMENT_LENGTH			(2048)
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
-typedef struct			s_header
+typedef struct					s_header
 {
-	unsigned int		magic;
-	char				prog_name[PROG_NAME_LENGTH + 1];
-	unsigned int		prog_size;
-	char				comment[COMMENT_LENGTH + 1];
-}						t_header;
+	unsigned int				magic;
+	char						prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int				prog_size;
+	char						comment[COMMENT_LENGTH + 1];
+}								t_header;
 
 #endif

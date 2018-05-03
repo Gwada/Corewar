@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/02 21:05:43 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/03 16:09:34 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ static	void		get_magic_number(unsigned char **oct, t_core *c, int i)
 		return ;
 	}
 	ft_printf("'%s' magic number is invalid: ", *oct);
-	ft_printf("'{red}%x{eoc}'\n", c->p[c->player].magic);
+	ft_printf("'{red}%x{eoc}' != ", c->p[c->player].magic);
+	ft_printf("%x\n", COREWAR_EXEC_MAGIC);
 }
 
 static void			get_prog_size(unsigned char **oct, t_core *c, int i)
@@ -56,12 +57,12 @@ static void			get_prog_size(unsigned char **oct, t_core *c, int i)
 			return ;
 		}
 		ft_printf("'%s' comment length is invalid ", c->p[c->player].name);
-		ft_printf("({red}'%u' bytes{eoc} > ", ft_strlen((const char*)*oct));
-		ft_printf("'%u' bytes)\n", COMMENT_LENGTH);
+		ft_printf("({red}%u{eoc} bytes > ", ft_strlen((const char*)*oct));
+		ft_printf("%u bytes)\n", COMMENT_LENGTH);
 		return ;
 	}
 	ft_printf("'%s' prog size is invalid ", c->p[c->player].name);
-	ft_printf("({red}%u bytes{eoc} > ", c->p[c->player].prog_size);
+	ft_printf("({red}%u{eoc} bytes > ", c->p[c->player].prog_size);
 	ft_printf("%u bytes)\n", CHAMP_MAX_SIZE);
 }
 
@@ -105,12 +106,6 @@ static	void		put_champ(t_core *c, unsigned int i)
 		ft_memcpy(&c->ram[start], c->p[i].prog, c->p[i].prog_size);
 		++i;
 	}
-	i = 0;//
-	while (i < c->player)//
-	{
-		ft_printf("jr %d: '{blue}%s{eoc}'\n", i + 1, c->p[i].name);//
-		++i;//
-	}//
 }
 
 int					main(int argc, char **argv)
@@ -119,17 +114,15 @@ int					main(int argc, char **argv)
 	t_core			c;
 
 	i = 0;
-	if (argc > 1)
+	if (argc > 1 && init_core(&c, 1))
 	{
-		ft_bzero(&c, sizeof(c));
 		while (++i < (unsigned int)argc && argv[i])
 			if (get_arg(argv[i], &c, 0, 0))
 				return (ft_printf("{red}error parsing\n{eoc}"));
 		put_champ(&c, 0);
-//		ft_print_mem(c.ram, MEM_SIZE, 64);//
 		corewar(&c);
 	}
-	else //fonction de display error
+	else if (c.bd ^ INIT)//fonction de display error
 		ft_printf("Usage: ./corewar <champion1.cor> <...>\n");
 	return (0);
 }

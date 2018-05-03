@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/02 21:05:45 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/03 16:09:26 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define VALID_MAG			(1 << 0)
 # define VALID_NAME_LEN		(1 << 1)
 # define VALID_CHAMP_LEN	(1 << 2)
+# define INIT				(1 << 31)
 
 # define FILE_SIZE			(4 + PROG_NAME_LENGTH + 4 + 4 + COMMENT_LENGTH + 4)
 # define FILE_MAX_SIZE		(FILE_SIZE + CHAMP_MAX_SIZE)
@@ -47,5 +48,6 @@ typedef struct				s_core
 }							t_core;
 
 void						corewar(t_core *core);
+size_t						init_core(t_core *core, size_t ret);
 
 #endif
