@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/03 16:09:34 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/03 20:03:40 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static	int			get_arg(char *param, t_core *c, int fd, int ret)
 	if (*param != '-')
 	{
 		if ((fd = open(param, O_RDONLY)) == -1)
-			return (ft_printf("error open\n"));//
+			return (ft_printf("{red}%s{eoc} is invalid file\n", param));
 		ret = read(fd, c->p[c->player].buff, FILE_MAX_SIZE + 1);
 		close(fd);
 		if (ret == -1)
@@ -118,7 +118,7 @@ int					main(int argc, char **argv)
 	{
 		while (++i < (unsigned int)argc && argv[i])
 			if (get_arg(argv[i], &c, 0, 0))
-				return (ft_printf("{red}error parsing\n{eoc}"));
+				return (1);
 		put_champ(&c, 0);
 		corewar(&c);
 	}
