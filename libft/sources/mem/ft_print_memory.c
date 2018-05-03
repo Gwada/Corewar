@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:46:57 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/02 18:06:59 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/03 21:07:23 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void				put_hex(const unsigned char *s, size_t size,
 	size_t				j;
 	size_t				k;
 	char				*b;
-	char				buff[11];
+	char				buff[256];
 
 	j = 0;
 	k = 0;
@@ -29,17 +29,16 @@ static void				put_hex(const unsigned char *s, size_t size,
 		buff[k++] = b[s[i + j] / 16 % 16];
 		buff[k++] = b[s[i + j] % 16];
 		j++ % 2 ? buff[k++] = ' ' : 0;
-		k == 10 ? write(1, buff, k) : 0;
-		k == 10 && !(k = 0) ? ft_bzero(buff, sizeof(buff)) : 0;
+		k > 250 && write(1, buff, k) ? k = 0 : 0;
 	}
 	while (j < elem)
 	{
 		buff[k++] = ' ';
 		buff[k++] = ' ';
 		j++ % 2 ? buff[k++] = ' ' : 0;
-		k == 10 ? write(1, buff, k) : 0;
-		k == 10 && !(k = 0) ? ft_bzero(buff, sizeof(buff)) : 0;
+		k > 253 && write(1, buff, k) ? k = 0 : 0;
 	}
+	write(1, buff, k);
 }
 
 static void				put_car(const unsigned char *s, size_t size,
@@ -47,7 +46,7 @@ static void				put_car(const unsigned char *s, size_t size,
 {
 	size_t				j;
 	size_t				k;
-	char				buff[66];
+	char				buff[256];
 
 	j = 0;
 	k = 0;
@@ -57,8 +56,7 @@ static void				put_car(const unsigned char *s, size_t size,
 			buff[k++] = s[i + j];
 		else
 			buff[k++] = '.';
-		k == 64 ? write(1, buff, k) : 0;
-		k == 64 && !(k = 0) ? ft_bzero(buff, sizeof(buff)) : 0;
+		k > 253 && write(1, buff, k) ? k = 0 : 0;
 		++j;
 	}
 	buff[k++] = '\n';

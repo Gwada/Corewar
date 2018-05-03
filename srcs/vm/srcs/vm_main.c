@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/03 20:03:40 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/03 20:44:18 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static	int			get_arg(char *param, t_core *c, int fd, int ret)
 	}
 	else
 	{
-		// get_options(param, c,); recuperation des options;
+		// get_options(param, c); recuperation des options;
 		ft_printf("{blue}IS OPTION{eoc}\n");//
 	}
 	return (0);
@@ -104,7 +104,15 @@ static	void		put_champ(t_core *c, unsigned int i)
 	{
 		start = MEM_SIZE / c->player * i;
 		ft_memcpy(&c->ram[start], c->p[i].prog, c->p[i].prog_size);
+		!c->p[i].id ? c->p[i].id = i + 1 : 0;
 		++i;
+	}
+	i = -1;
+	while (++i < c->player)
+	{
+		ft_printf("id = %u\n", c->p[i].id);
+		ft_printf("name = %s\n", c->p[i].name);
+		ft_printf("prog_size = %u\n\n", c->p[i].prog_size);
 	}
 }
 
