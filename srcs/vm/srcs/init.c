@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 09:38:16 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/03 20:32:23 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/04 16:25:35 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ static	void	display_init(size_t code)
 	}
 	if (code == 5)
 	{
-		ft_printf("op.h: MEM_SIZE (%0x bytes) ", MEM_SIZE);
-		ft_printf("must be < (%x bytes)\n", MAX_RAM);
+		ft_printf("op.h: MEM_SIZE (%u bytes) ", MEM_SIZE);
+		ft_printf("must be < (%u bytes)\n", MAX_RAM);
 	}
+	code == 6 ? ft_printf("op.h: MAX_PLAYERS must be < 256\n") : 0;
 }
 
 size_t		init_core(t_core *core, size_t ret)
@@ -42,6 +43,7 @@ size_t		init_core(t_core *core, size_t ret)
 	if (MAX_PLAYERS * CHAMP_MAX_SIZE > MEM_SIZE && !(ret = 0))
 		display_init(4);
 	MEM_SIZE >= MAX_RAM && !(ret = 0) ? display_init(5) : 0;
+	MAX_PLAYERS > 255 && !(ret = 0) ? display_init(6): 0;
 	core->bd |= INIT;
 	return (ret);
 }

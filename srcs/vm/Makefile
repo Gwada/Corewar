@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/03 09:33:12 by dlavaury          #+#    #+#              #
-#    Updated: 2018/05/03 20:03:53 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/05/04 17:46:34 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ INC_DIR	= ./includes/
 
 SRC		= vm_main.c \
 		  init.c \
+		  get_options.c \
 		  corewar.c \
 		  display.c
 

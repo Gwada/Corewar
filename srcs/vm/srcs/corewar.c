@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/03 21:07:27 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/04 15:59:10 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 void	corewar(t_core *c)
 {
-	ft_print_mem(c->ram, MEM_SIZE, 64, 0);
+//	ft_print_mem(c->ram, MEM_SIZE, 64, 0);
 	(void)c;
 }

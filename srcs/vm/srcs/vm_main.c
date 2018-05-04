@@ -6,58 +6,53 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/03 20:44:18 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/04 17:48:58 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
 
-static	void		get_magic_number(unsigned char **oct, t_core *c, int i)
+static	void		get_magic_number(unsigned char **b, t_core *c, int i)
 {
 	while (++i < 4)
-	{
-		c->p[c->player].magic <<= 8;
-		c->p[c->player].magic |= *(*oct)++;
-	}
-	c->p[c->player].name = *oct;
+		c->p[c->player].magic = (c->p[c->player].magic << 8) | *(*b)++;
+	c->p[c->player].name = *b;
 	if (c->p[c->player].magic == COREWAR_EXEC_MAGIC)
 	{
 		c->p[c->player].bd |= VALID_MAG;
-		if (ft_strlen((const char*)*oct) <= PROG_NAME_LENGTH)
+		if (ft_strlen((const char*)*b) <= PROG_NAME_LENGTH)
 		{
 			c->p[c->player].bd |= VALID_NAME_LEN;
-			*oct += PROG_NAME_LENGTH + 4;
+			*b += PROG_NAME_LENGTH + 4;
 			return ;
 		}
-		ft_printf("('{red}%d{eoc}' > ", ft_strlen((const char*)*oct));
-		ft_printf("%u) invalid name length '%s'\n", PROG_NAME_LENGTH, *oct);
+		ft_printf("('{red}%d{eoc}' > ", ft_strlen((const char*)*b));
+		ft_printf("%u) invalid name length '%s'\n", PROG_NAME_LENGTH, *b);
 		return ;
 	}
-	ft_printf("'%s' magic number is invalid: ", *oct);
+	ft_printf("'%s' magic number is invalid: ", *b);
 	ft_printf("'{red}%x{eoc}' != ", c->p[c->player].magic);
 	ft_printf("%x\n", COREWAR_EXEC_MAGIC);
 }
 
-static void			get_prog_size(unsigned char **oct, t_core *c, int i)
+static void			get_prog_size(unsigned char **b, t_core *c, int i)
 {
 	while (++i < 4)
-	{
-		c->p[c->player].prog_size <<= 8;
-		c->p[c->player].prog_size |= *(*oct)++;
-	}
+		c->p[c->player].prog_size = (c->p[c->player].prog_size << 8) | *(*b)++;
 	if (c->p[c->player].prog_size <= CHAMP_MAX_SIZE)
 	{
-		if (ft_strlen((const char *)*oct) <= COMMENT_LENGTH)
+		if (ft_strlen((const char *)*b) <= COMMENT_LENGTH)
 		{
 			c->p[c->player].bd |= VALID_CHAMP_LEN;
-			c->p[c->player].comment = *oct;
-			*oct += COMMENT_LENGTH + 4;
-			c->p[c->player].prog = *oct;
+			c->p[c->player].comment = *b;
+			*b += COMMENT_LENGTH + 4;
+			c->p[c->player].prog = *b;
+			c->bd &= ~GET_OPT;
 			return ;
 		}
 		ft_printf("'%s' comment length is invalid ", c->p[c->player].name);
-		ft_printf("({red}%u{eoc} bytes > ", ft_strlen((const char*)*oct));
+		ft_printf("({red}%u{eoc} bytes > ", ft_strlen((const char*)*b));
 		ft_printf("%u bytes)\n", COMMENT_LENGTH);
 		return ;
 	}
@@ -80,18 +75,18 @@ static	int			get_arg(char *param, t_core *c, int fd, int ret)
 		ret = read(fd, c->p[c->player].buff, FILE_MAX_SIZE + 1);
 		close(fd);
 		if (ret == -1)
-			return (ft_printf("error read\n"));//
+			return (ft_printf("error with read function\n"));
 		get_magic_number(&oct, c, -1);
 		c->p[c->player].bd & VALID_NAME_LEN ? get_prog_size(&oct, c, -1) : 0;
-		if (!(c->p[c->player].bd & VALID_CHAMP_LEN))
+		if (!(ret = 0) && !(c->p[c->player].bd & VALID_CHAMP_LEN))
 			return (1);
+		while (!c->p[c->player].id && ++ret < MAX_PLAYERS)
+			if (!c->id[ret] && (c->id[ret] = 1))
+				c->p[c->player].id = ret;
 		++c->player;
 	}
 	else
-	{
-		// get_options(param, c); recuperation des options;
-		ft_printf("{blue}IS OPTION{eoc}\n");//
-	}
+		return (get_options((unsigned char*)param + 1, c, fd));
 	return (0);
 }
 
@@ -110,9 +105,9 @@ static	void		put_champ(t_core *c, unsigned int i)
 	i = -1;
 	while (++i < c->player)
 	{
-		ft_printf("id = %u\n", c->p[i].id);
-		ft_printf("name = %s\n", c->p[i].name);
-		ft_printf("prog_size = %u\n\n", c->p[i].prog_size);
+		ft_printf("id = {green}%3u{eoc}\t", c->p[i].id);
+		ft_printf("name = {green}%58s{eoc}\t", c->p[i].name);
+		ft_printf("prog_size = {green}%4u{eoc}\n\n", c->p[i].prog_size);
 	}
 }
 
@@ -124,13 +119,16 @@ int					main(int argc, char **argv)
 	i = 0;
 	if (argc > 1 && init_core(&c, 1))
 	{
+		c.first_arg = *argv;
 		while (++i < (unsigned int)argc && argv[i])
-			if (get_arg(argv[i], &c, 0, 0))
-				return (1);
-		put_champ(&c, 0);
-		corewar(&c);
+			if (get_arg(argv[i], &c, i, 0) || c.bd == ERROR)
+				return (0);
+		c.bd & GET_OPT ? ft_printf("Missing one champion\n") : 0;
+		!(c.bd & GET_OPT) ? put_champ(&c, 0) : 0;
+		!(c.bd & GET_OPT) ? corewar(&c) : 0;
 	}
-	else if (c.bd ^ INIT)//fonction de display error
-		ft_printf("Usage: ./corewar <champion1.cor> <...>\n");
+	else if (!(c.bd & INIT) || argc < 2)
+		display_usage(*argv);
+		ft_printf("Usage: %s <champion1.cor> <...>\n", c.first_arg);
 	return (0);
 }

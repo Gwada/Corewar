@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/03 21:07:21 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/04 17:49:10 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@
 # define VALID_MAG			(1 << 0)
 # define VALID_NAME_LEN		(1 << 1)
 # define VALID_CHAMP_LEN	(1 << 2)
-# define INIT				(1 << 31)
+# define GET_OPT			(1 << 3)
+# define DUMP				(1 << 4)
+# define INIT				(1 << 5)
+# define ERROR				(1 << 5)
 
 # define MAX_RAM			(0x186a0)
 # define FILE_SIZE			(4 + PROG_NAME_LENGTH + 4 + 4 + COMMENT_LENGTH + 4)
@@ -43,13 +46,18 @@ typedef struct				s_player
 
 typedef struct				s_core
 {
+	char					*first_arg;
 	unsigned char			ram[MEM_SIZE];
 	unsigned int			bd;
+	unsigned int			dump;
 	unsigned int			player;
 	t_player				p[MAX_PLAYERS + 1];
+	unsigned char			id[MAX_PLAYERS + 1];
 }							t_core;
 
 void						corewar(t_core *core);
+void						display_usage(char *name);
+int							get_options(unsigned char *opt, t_core *c, int n);
 size_t						init_core(t_core *core, size_t ret);
 
 #endif
