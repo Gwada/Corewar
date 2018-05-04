@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/04 17:49:10 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/04 20:31:49 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 # define GET_OPT			(1 << 3)
 # define DUMP				(1 << 4)
 # define INIT				(1 << 5)
-# define ERROR				(1 << 5)
+# define ERROR				(1 << 6)
+# define VISUAL				(1 << 7)
 
 # define MAX_RAM			(0x186a0)
 # define FILE_SIZE			(4 + PROG_NAME_LENGTH + 4 + 4 + COMMENT_LENGTH + 4)
@@ -57,7 +58,7 @@ typedef struct				s_core
 
 void						corewar(t_core *core);
 void						display_usage(char *name);
-int							get_options(unsigned char *opt, t_core *c, int n);
+int							get_options(unsigned char *opt, t_core *c);
 size_t						init_core(t_core *core, size_t ret);
 
 #endif

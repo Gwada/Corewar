@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/04 17:48:58 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/04 20:31:55 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static	int			get_arg(char *param, t_core *c, int fd, int ret)
 		++c->player;
 	}
 	else
-		return (get_options((unsigned char*)param + 1, c, fd));
+		return (get_options((unsigned char*)param + 1, c));
 	return (0);
 }
 
@@ -127,8 +127,7 @@ int					main(int argc, char **argv)
 		!(c.bd & GET_OPT) ? put_champ(&c, 0) : 0;
 		!(c.bd & GET_OPT) ? corewar(&c) : 0;
 	}
-	else if (!(c.bd & INIT) || argc < 2)
+	else if (!(c.bd & INIT))
 		display_usage(*argv);
-		ft_printf("Usage: %s <champion1.cor> <...>\n", c.first_arg);
 	return (0);
 }

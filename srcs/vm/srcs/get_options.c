@@ -6,16 +6,16 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 10:50:48 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/04 17:49:00 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/04 20:31:22 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
 
-static size_t		get_id(unsigned char *oct, t_core *core)
+static size_t			get_id(unsigned char *oct, t_core *core)
 {
-	unsigned short	id;
+	unsigned short		id;
 
 	id = 0;
 	while (ft_isdigit(*oct))
@@ -31,39 +31,41 @@ static size_t		get_id(unsigned char *oct, t_core *core)
 	return (0);
 }
 
-static void			get_prog_opt(unsigned char *opt, t_core *core)
+static void				get_prog_opt(unsigned char *opt, t_core *core)
 {
-	int				i;
-	unsigned long	dump;
+	unsigned long long	dump;
 
-	i = -1;
 	dump = 0;
-	if ((!*opt || !ft_str_is_numeric((char*)opt)) && (core->bd = ERROR))
-	{
-		display_usage(core->first_arg);
+	if (!*opt)
 		return ;
+	if (*opt == 'v' && (core->bd |= VISUAL))
+		return (get_prog_opt(++opt, core));
+	if (!ft_strncmp((const char*)opt, "dump", 4) && !(core->bd & DUMP))
+	{
+		opt += 4;
+		while (*opt && ft_isdigit(*opt))
+			if ((dump = dump * 10 + *opt++ - '0') > IMAX)
+				break ;
+		if ((!dump || dump > IMAX) && (core->bd = ERROR))
+			return (display_usage(core->first_arg));
+		core->bd |= DUMP;
+		core->dump = (unsigned int)dump;
+		return (*opt ? get_prog_opt(opt, core) : (void)0);
 	}
-	while (ft_isdigit(opt[++i]))
-		if ((dump = dump * 10 + opt[i] - '0') > IMAX)
-		{
-			display_usage(core->first_arg);
-			core->bd = ERROR;
-			return ;
-		}
-	core->bd |= DUMP;
-	return ;
+	core->bd = ERROR;
+	display_usage(core->first_arg);
 }
 
-int					get_options(unsigned char *opt, t_core *core, int n)
+int						get_options(unsigned char *opt, t_core *core)
 {
 	if (!*opt)
 		return (0);
-	if (n == 1 && *opt == 'd')
-		get_prog_opt(++opt, core);
-	else if (ft_isdigit(*opt))
+	if (ft_strchr("dv", *opt) && !core->player)
+		get_prog_opt(opt, core);
+	else if (*opt == 'p' && ft_isdigit(*++opt))
 	{
 		if (get_id(opt, core))
-			return (ft_printf("Invalid player id: %s\n", opt - 1));
+			return (ft_printf("Invalid player id: %s\n", opt - 2));
 		while (ft_isdigit(*opt))
 			++opt;
 	}
