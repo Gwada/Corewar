@@ -90,6 +90,9 @@ static	int			get_arg(char *param, t_core *c, int fd, int ret)
 	return (0);
 }
 
+/*
+ * Copy all champs on ram and initalise id
+ */
 static	void		put_champ(t_core *c, unsigned int i)
 {
 	unsigned int	start;

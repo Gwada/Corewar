@@ -1,3 +1,7 @@
+crer branche et continuer la vm jusqu'au point du visu
+
+liste chaine de chaque programme
+
 `Repartition du travail`
 
 `Understand subject`:

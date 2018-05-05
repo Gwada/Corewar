@@ -17,6 +17,7 @@
 # include <sys/uio.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <ncurses.h>
 # include "op.h"
 
 # define VALID_MAG			(1 << 0)
@@ -51,8 +52,8 @@ typedef struct				s_core
 	unsigned char			ram[MEM_SIZE];
 	unsigned int			bd;
 	unsigned int			dump;
-	unsigned int			player;
-	t_player				p[MAX_PLAYERS + 1];
+	unsigned int			player; // nombre de player
+	t_player				p[MAX_PLAYERS + 1]; // array of player
 	unsigned char			id[MAX_PLAYERS + 1];
 }							t_core;
 
