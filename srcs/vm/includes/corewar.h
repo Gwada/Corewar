@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/04 20:31:49 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/05 12:52:33 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,20 @@ typedef struct				s_player
 	unsigned char			*name;
 	unsigned char			*comment;
 	unsigned char			*prog;
+	unsigned int			oc;
 	unsigned int			bd;
 	unsigned int			magic;
 	unsigned int			prog_size;
 	unsigned char			buff[FILE_MAX_SIZE];
 
 }							t_player;
+
+typedef struct				s_process
+{
+	unsigned char			carry;
+	unsigned int			reg[REG_NUMBER + 1];
+	s_op					ins;
+}							t_process;
 
 typedef struct				s_core
 {
@@ -52,8 +60,10 @@ typedef struct				s_core
 	unsigned int			bd;
 	unsigned int			dump;
 	unsigned int			player;
+	unsigned int			cycle;
 	t_player				p[MAX_PLAYERS + 1];
 	unsigned char			id[MAX_PLAYERS + 1];
+	t_process				*ps;
 }							t_core;
 
 void						corewar(t_core *core);

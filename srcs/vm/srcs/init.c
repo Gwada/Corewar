@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 09:38:16 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/04 16:25:35 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/05 12:48:41 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,23 @@ static	void	display_init(size_t code)
 	code == 2 ? ft_printf("op.h: COREWAR_EXEC_MAGIC must be >= 0\n") : 0;
 	code == 3 ? ft_printf("op.h: MAX_PLAYERS must be > 0\n") : 0;
 	if (code == 4)
-	{
 		ft_printf("op.h: MEM_SIZE (%u bytes) must be bigger than ", MEM_SIZE);
-		ft_printf("MAX_PLAYERS * CHAMP_MAX_SIZE ", MEM_SIZE);
-		ft_printf("(%u bytes)\n", MAX_PLAYERS * CHAMP_MAX_SIZE);
-	}
-	if (code == 5)
-	{
-		ft_printf("op.h: MEM_SIZE (%u bytes) ", MEM_SIZE);
-		ft_printf("must be < (%u bytes)\n", MAX_RAM);
-	}
+	code == 4 ? ft_printf("MAX_PLAYERS * CHAMP_MAX_SIZE ", MEM_SIZE) : 0;
+	code == 4 ? ft_printf("(%u bytes)\n", MAX_PLAYERS * CHAMP_MAX_SIZE) : 0;
+	code == 5 ? ft_printf("op.h: MEM_SIZE (%u bytes) ", MEM_SIZE) : 0;
+	code == 5 ? ft_printf("must be < (%u bytes)\n", MAX_RAM) : 0;
 	code == 6 ? ft_printf("op.h: MAX_PLAYERS must be < 256\n") : 0;
+	code == 7 ? ft_printf("op.h: REG_SIZE must be 4\n") : 0;
+	code == 8 ? ft_printf("op.h: IND_SIZE must be 2\n") : 0;
+	code == 9 ? ft_printf("op.h: DIR_SIZE must be equal to REG_SIZE\n") : 0;
+	code == 10 ? ft_printf("op.h: REG_CODE must be 1\n") : 0;
+	code == 11 ? ft_printf("op.h: DIR_CODE must be 2\n") : 0;
+	code == 12 ? ft_printf("op.h: IND_CODE must be 3\n") : 0;
+	code == 13 ? ft_printf("op.h: REG_NUMBER must be 16\n") : 0;
+	code == 14 ? ft_printf("op.h: T_REG must be 1\n") : 0;
+	code == 15 ? ft_printf("op.h: T_DIR must be 2\n") : 0;
+	code == 16 ? ft_printf("op.h: T_IND must be 4\n") : 0;
+	code == 17 ? ft_printf("op.h: T_LAB must be 8\n") : 0;
 }
 
 size_t		init_core(t_core *core, size_t ret)
@@ -43,7 +49,18 @@ size_t		init_core(t_core *core, size_t ret)
 	if (MAX_PLAYERS * CHAMP_MAX_SIZE > MEM_SIZE && !(ret = 0))
 		display_init(4);
 	MEM_SIZE >= MAX_RAM && !(ret = 0) ? display_init(5) : 0;
-	MAX_PLAYERS > 255 && !(ret = 0) ? display_init(6): 0;
+	MAX_PLAYERS > 255 && !(ret = 0) ? display_init(6) : 0;
+	REG_SIZE != 4 && !(ret = 0) ? display_init(7) : 0;
+	IND_SIZE != 2 && !(ret = 0) ? display_init(8) : 0;
+	DIR_SIZE != REG_SIZE && !(ret = 0) ? display_init(9) : 0;
+	REG_CODE != 1 && !(ret = 0) ? display_init(10) : 0;
+	DIR_CODE != 2 && !(ret = 0) ? display_init(11) : 0;
+	IND_CODE != 3 && !(ret = 0) ? display_init(12) : 0;
+	REG_NUMBER != 16 && !(ret = 0) ? display_init(13) : 0;
+	T_REG != 1 && !(ret = 0) ? display_init(14) : 0;
+	T_DIR != 2 && !(ret = 0) ? display_init(15) : 0;
+	T_IND != 4 && !(ret = 0) ? display_init(16) : 0;
+	T_LAB != 8 && !(ret = 0) ? display_init(17) : 0;
 	core->bd |= INIT;
 	return (ret);
 }

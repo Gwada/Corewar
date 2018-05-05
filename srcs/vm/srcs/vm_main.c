@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/04 20:31:55 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/05 11:16:59 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,9 @@ static	void		put_champ(t_core *c, unsigned int i)
 	{
 		start = MEM_SIZE / c->player * i;
 		ft_memcpy(&c->ram[start], c->p[i].prog, c->p[i].prog_size);
+		c->p[c->player].oc = start;
 		!c->p[i].id ? c->p[i].id = i + 1 : 0;
 		++i;
-	}
-	i = -1;
-	while (++i < c->player)
-	{
-		ft_printf("id = {green}%3u{eoc}\t", c->p[i].id);
-		ft_printf("name = {green}%58s{eoc}\t", c->p[i].name);
-		ft_printf("prog_size = {green}%4u{eoc}\n\n", c->p[i].prog_size);
 	}
 }
 
