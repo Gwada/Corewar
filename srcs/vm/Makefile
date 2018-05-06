@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/03 09:33:12 by dlavaury          #+#    #+#              #
-#    Updated: 2018/05/05 20:50:22 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/05/06 21:02:53 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ INC_DIR	= ./includes/
 #################################################
 
 SRC		= vm_main.c \
+		  op.c \
 		  init.c \
+		  ocp_checker.c \
 		  functions_1.c \
 		  functions_2.c \
 		  functions_3.c \

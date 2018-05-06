@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 09:38:16 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/05 20:50:19 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/06 21:02:48 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static	void	display_init(size_t code)
 
 void		init_tab_functions(t_core *core)
 {
-	ft_printf("{green}{bold}IN\tINIT_TAB_FUNCTIONS\n{eoc}");
 	core->ft[0x1] = _live;
 	core->ft[0x2] = _ld;
 	core->ft[0x3] = _st;
@@ -55,7 +54,6 @@ void		init_tab_functions(t_core *core)
 	core->ft[0xe] = _lldi;
 	core->ft[0xf] = _lfork;
 	core->ft[0x10] = _aff;
-	ft_printf("{green}{bold}END\tINIT_TAB_FUNCTIONS\n\n{eoc}");
 }
 
 size_t		init_core(t_core *core, size_t ret)

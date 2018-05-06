@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/05 18:41:05 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/06 11:53:48 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static	int			get_arg(char *param, t_core *c, int fd, int ret)
 		ret = read(fd, c->p[c->player].buff, FILE_MAX_SIZE + 1);
 		close(fd);
 		if (ret == -1)
-			return (ft_printf("error with read function\n"));
+			return (ft_printf("'%s' file can not be read\n", param));
 		get_magic_number(&oct, c, -1);
 		c->p[c->player].bd & VALID_NAME_LEN ? get_prog_size(&oct, c, -1) : 0;
 		if (!(ret = 0) && !(c->p[c->player].bd & VALID_CHAMP_LEN))
@@ -117,9 +117,10 @@ int					main(int argc, char **argv)
 		while (++i < (unsigned int)argc && argv[i])
 			if (get_arg(argv[i], &c, i, 0) || c.bd == ERROR)
 				return (0);
-		c.bd & GET_OPT ? ft_printf("Missing one champion\n") : 0;
-		!(c.bd & GET_OPT) ? put_champ(&c, 0) : 0;
-		!(c.bd & GET_OPT) ? corewar(&c) : 0;
+		c.player && c.bd & GET_OPT ? ft_printf("Missing one champion\n") : 0;
+		c.player && !(c.bd & GET_OPT) ? put_champ(&c, 0) : 0;
+		c.player && !(c.bd & GET_OPT) ? corewar(&c) : 0;
+		!c.player ? display_usage(*argv) : 0;
 	}
 	else if (!(c.bd & INIT))
 		display_usage(*argv);
