@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "corewar.h"
-#include "../../libft/includes/ft_printf.h"
 
 int		_reg(const unsigned char oct, unsigned char opt)
 {
