@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <ncurses.h>
 # include "op.h"
+# include "visu.h"
 
 # define VALID_MAG			(1 << 0)
 # define VALID_NAME_LEN		(1 << 1)
