@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 09:38:16 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/06 21:02:48 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/07 21:03:17 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ size_t		init_core(t_core *core, size_t ret)
 	MAX_ARGS_NUMBER != 4 && !(ret = 0) ? display_init(18) : 0;
 	ret ? init_tab_functions(core) : 0;
 	core->bd |= INIT;
+	core->max_cycle = CYCLE_TO_DIE;
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/06 21:02:45 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/07 21:30:30 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ typedef struct				s_player
 
 typedef struct				s_process
 {
-	unsigned char			carry;
+	unsigned int			carry;
+	unsigned int			live;
+	unsigned int			n_live;
 	unsigned int			reg[REG_NUMBER + 1];
 	t_op					ins;
 	struct s_process		*next;
@@ -89,35 +91,63 @@ typedef struct				s_core
 	unsigned int			bd;
 	unsigned int			dump;
 	unsigned int			player; // nombre de player
-	t_player				p[MAX_PLAYERS + 1]; // array of player
 	unsigned int			cycle;
+	unsigned int			live;
+	unsigned int			n_cycle;
+	unsigned int			n_live;
+	unsigned int			last_live_player;
+	unsigned int			last_decr;
+	unsigned int			max_cycle;
+	unsigned int			n_process;
+	t_player				p[MAX_PLAYERS + 1];
 	unsigned char			id[MAX_PLAYERS + 1];
 	void					(*ft[INST_NUMBERS + 1])(const unsigned char *c,
 							t_process *process);
 	t_process				*ps;
 }							t_core;
 
-extern void					(*f[INST_NUMBERS + 1])(const unsigned char *c,
-							t_process *process);
-
 /*
 **	PROTOTYPS
 */
 
 void						corewar(t_core *core);
-t_process					*new_process(void);
-t_process					*clean_process(t_process *lst);
-void						display_usage(char *name);
-void						display_error(t_core *core, int code);
+
+/*
+**	INIT AND PARSE FUNCTIONS
+*/
+
 int							get_options(unsigned char *opt, t_core *c);
 size_t						init_core(t_core *core, size_t ret);
-unsigned int				id(unsigned int id);
+
+/*
+**	DISPLAY FUNCTIONS
+*/
+
+void						display_usage(char *name);
+void						display_error(t_core *core, int code);
+
+/*
+**	PROCESS FUNCTIONS
+*/
+
+t_process					*new_process(void);
+t_process					*clean_process(t_process *lst);
+t_process					*del_process(t_core *core, t_process *lst);
+t_process					*init_process(t_core *core, int i);
+void						insert_process(t_core *core, t_process **lst,
+							t_process *new);
+
+/*
+**	INSTRUCT FUNCTIONS
+*/
+
 int							read_instruct(t_core *c, t_process *process);
+unsigned int				id(unsigned int id);
 void						add_data(t_op *dst, t_op *src);
 int							_reg(const unsigned char oct, unsigned char opt);
 int							_ind(const unsigned char oct, unsigned char opt);
 int							_dir(const unsigned char oct, unsigned char opt);
-int							_abs(const unsigned char oct);
+int							_abs(const unsigned char oct, unsigned char opt);
 void						_live(const unsigned char *oct, t_process *p);
 void						_ld(const unsigned char *oct, t_process *p);
 void						_st(const unsigned char *oct, t_process *p);
