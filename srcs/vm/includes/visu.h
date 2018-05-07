@@ -21,6 +21,11 @@ typedef struct s_coord t_coord;
 #define H_4		"  `Y888Y'"
 #define H_5		"    `Y'"
 
+#define COLOR_P1	COLOR_RED
+#define COLOR_P2	COLOR_BLUE
+#define COLOR_P3	COLOR_GREEN
+#define COLOR_P4	COLOR_CYAN
+
 struct s_coord
 {
 	int		y;
