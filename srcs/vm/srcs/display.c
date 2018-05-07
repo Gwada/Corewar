@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 14:05:10 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/04 20:26:42 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/05 18:12:30 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,11 @@ void		display_usage(char *name)
 	ft_printf("the machine chooses the first possible value.\n");
 	ft_printf("\tnumber: must be strictly positive and ");
 	ft_printf("can not be bigger than %u.\n", MAX_PLAYERS);
+}
+
+void		display_error(t_core *core, int code)
+{
+	!code && (core->bd = ERROR) ? ft_printf("MALLOC ERROR\n") : 0;
+	(void)core;
+	(void)code;
 }
