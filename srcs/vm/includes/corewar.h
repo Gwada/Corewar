@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/06 21:02:45 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/07 15:51:01 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct				s_player
 
 typedef struct				s_process
 {
-	unsigned char			carry;
+	unsigned int			carry;
 	unsigned int			reg[REG_NUMBER + 1];
 	t_op					ins;
 	struct s_process		*next;
@@ -96,9 +96,6 @@ typedef struct				s_core
 	t_process				*ps;
 }							t_core;
 
-extern void					(*f[INST_NUMBERS + 1])(const unsigned char *c,
-							t_process *process);
-
 /*
 **	PROTOTYPS
 */
@@ -112,11 +109,12 @@ int							get_options(unsigned char *opt, t_core *c);
 size_t						init_core(t_core *core, size_t ret);
 unsigned int				id(unsigned int id);
 int							read_instruct(t_core *c, t_process *process);
+void						insert_process(t_process **lst, t_process *new);
 void						add_data(t_op *dst, t_op *src);
 int							_reg(const unsigned char oct, unsigned char opt);
 int							_ind(const unsigned char oct, unsigned char opt);
 int							_dir(const unsigned char oct, unsigned char opt);
-int							_abs(const unsigned char oct);
+int							_abs(const unsigned char oct, unsigned char opt);
 void						_live(const unsigned char *oct, t_process *p);
 void						_ld(const unsigned char *oct, t_process *p);
 void						_st(const unsigned char *oct, t_process *p);

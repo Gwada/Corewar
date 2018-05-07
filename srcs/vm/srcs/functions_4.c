@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/06 17:18:11 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/07 13:02:19 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 
 void		_aff(const unsigned char *oct, t_process *p)
 {
-	ft_printf("test _aff\n");//
-	t_op	instruct;
-
-	ft_bzero(&instruct, sizeof(instruct));
-	(void)oct;//
-	(void)p;//
-//	return (instruct);
+	if (!(p->ins.param[0] = _reg(*oct, EITH)))
+		return ;
+	if (_abs(*oct, SITH) || _abs(*oct, FOTH) || _abs(*oct, SND))
+		return ;
+	add_data(&p->ins, &g_op_tab[15]);
 }
