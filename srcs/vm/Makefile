@@ -37,7 +37,10 @@ SRC		= vm_main.c \
 		  corewar.c \
 		  process.c \
 		  instruct.c \
-		  display.c
+		  display.c \
+		  visu.c \
+		  visu_fill_wins.c \
+		  visu_utilities.c
 
 #################################################
 ###                   Format                  ###

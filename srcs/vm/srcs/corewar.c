@@ -41,7 +41,7 @@ static t_process	*init_process(t_core *core)
 
 void				corewar(t_core *c)
 {
-	ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");//
+	/*ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");*/
 
 
 	if (!(c->ps = init_process(c)))
@@ -55,5 +55,6 @@ void				corewar(t_core *c)
 */
 
 	clean_process(c->ps);
-	ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");//
+	visu(c);
+	/*ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");*/
 }

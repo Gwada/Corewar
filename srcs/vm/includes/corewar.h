@@ -23,7 +23,6 @@
 # include <fcntl.h>
 # include <ncurses.h>
 # include "op.h"
-# include "visu.h"
 
 /*
 **	BINARY MASKS
@@ -89,14 +88,9 @@ typedef struct				s_core
 	unsigned char			ram[MEM_SIZE];
 	unsigned int			bd;
 	unsigned int			dump;
-<<<<<<< HEAD
 	unsigned int			player; // nombre de player
 	t_player				p[MAX_PLAYERS + 1]; // array of player
-=======
-	unsigned int			player;
 	unsigned int			cycle;
-	t_player				p[MAX_PLAYERS + 1];
->>>>>>> origin/master
 	unsigned char			id[MAX_PLAYERS + 1];
 	void					(*ft[INST_NUMBERS + 1])(const unsigned char *c,
 							t_process *process);
@@ -140,5 +134,7 @@ void						_lld(const unsigned char *oct, t_process *p);
 void						_lldi(const unsigned char *oct, t_process *p);
 void						_lfork(const unsigned char *oct, t_process *p);
 void						_aff(const unsigned char *oct, t_process *p);
+
+void	visu(t_core *c);
 
 #endif
