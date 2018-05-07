@@ -6,12 +6,11 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/07 15:14:17 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/07 21:30:21 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-#include "../../libft/includes/ft_printf.h"
 
 void		_live(const unsigned char *oct, t_process *p)
 {

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/07 15:50:48 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/07 17:56:20 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int				read_instruct(t_core *c, t_process *p)
 	if (c->ram[*p->reg] <= INST_NUMBERS)
 	{
 		c->ft[c->ram[*p->reg]](&c->ram[id(*p->reg + 1)], p);
-//		if (!p->ins.name)
-//			return (1);
+		if (!p->ins.name)
+			return (1);
 
 
 
@@ -73,29 +73,4 @@ int				read_instruct(t_core *c, t_process *p)
 		ft_printf("Invalid instruct\n");//
 	ft_printf("{bold}{blue}END\tREAD_INSTRUCT{eoc}\n\n");//
 	return (0);
-}
-
-void	insert_process(t_process **lst, t_process *new)
-{
-	t_process *tmp;
-
-	tmp = *lst;
-	if (!new || (!*lst && (*lst = new)))
-		return ;
-	if (((new->ins.nb_cycles < (*lst)->ins.nb_cycles)
-	|| (new->ins.nb_cycles == (*lst)->ins.nb_cycles
-	&& new->reg[1] > (*lst)->reg[1]))
-	&& (new->next = *lst))
-		return ((void)(*lst = new));
-	while (tmp->next)
-	{
-		if (new->ins.nb_cycles < tmp->next->ins.nb_cycles)
-			break ;
-		if (new->ins.nb_cycles == tmp->next->ins.nb_cycles)
-			if (new->reg[1] > tmp->next->reg[1])
-				break ;
-		tmp = tmp->next;
-	}
-	tmp->next ? new->next = tmp->next->next : 0;
-	tmp->next = new;
 }

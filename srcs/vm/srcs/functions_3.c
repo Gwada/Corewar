@@ -6,12 +6,11 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/07 15:50:56 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/07 16:43:59 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-#include "../../libft/includes/ft_printf.h"
 
 void		_sti(const unsigned char *oct, t_process *p)
 {
