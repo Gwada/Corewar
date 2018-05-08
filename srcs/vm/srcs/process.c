@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/07 21:30:07 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/08 20:00:08 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,26 +61,24 @@ void			insert_process(t_core *core, t_process **lst, t_process *new)
 	core->n_process++;
 	if (!*lst && (*lst = new))
 		return ;
-	if (((new->ins.nb_cycles < (*lst)->ins.nb_cycles)
-				|| (new->ins.nb_cycles == (*lst)->ins.nb_cycles
-					&& new->reg[1] > (*lst)->reg[1]))
-			&& (new->next = *lst))
+	if (new->ins.nb_cycles <= (*lst)->ins.nb_cycles)
+	{
+		new->next = *lst;
 		return ((void)(*lst = new));
+	}
 	while (tmp->next)
 	{
-		if (new->ins.nb_cycles < tmp->next->ins.nb_cycles)
+		if (new->ins.nb_cycles <= tmp->next->ins.nb_cycles)
 			break ;
-		if (new->ins.nb_cycles == tmp->next->ins.nb_cycles)
-			if (new->reg[1] > tmp->next->reg[1])
-				break ;
 		tmp = tmp->next;
 	}
-	tmp->next ? new->next = tmp->next->next : 0;
+	tmp->next ? new->next = tmp->next : 0;
 	tmp->next = new;
 }
 
 t_process		*init_process(t_core *core, int i)
 {
+	ft_printf("{yellow}{bold}IN\tINIT_PROCESS\n{eoc}");
 	t_process	*lst;
 	t_process	*new;
 
@@ -91,8 +89,9 @@ t_process		*init_process(t_core *core, int i)
 			return (clean_process(lst));
 		*new->reg = core->p[i].oc;
 		new->reg[1] = core->p[i].id;
-		read_instruct(core, new) ? new = del_process(NULL, new) : 0;
-		new ? insert_process(core, &lst, new) : 0;
+		read_instruct(core, new);
+		insert_process(core, &lst, new);
 	}
+	ft_printf("{yellow}{bold}END\tINIT_PROCESS\n\n{eoc}");
 	return (lst);
 }

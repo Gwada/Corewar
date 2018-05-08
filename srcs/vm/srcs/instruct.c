@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/07 17:56:20 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/08 20:00:04 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,14 @@ void			add_data(t_op *dst, t_op *src)
 	dst->label_size = src->label_size;
 }
 
-int				read_instruct(t_core *c, t_process *p)
+void			exec_instruct(t_core *core, t_process *process)
+{
+	ft_printf("{bold}{magenta}IN\tEXEC_INSTRUCT{eoc}\n");//
+	read_instruct(core, process);
+	ft_printf("{bold}{magenta}END\tEXEC_INSTRUCT{eoc}\n\n");//
+}
+
+void			read_instruct(t_core *c, t_process *p)
 {
 	ft_printf("{bold}{blue}IN\tREAD_INSTRUCT{eoc}\n");//
 
@@ -37,15 +44,12 @@ int				read_instruct(t_core *c, t_process *p)
 	if (c->ram[*p->reg] <= INST_NUMBERS)
 	{
 		c->ft[c->ram[*p->reg]](&c->ram[id(*p->reg + 1)], p);
-		if (!p->ins.name)
-			return (1);
 
 
 
 		ft_printf("{green}carry\t= %u\n", p->carry);//
 		ft_printf("{green}id_player = %u\n\n{eoc}", p->reg[1]);//
 		ft_printf("p->name\t\t= {green}%s{eoc}\n", p->ins.name);//
-//		ft_printf("p->len\t\t= {green}%u{eoc}\n", p->len);//
 		ft_printf("p->nb_param\t= {green}%d{eoc}\n", p->ins.nb_param);//
 		int i = -1;//
 		while (++i < 3)//
@@ -72,5 +76,4 @@ int				read_instruct(t_core *c, t_process *p)
 	else//
 		ft_printf("Invalid instruct\n");//
 	ft_printf("{bold}{blue}END\tREAD_INSTRUCT{eoc}\n\n");//
-	return (0);
 }

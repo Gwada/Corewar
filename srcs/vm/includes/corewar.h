@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/07 21:30:30 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/08 20:00:17 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,8 @@ void						insert_process(t_core *core, t_process **lst,
 **	INSTRUCT FUNCTIONS
 */
 
-int							read_instruct(t_core *c, t_process *process);
+void						read_instruct(t_core *c, t_process *process);
+void						exec_instruct(t_core *core, t_process *process);
 unsigned int				id(unsigned int id);
 void						add_data(t_op *dst, t_op *src);
 int							_reg(const unsigned char oct, unsigned char opt);
