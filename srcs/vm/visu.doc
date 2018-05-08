@@ -1,1 +1,11 @@
-boucle d'evenements
+boucle d'evenements -> {
+a chaque udpate de la fenetre on refresh tout
+
+a chaque cycle
+	refresh: stats
+	si une instruction s'execute
+		refresh: arena ; states
+	
+}
+
+sound

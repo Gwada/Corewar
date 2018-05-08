@@ -40,26 +40,29 @@ struct s_coord
 
 struct s_win
 {
-	WINDOW *title;
-	WINDOW *usages;
-	WINDOW *stats;
-	WINDOW *states;
-	WINDOW *arena;
+	WINDOW	*win;
+	t_coord	size;
 };
 
 struct s_visu_env
 {
-	int		event_flag;
-	t_coord	w_size;
-	t_win	w;
-
+	unsigned	event_flag;
+	t_coord		w_size;
+	t_win		title;
+	t_win		usages;
+	t_win		stats;
+	t_win		states;
+	t_win		arena;
 };
 
 void	draw_basics(t_visu_env *env);
-void	fill_arena(t_core *c, t_visu_env *env); // make proper
 void	fill_title(t_visu_env *env);
+void	fill_usages(t_visu_env *env);
+void	fill_stats(t_core *c, t_visu_env *env);
 void	fill_states(t_core *c, t_visu_env *env);
+void	fill_arena(t_core *c, t_visu_env *env); // make proper
 
+void	ft_exit_alloc_failure();
 char	*ft_get_hex_memory(void *m, size_t mem_size);
 void	ft_bzero(void *m, size_t len);
 

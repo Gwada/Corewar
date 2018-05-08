@@ -2,10 +2,25 @@
 
 static void	load(t_core *c, t_visu_env *env)
 {
-	draw_basics(env);
-	fill_title(env);
-	fill_states(c, env);
-	fill_arena(c, env);
+	if (env->event_flag & F_RELOAD)
+	{
+		erase();
+		draw_basics(env);
+		fill_title(env);
+		fill_usages(env);
+		fill_stats(c, env);
+		fill_states(c, env);
+		fill_arena(c, env);
+		env->event_flag &= ~F_RELOAD;
+	}
+	else
+	{
+		mvwprintw(env->stats.win, 2, 2, "salut");
+		fill_stats(c, env);
+		// if new instruction
+		if (42 == 42) // to handle
+			fill_arena(c, env);
+	}
 }
 
 static void	init_color_pair()
@@ -30,29 +45,36 @@ static void	init(t_visu_env *env)
 
 static void	refresh_win(t_visu_env *env)
 {
-	wrefresh(env->w.title);
-	wrefresh(env->w.usages);
-	wrefresh(env->w.stats);
-	wrefresh(env->w.states);
-	wrefresh(env->w.arena);
+	wrefresh(env->title.win);
+	wrefresh(env->usages.win);
+	wrefresh(env->stats.win);
+	wrefresh(env->states.win);
+	wrefresh(env->arena.win);
 }
 
 #include <stdio.h>
 
 void	print_info(t_core *c) // tmp
 {
-	(void)c;
-	/*printf("%d\n", c->)*/
+	dprintf(2, "PROCES -> %d\n", c->n_process);
 }
 
-void	visu(t_core *c)
+void	visu(t_core *c, bool s)
 {
 	t_visu_env		env;
+	t_coord			tmp;
 
-	init(&env);
-	getmaxyx(stdscr, env.w_size.y, env.w_size.x);
+	if (s)
+		init(&env);
+	getmaxyx(stdscr, tmp.y, tmp.x);
+	if (tmp.y != env.w_size.y || tmp.x != env.w_size.x) {
+		env.event_flag |= F_RELOAD;
+		env.w_size.y = tmp.y;
+		env.w_size.x = tmp.x;
+	}
 	load(c, &env);
 	refresh_win(&env);
 	getchar();
-	endwin();
+	if (!s)
+		endwin();
 }

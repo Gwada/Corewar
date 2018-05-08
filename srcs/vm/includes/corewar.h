@@ -165,6 +165,6 @@ void						_lldi(const unsigned char *oct, t_process *p);
 void						_lfork(const unsigned char *oct, t_process *p);
 void						_aff(const unsigned char *oct, t_process *p);
 
-void	visu(t_core *c);
+void	visu(t_core *c, bool s);
 
 #endif

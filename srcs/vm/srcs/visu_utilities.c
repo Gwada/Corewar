@@ -1,5 +1,11 @@
 #include "visu.h"
 
+void	ft_exit_alloc_failure()
+{
+	// error message
+	exit(1);
+}
+
 char	*ft_get_hex_memory(void *m, size_t mem_size)
 {
 	char	*ret;

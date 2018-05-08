@@ -41,7 +41,7 @@ static int			check_cycle_param(t_core *core)
 
 void				corewar(t_core *core)
 {
-	/*ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");*/
+	ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");
 
 	if (!(core->ps = init_process(core, -1)))
 		return (display_error(core, 0));
@@ -59,7 +59,9 @@ void				corewar(t_core *core)
 	ft_printf("%u is cycle_to_die\n", core->max_cycle);//
 	ft_printf("%u process in progress\n", core->n_process);//
 
+	visu(core, 1);
+	visu(core, 0);
 	clean_process(core->ps);
 
-	ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");//
+	/*ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");//*/
 }
