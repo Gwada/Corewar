@@ -78,9 +78,9 @@ void				_ex_st(t_core *c, t_process *p)
 		ft_printf("hex = %x\n\n", c->ram[id(*p->reg + (p_2 / IDX_MOD) + 3)]);
 
 		c->ram[id(*p->reg + (p_2 / IDX_MOD))] = p->reg[p_1] & 0xff000000;
-		c->ram[id((*p->reg + (p_2 / IDX_MOD)) + 1)] = p->reg[p_1] & 0xff0000;
-		c->ram[id((*p->reg + (p_2 / IDX_MOD)) + 2)] = p->reg[p_1] & 0xff00;
-		c->ram[id((*p->reg + (p_2 / IDX_MOD)) + 3)] = p->reg[p_1] & 0xff;
+		c->ram[id(*p->reg + (p_2 / IDX_MOD) + 1)] = p->reg[p_1] & 0xff0000;
+		c->ram[id(*p->reg + (p_2 / IDX_MOD) + 2)] = p->reg[p_1] & 0xff00;
+		c->ram[id(*p->reg + (p_2 / IDX_MOD) + 3)] = p->reg[p_1] & 0xff;
 	}
 	*p->reg = p->ins.param[1] & T_REG ? id(*p->reg + 3) : id(*p->reg + 4);
 
