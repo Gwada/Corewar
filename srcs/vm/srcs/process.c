@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/08 20:00:08 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/09 15:13:33 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_process		*del_process(t_core *core, t_process *lst)
 	tmp = lst->next;
 	if (!lst->n_live)
 	{
-		ft_printf("after %u lives, ", lst->live);//
-		ft_printf("player n. %u does not respond anymore.{red}", lst->reg[1]);//
-		ft_printf(" FUCK THIS SHIT!!!! He must die now{eoc}\n", *lst->reg);//
+		ft_printf("One of the processes of the player ");//
+		ft_printf("n. %u does not respond anymore.{red}", lst->reg[1]);//
+		ft_printf(" FUCK THIS SHIT!!!! He must die now{eoc}\n");//
 	}
 	free(lst);
 	core ? --core->n_process : 0;

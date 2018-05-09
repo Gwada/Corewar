@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/08 16:57:20 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/09 16:43:55 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void		_sti(const unsigned char *oct, t_process *p)
 			return ;
 	if (_abs(*oct, SND))
 		return ;
-	add_data(&p->ins, &g_op_tab[10]);
 }
 
 void		_fork(const unsigned char *oct, t_process *p)
@@ -43,7 +42,6 @@ void		_lld(const unsigned char *oct, t_process *p)
 		return ;
 	if (_abs(*oct, FOTH) || _abs(*oct, SND))
 		return ;
-	add_data(&p->ins, &g_op_tab[12]);
 }
 
 void		_lldi(const unsigned char *oct, t_process *p)
@@ -59,7 +57,6 @@ void		_lldi(const unsigned char *oct, t_process *p)
 		return ;
 	if (_abs(*oct, SND))
 		return ;
-	add_data(&p->ins, &g_op_tab[13]);
 }
 
 void		_lfork(const unsigned char *oct, t_process *p)

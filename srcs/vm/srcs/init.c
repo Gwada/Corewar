@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 09:38:16 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/07 21:03:17 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/09 16:21:51 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,47 @@ static	void	display_init(size_t code)
 	code == 18 ? ft_printf("op.h: MAX_ARGS_NUMBER must be 4\n") : 0;
 }
 
-void		init_tab_functions(t_core *core)
+static void		init_tab_functions(t_core *core)
 {
-	core->ft[0x1] = _live;
-	core->ft[0x2] = _ld;
-	core->ft[0x3] = _st;
-	core->ft[0x4] = _add;
-	core->ft[0x5] = _sub;
-	core->ft[0x6] = _and;
-	core->ft[0x7] = _or;
-	core->ft[0x8] = _xor;
-	core->ft[0x9] = _zjmp;
-	core->ft[0xa] = _ldi;
-	core->ft[0xb] = _sti;
-	core->ft[0xc] = _fork;
-	core->ft[0xd] = _lld;
-	core->ft[0xe] = _lldi;
-	core->ft[0xf] = _lfork;
-	core->ft[0x10] = _aff;
+	core->ft[0] = _live;
+	core->ft[1] = _ld;
+	core->ft[2] = _st;
+	core->ft[3] = _add;
+	core->ft[4] = _sub;
+	core->ft[5] = _and;
+	core->ft[6] = _or;
+	core->ft[7] = _xor;
+	core->ft[8] = _zjmp;
+	core->ft[9] = _ldi;
+	core->ft[10] = _sti;
+	core->ft[11] = _fork;
+	core->ft[12] = _lld;
+	core->ft[13] = _lldi;
+	core->ft[14] = _lfork;
+	core->ft[15] = _aff;
 }
 
-size_t		init_core(t_core *core, size_t ret)
+static void		init_tab_ex_functions(t_core *core)
+{
+	core->ex[0] = _ex_live;
+	core->ex[1] = _ex_ld;
+	core->ex[2] = _ex_st;
+	core->ex[3] = _ex_add;
+	core->ex[4] = _ex_sub;
+	core->ex[5] = _ex_and;
+	core->ex[6] = _ex_or;
+	core->ex[7] = _ex_xor;
+	core->ex[8] = _ex_zjmp;
+	core->ex[9] = _ex_ldi;
+	core->ex[10] = _ex_sti;
+	core->ex[11] = _ex_fork;
+	core->ex[12] = _ex_lld;
+	core->ex[13] = _ex_lldi;
+	core->ex[14] = _ex_lfork;
+	core->ex[15] = _ex_aff;
+}
+
+size_t			init_core(t_core *core, size_t ret)
 {
 	ft_bzero(core, sizeof(*core));
 	PROG_NAME_LENGTH != 128 && !(ret = 0) ? display_init(0) : 0;
@@ -79,6 +99,7 @@ size_t		init_core(t_core *core, size_t ret)
 	T_LAB != 8 && !(ret = 0) ? display_init(17) : 0;
 	MAX_ARGS_NUMBER != 4 && !(ret = 0) ? display_init(18) : 0;
 	ret ? init_tab_functions(core) : 0;
+	ret ? init_tab_ex_functions(core) : 0;
 	core->bd |= INIT;
 	core->max_cycle = CYCLE_TO_DIE;
 	return (ret);
