@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/10 17:17:18 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/10 20:39:03 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ typedef struct				s_core
 	void					(*ft[INST_NB])(const unsigned char *c,
 							t_process *process);
 	void					(*ex[INST_NB])(struct s_core *c, t_process *p);
+	unsigned int			(*v[5])(struct s_core *c, t_process *p,
+							unsigned int i);
 	t_process				*ps;
 }							t_core;
 
@@ -169,7 +171,12 @@ void						_lldi(const unsigned char *oct, t_process *p);
 void						_lfork(const unsigned char *oct, t_process *p);
 void						_aff(const unsigned char *oct, t_process *p);
 
-
+unsigned int				get_reg_value(t_core *core, t_process *process,
+							unsigned int reg);
+unsigned int				get_dir_value(t_core *core, t_process *process,
+							unsigned int ind);
+unsigned int				get_ind_value(t_core *core, t_process *process,
+							unsigned int reg);
 void						_ex_live(t_core *core, t_process *process);
 void						_ex_ld(t_core *core, t_process *process);
 void						_ex_st(t_core *core, t_process *process);

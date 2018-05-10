@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/10 17:16:58 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/10 18:00:15 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void				_ex_live(t_core *core, t_process *process)
 	++process->live;
 	while (++i < REG_SIZE)
 		id_p = (id_p << 8) | core->ram[id(*process->reg + i + 1)];
+	ft_printf("id = %u\n", id_p / IDX_MOD);
 	if (!id_p || id_p > MAX_PLAYERS)
 		return ;
 	++core->n_live;
@@ -48,19 +49,20 @@ void				_ex_ld(t_core *c, t_process *p)
 	if ((*p->ins.param ^ T_DIR && *p->ins.param ^ T_IND) || p->ins.param[2]
 	|| p->ins.param[1] ^ T_REG || _abs(c->ram[id(*p->reg + 1)], SND))
 		return ;
-	while (++i < (REG_SIZE / (*p->ins.param & t_DIR ? 4 : 2)))
+	while (++i < (REG_SIZE / (*p->ins.param & T_DIR ? 4 : 2)))
 		p_1 = (p_1 << 8) | c->ram[id(*p->reg + i + 2)];
 	*p->ins.param & T_DIR ? p_2 = c->ram[id(*p->reg + 6)] : 0;
 	*p->ins.param & T_IND ? p_2 = c->ram[id(*p->reg + 4)] : 0;
-	if (!p_2 || p_2 > NUMBER)
+	if (!p_2 || p_2 > REG_NUMBER)
 		return ;
-	*p->ins.param & T_DIR ? = p->reg[p_2] = p_1 : 0;
+	*p->ins.param & T_DIR ? p->reg[p_2] = p_1 : 0;
 	i = -1;
 	while (*p->ins.param & T_IND && ++i < 4)
 	{
 		p->reg[p_2] <<= 8;
-		p->reg[p_2] |= c->ram[id(*p->reg + (p_2 / IDX_MOD) + i)];
+		p->reg[p_2] |= c->ram[id(*p->reg + (p_1 / IDX_MOD) + i)];
 	}
+	*p->reg = *p->ins.param & T_DIR ? id(*p->reg + 6) : id(*p->reg + 4);
 }
 
 void				_ex_st(t_core *c, t_process *p)

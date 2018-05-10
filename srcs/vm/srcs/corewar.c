@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/10 17:17:09 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/10 19:09:20 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void				corewar(t_core *core)
 	{
 		ft_printf("tmp->id = %u\n", tmp->reg[1]);
 		ft_printf("tmp->ins.name = %s\n", tmp->ins.name);
-		ft_printf("tmp->ins.nb_cycles = %s\n\n", tmp->ins.name);
+		ft_printf("tmp->ins.nb_cycles = %u\n\n", tmp->ins.nb_cycles);
 		tmp = tmp->next;
 	}
 	ft_printf("{red}------------------------------------------------{eoc}\n\n");

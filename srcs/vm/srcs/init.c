@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 09:38:16 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/09 16:21:51 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/10 20:29:00 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ static void		init_tab_functions(t_core *core)
 	core->ft[13] = _lldi;
 	core->ft[14] = _lfork;
 	core->ft[15] = _aff;
+	core->v[1] = get_reg_value;
+	core->v[2] = get_dir_value;
+	core->v[4] = get_ind_value;
 }
 
 static void		init_tab_ex_functions(t_core *core)

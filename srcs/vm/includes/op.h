@@ -31,7 +31,7 @@
 # define COMMENT_CMD_STRING		".comment"
 # define REG_NUMBER				16
 
-# define CYCLE_TO_DIE			10
+# define CYCLE_TO_DIE			30
 # define CYCLE_DELTA			50
 # define NBR_LIVE				21
 # define MAX_CHECKS				10

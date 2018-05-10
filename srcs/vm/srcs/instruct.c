@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/10 17:17:03 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/10 20:36:20 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void				exec_instruct(t_core *c, t_process *p, unsigned char opc)
 	c->bd & VISUAL ? visu(c, 0) : 0;
 	g_op_tab[opc].ocp ? c->ft[opc](&c->ram[id(*p->reg + 1)], p) : 0;
 
-	c->bd & VISUAL ? visu(c, 0) : 0;
 	c->ex[opc](c, p);
 
 	c->bd & VISUAL ? visu(c, 0) : 0;
