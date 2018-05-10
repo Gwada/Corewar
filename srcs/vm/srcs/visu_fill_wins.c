@@ -20,11 +20,13 @@ void	init_wins_size(t_visu_env *env)
 
 void	draw_basics(t_visu_env *env)
 {
+	//write(1, "a", 1);
 	init_wins_size(env);
 
 	if (env->title.win)
 		delwin(env->title.win);
 	env->title.win = newwin(env->title.size.y, env->title.size.x, 0, 0);
+	write(1, "b", 1);
 
 	box(env->title.win, ACS_VLINE, ACS_HLINE);
 	wattrset(env->title.win, A_BOLD);

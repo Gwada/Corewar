@@ -61,11 +61,11 @@ void	print_info(t_core *c) // tmp
 
 void	visu(t_core *c, bool s)
 {
+	(void)s;
 	t_visu_env		env;
 	t_coord			tmp;
 
-	if (s)
-		init(&env);
+	init(&env);
 	getmaxyx(stdscr, tmp.y, tmp.x);
 	if (tmp.y != env.w_size.y || tmp.x != env.w_size.x) {
 		env.event_flag |= F_RELOAD;
@@ -75,6 +75,5 @@ void	visu(t_core *c, bool s)
 	load(c, &env);
 	refresh_win(&env);
 	getchar();
-	if (!s)
-		endwin();
+	endwin();
 }
