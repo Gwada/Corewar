@@ -21,6 +21,7 @@
 # include <sys/uio.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <ncurses.h>
 # include "op.h"
 
 /*
@@ -89,7 +90,7 @@ typedef struct				s_core
 	unsigned char			ram[MEM_SIZE];
 	unsigned int			bd;
 	unsigned int			dump;
-	unsigned int			player;
+	unsigned int			player; // nombre de player
 	unsigned int			cycle;
 	unsigned int			live;
 	unsigned int			n_cycle;
@@ -168,6 +169,7 @@ void						_lldi(const unsigned char *oct, t_process *p);
 void						_lfork(const unsigned char *oct, t_process *p);
 void						_aff(const unsigned char *oct, t_process *p);
 
+
 void						_ex_live(t_core *core, t_process *process);
 void						_ex_ld(t_core *core, t_process *process);
 void						_ex_st(t_core *core, t_process *process);
@@ -184,5 +186,7 @@ void						_ex_lld(t_core *core, t_process *process);
 void						_ex_lldi(t_core *core, t_process *process);
 void						_ex_lfork(t_core *core, t_process *process);
 void						_ex_aff(t_core *core, t_process *process);
+
+void	visu(t_core *c, bool s);
 
 #endif

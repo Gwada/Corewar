@@ -41,7 +41,10 @@ SRC		= vm_main.c \
 		  corewar.c \
 		  process.c \
 		  instruct.c \
-		  display.c
+		  display.c \
+		  visu.c \
+		  visu_fill_wins.c \
+		  visu_utilities.c
 
 #################################################
 ###                   Format                  ###
@@ -74,7 +77,7 @@ _END=\x1b[0m
 all: $(EXEC)
 
 $(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h
-	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ../../libft/libft.a
+	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ../../libft/libft.a -lncurses
 	@echo "$(_CYAN)$(EXEC)$(_END)		: $(_GREEN)compiled$(_END)"
 
 %.o: %.c
