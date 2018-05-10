@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/07 16:44:19 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/09 16:22:41 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void		_and(const unsigned char *oct, t_process *p)
 		return ;
 	if (_abs(*oct, SND))
 		return ;
-	add_data(&p->ins, &g_op_tab[5]);
 }
 
 void		_or(const unsigned char *oct, t_process *p)
@@ -43,7 +42,6 @@ void		_or(const unsigned char *oct, t_process *p)
 		return ;
 	if (_abs(*oct, SND))
 		return ;
-	add_data(&p->ins, &g_op_tab[6]);
 }
 
 void		_xor(const unsigned char *oct, t_process *p)
@@ -60,7 +58,6 @@ void		_xor(const unsigned char *oct, t_process *p)
 		return ;
 	if (_abs(*oct, SND))
 		return ;
-	add_data(&p->ins, &g_op_tab[7]);
 }
 
 void		_zjmp(const unsigned char *oct, t_process *p)
@@ -82,5 +79,4 @@ void		_ldi(const unsigned char *oct, t_process *p)
 		return ;
 	if (_abs(*oct, SND))
 		return ;
-	add_data(&p->ins, &g_op_tab[9]);
 }

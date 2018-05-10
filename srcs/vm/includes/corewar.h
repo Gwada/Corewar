@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/07 21:30:30 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/09 20:30:44 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@
 # define MAX_RAM			(0x186a0)
 # define FILE_SIZE			(4 + PROG_NAME_LENGTH + 4 + 4 + COMMENT_LENGTH + 4)
 # define FILE_MAX_SIZE		(FILE_SIZE + CHAMP_MAX_SIZE)
-# define INST_NUMBERS		(16)
+# define INST_NB			(16)
 
 /*
 **	STRUCTURES
@@ -101,8 +101,9 @@ typedef struct				s_core
 	unsigned int			n_process;
 	t_player				p[MAX_PLAYERS + 1];
 	unsigned char			id[MAX_PLAYERS + 1];
-	void					(*ft[INST_NUMBERS + 1])(const unsigned char *c,
+	void					(*ft[INST_NB])(const unsigned char *c,
 							t_process *process);
+	void					(*ex[INST_NB])(struct s_core *c, t_process *p);
 	t_process				*ps;
 }							t_core;
 
@@ -141,8 +142,11 @@ void						insert_process(t_core *core, t_process **lst,
 **	INSTRUCT FUNCTIONS
 */
 
-int							read_instruct(t_core *c, t_process *process);
+void						read_instruct(t_core *c, t_process *process);
+void						exec_instruct(t_core *c, t_process *p,
+							unsigned char opc);
 unsigned int				id(unsigned int id);
+unsigned int				opc_c(unsigned char opc);
 void						add_data(t_op *dst, t_op *src);
 int							_reg(const unsigned char oct, unsigned char opt);
 int							_ind(const unsigned char oct, unsigned char opt);
@@ -164,6 +168,24 @@ void						_lld(const unsigned char *oct, t_process *p);
 void						_lldi(const unsigned char *oct, t_process *p);
 void						_lfork(const unsigned char *oct, t_process *p);
 void						_aff(const unsigned char *oct, t_process *p);
+
+
+void						_ex_live(t_core *core, t_process *process);
+void						_ex_ld(t_core *core, t_process *process);
+void						_ex_st(t_core *core, t_process *process);
+void						_ex_add(t_core *core, t_process *process);
+void						_ex_sub(t_core *core, t_process *process);
+void						_ex_and(t_core *core, t_process *process);
+void						_ex_or(t_core *core, t_process *process);
+void						_ex_xor(t_core *core, t_process *process);
+void						_ex_zjmp(t_core *core, t_process *process);
+void						_ex_ldi(t_core *core, t_process *process);
+void						_ex_sti(t_core *core, t_process *process);
+void						_ex_fork(t_core *core, t_process *process);
+void						_ex_lld(t_core *core, t_process *process);
+void						_ex_lldi(t_core *core, t_process *process);
+void						_ex_lfork(t_core *core, t_process *process);
+void						_ex_aff(t_core *core, t_process *process);
 
 void	visu(t_core *c, bool s);
 

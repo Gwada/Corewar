@@ -1,31 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   functions_4.c                                      :+:      :+:    :+:   */
+/*   functions_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/09 18:36:40 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/09 15:25:39 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void				_aff(const unsigned char *oct, t_process *p)
+void		_ex_and(t_core *core, t_process *process)
 {
-	if (!(p->ins.param[0] = _reg(*oct, EITH)))
-		return ;
-	if (_abs(*oct, SITH) || _abs(*oct, FOTH) || _abs(*oct, SND))
-		return ;
+	(void)core;
+	(void)process;
 }
 
-unsigned int	opc_c(unsigned char opc)
+void		_ex_or(t_core *core, t_process *process)
 {
-	return (opc && opc <= INST_NB);
+	(void)core;
+	(void)process;
+
 }
 
-unsigned int		id(unsigned id)
+void		_ex_xor(t_core *core, t_process *process)
 {
-	return (id % MEM_SIZE);
+	(void)core;
+	(void)process;
+
+}
+
+void		_ex_zjmp(t_core *core, t_process *process)
+{
+	(void)core;
+	(void)process;
+
+}
+
+void		_ex_ldi(t_core *core, t_process *process)
+{
+	(void)core;
+	(void)process;
+
 }

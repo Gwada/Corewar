@@ -6,19 +6,14 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/07 17:56:20 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/09 20:30:28 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
 
-unsigned int	id(unsigned id)
-{
-	return (id % MEM_SIZE);
-}
-
-void			add_data(t_op *dst, t_op *src)
+void				add_data(t_op *dst, t_op *src)
 {
 	dst->name = src->name;
 	dst->nb_param = src->nb_param;
@@ -27,50 +22,42 @@ void			add_data(t_op *dst, t_op *src)
 	dst->op_code = src->op_code;
 	dst->ocp = src->ocp;
 	dst->label_size = src->label_size;
+	!src->ocp ? *dst->param = *src->param : 0;
 }
 
-int				read_instruct(t_core *c, t_process *p)
+void				exec_instruct(t_core *c, t_process *p, unsigned char opc)
+{
+	ft_printf("{bold}{magenta}IN\tEXEC_INSTRUCT{eoc}\n");//
+	ft_printf("{red}go %s function{eoc}\n", p->ins.name);
+	g_op_tab[opc].ocp ? c->ft[opc](&c->ram[id(*p->reg + 1)], p) : 0;
+	c->ex[opc](c, p);
+	*p->reg = id(*p->reg + 1);
+	read_instruct(c, p);
+	ft_print_mem(c->ram, MEM_SIZE, 64, 0);
+	ft_printf("{bold}{magenta}END\tEXEC_INSTRUCT{eoc}\n\n");//
+}
+
+void				read_instruct(t_core *c, t_process *p)
 {
 	ft_printf("{bold}{blue}IN\tREAD_INSTRUCT{eoc}\n");//
+	unsigned char	opc;
 
-	*p->reg = id(*p->reg);
-	if (c->ram[*p->reg] <= INST_NUMBERS)
+	if (opc_c((opc = c->ram[id(*p->reg)])))
 	{
-		c->ft[c->ram[*p->reg]](&c->ram[id(*p->reg + 1)], p);
-		if (!p->ins.name)
-			return (1);
-
-
+		add_data(&p->ins, &g_op_tab[opc - 1]);
 
 		ft_printf("{green}carry\t= %u\n", p->carry);//
 		ft_printf("{green}id_player = %u\n\n{eoc}", p->reg[1]);//
 		ft_printf("p->name\t\t= {green}%s{eoc}\n", p->ins.name);//
-//		ft_printf("p->len\t\t= {green}%u{eoc}\n", p->len);//
 		ft_printf("p->nb_param\t= {green}%d{eoc}\n", p->ins.nb_param);//
-		int i = -1;//
-		while (++i < 3)//
-		{//
-			ft_printf("p->param[%d]\t= {green}%d\t", i + 1, p->ins.param[i]);//
-			if (p->ins.param[i])//
-			{//
-				p->ins.param[i] == T_REG ? ft_printf("T_REG\n{eoc}") : 0;//
-				p->ins.param[i] == T_DIR ? ft_printf("T_DIR\n{eoc}") : 0;//
-				p->ins.param[i] == T_IND ? ft_printf("T_IND\n{eoc}") : 0;//
-			}//
-			else//
-				ft_printf("{red}NULL\n{eoc}");//
-		}//
 		ft_printf("p->op_code\t= {green}%d{eoc}\n", p->ins.op_code);//
 		ft_printf("p->nb_cycles\t= {green}%d{eoc}\n", p->ins.nb_cycles);//
 		ft_printf("p->description\t= {green}%s{eoc}\n", p->ins.description);//
 		ft_printf("p->ocp\t\t= {green}%d{eoc}\n", p->ins.ocp);//
 		ft_printf("p->label_size\t= {green}%d{eoc}\n", p->ins.label_size);//
 
-
-
 	}
 	else//
 		ft_printf("Invalid instruct\n");//
 	ft_printf("{bold}{blue}END\tREAD_INSTRUCT{eoc}\n\n");//
-	return (0);
 }
