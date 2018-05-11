@@ -48,6 +48,7 @@ unsigned int		get_ind_value(t_core *c, t_process *p, unsigned int ind)
 	while (i < 2)
 		addr = ((addr << 8) | c->ram[id(*p->reg + ind + i++)]);
 	i = 0;
+	ft_printf("addr = %x\naddr %% IDX_MOD = %u\n", addr, addr % IDX_MOD);
 	if (c->ram[*p->reg] > 0x0c && c->ram[*p->reg] < 0x10)
 		while (i < 4)
 			n = ((n << 8) | c->ram[id(*p->reg + addr + i++)]);

@@ -36,11 +36,7 @@ void				_ex_and(t_core *c, t_process *p)
 	if (!(p_3 = c->v[1](c, p, i)) || p_3 > 16)
 		return ;
 	p->reg[p_3] = p_1 & p_2;
-	ft_printf("%b\n%b\n%b\n", 0xff, 0xff0000ff, 0xff & 0xff000000);
-/*	i = -1;
-	while (++i < 32)
-		p->reg[p_3] = p->reg[p_3] << 1 | ((p_1 << (1 << i)) & (p_2 << (1 << i)));
-*/	p->carry = p->carry ? 0 : 1;
+	p->carry = p->carry ? 0 : 1;
 	*p->reg = id(*p->reg + i);
 }
 
@@ -98,10 +94,23 @@ void		_ex_xor(t_core *c, t_process *p)
 	*p->reg = id(*p->reg + id_o);
 }
 
-void		_ex_zjmp(t_core *core, t_process *process)
+void				_ex_zjmp(t_core *core, t_process *process)
 {
+	int				i;
+	unsigned short	p_1;
+
+	i = -1;
+	p_1 = 0;
 	if (process->carry == 1)
+	{
+		while (++i < 2)
+			p_1 = p_1 << 8 | core->ram[id(*process->reg + 1 + i)];
+		p_1 = (unsigned short)(*process->reg + (p_1 % IDX_MOD));
+		ft_printf("p_1 = %hx(hex) %hu(dec)\n", p_1, p_1);
 		*process->reg = id(core->v[4](core, process, 1));
+	}
+	else
+		*process->reg = id(*process->reg + 2);
 }
 
 void		_ex_ldi(t_core *core, t_process *process)
