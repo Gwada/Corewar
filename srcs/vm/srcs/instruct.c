@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/10 20:36:20 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/11 17:43:37 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void				add_data(t_op *dst, t_op *src)
 void				exec_instruct(t_core *c, t_process *p, unsigned char opc)
 {
 	ft_printf("{bold}{magenta}IN\tEXEC_INSTRUCT{eoc}\n");//
-	ft_printf("{red}go %s function{eoc}\n", p->ins.name);
+	ft_printf("{red}{underline}go %s function{eoc}\n\n", p->ins.name);//
 
 	c->bd & VISUAL ? visu(c, 0) : 0;
-	g_op_tab[opc].ocp ? c->ft[opc](&c->ram[id(*p->reg + 1)], p) : 0;
 
-	c->ex[opc](c, p);
+	if (c->ft[opc](&c->ram[id(*p->reg + 1)], p))
+		c->ex[opc](c, p);
 
 	c->bd & VISUAL ? visu(c, 0) : 0;
 	*p->reg = id(*p->reg + 1);

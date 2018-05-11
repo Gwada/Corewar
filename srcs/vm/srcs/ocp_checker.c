@@ -6,13 +6,13 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/06 17:52:52 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/09 17:24:55 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/11 12:31:06 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int		_reg(const unsigned char oct, unsigned char opt)
+unsigned int	_reg(const unsigned char oct, unsigned char opt)
 {
 	if (opt == EITH && oct ^ EITH && oct & SETH)
 		return (T_REG);
@@ -23,7 +23,7 @@ int		_reg(const unsigned char oct, unsigned char opt)
 	return (0);
 }
 
-int		_ind(const unsigned char oct, unsigned char opt)
+unsigned int	_ind(const unsigned char oct, unsigned char opt)
 {
 	if (opt == EITH && oct & EITH && oct & SETH)
 		return (T_IND);
@@ -34,7 +34,7 @@ int		_ind(const unsigned char oct, unsigned char opt)
 	return (0);
 }
 
-int		_dir(const unsigned char oct, unsigned char opt)
+unsigned int	_dir(const unsigned char oct, unsigned char opt)
 {
 	if (opt == EITH && oct ^ SETH && oct & EITH)
 		return (T_DIR);
@@ -45,7 +45,7 @@ int		_dir(const unsigned char oct, unsigned char opt)
 	return (0);
 }
 
-int		_abs(const unsigned char oct, unsigned char opt)
+unsigned int	_abs(const unsigned char oct, unsigned char opt)
 {
 	if (opt == EITH)
 		return ((oct & EITH) || (oct & SETH));

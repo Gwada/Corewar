@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/10 20:39:03 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/11 21:12:36 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct				s_player
 	unsigned int			bd;
 	unsigned int			magic;
 	unsigned int			prog_size;
+	unsigned int			total_live;
+	unsigned int			current_cycle_live;
 	unsigned char			buff[FILE_MAX_SIZE];
 
 }							t_player;
@@ -77,8 +79,8 @@ typedef struct				s_player
 typedef struct				s_process
 {
 	unsigned int			carry;
-	unsigned int			live;
-	unsigned int			n_live;
+	unsigned int			total_live;
+	unsigned int			current_cycle_live;
 	unsigned int			reg[REG_NUMBER + 1];
 	t_op					ins;
 	struct s_process		*next;
@@ -91,17 +93,17 @@ typedef struct				s_core
 	unsigned int			bd;
 	unsigned int			dump;
 	unsigned int			player; // nombre de player
-	unsigned int			cycle;
-	unsigned int			live;
-	unsigned int			n_cycle;
-	unsigned int			n_live;
+	unsigned int			total_cycle;
+	unsigned int			total_live;
+	unsigned int			current_cycle;
+	unsigned int			current_cycle_live;
 	unsigned int			last_live_player;
 	unsigned int			last_decr;
 	unsigned int			max_cycle;
 	unsigned int			n_process;
 	t_player				p[MAX_PLAYERS + 1];
 	unsigned char			id[MAX_PLAYERS + 1];
-	void					(*ft[INST_NB])(const unsigned char *c,
+	unsigned int			(*ft[INST_NB])(const unsigned char *c,
 							t_process *process);
 	void					(*ex[INST_NB])(struct s_core *c, t_process *p);
 	unsigned int			(*v[5])(struct s_core *c, t_process *p,
@@ -150,28 +152,30 @@ void						exec_instruct(t_core *c, t_process *p,
 unsigned int				id(unsigned int id);
 unsigned int				opc_c(unsigned char opc);
 void						add_data(t_op *dst, t_op *src);
-int							_reg(const unsigned char oct, unsigned char opt);
-int							_ind(const unsigned char oct, unsigned char opt);
-int							_dir(const unsigned char oct, unsigned char opt);
-int							_abs(const unsigned char oct, unsigned char opt);
-void						_live(const unsigned char *oct, t_process *p);
-void						_ld(const unsigned char *oct, t_process *p);
-void						_st(const unsigned char *oct, t_process *p);
-void						_add(const unsigned char *oct, t_process *p);
-void						_sub(const unsigned char *oct, t_process *p);
-void						_and(const unsigned char *oct, t_process *p);
-void						_or(const unsigned char *oct, t_process *p);
-void						_xor(const unsigned char *oct, t_process *p);
-void						_zjmp(const unsigned char *oct, t_process *p);
-void						_ldi(const unsigned char *oct, t_process *p);
-void						_sti(const unsigned char *oct, t_process *p);
-void						_fork(const unsigned char *oct, t_process *p);
-void						_lld(const unsigned char *oct, t_process *p);
-void						_lldi(const unsigned char *oct, t_process *p);
-void						_lfork(const unsigned char *oct, t_process *p);
-void						_aff(const unsigned char *oct, t_process *p);
+unsigned int				_reg(const unsigned char oct, unsigned char opt);
+unsigned int				_ind(const unsigned char oct, unsigned char opt);
+unsigned int				_dir(const unsigned char oct, unsigned char opt);
+unsigned int				_abs(const unsigned char oct, unsigned char opt);
+unsigned int				_live(const unsigned char *oct, t_process *p);
+unsigned int				_ld(const unsigned char *oct, t_process *p);
+unsigned int				_st(const unsigned char *oct, t_process *p);
+unsigned int				_add(const unsigned char *oct, t_process *p);
+unsigned int				_sub(const unsigned char *oct, t_process *p);
+unsigned int				_and(const unsigned char *oct, t_process *p);
+unsigned int				_or(const unsigned char *oct, t_process *p);
+unsigned int				_xor(const unsigned char *oct, t_process *p);
+unsigned int				_zjmp(const unsigned char *oct, t_process *p);
+unsigned int				_ldi(const unsigned char *oct, t_process *p);
+unsigned int				_sti(const unsigned char *oct, t_process *p);
+unsigned int				_fork(const unsigned char *oct, t_process *p);
+unsigned int				_lld(const unsigned char *oct, t_process *p);
+unsigned int				_lldi(const unsigned char *oct, t_process *p);
+unsigned int				_lfork(const unsigned char *oct, t_process *p);
+unsigned int				_aff(const unsigned char *oct, t_process *p);
 
-unsigned int				get_reg_value(t_core *core, t_process *process,
+unsigned int				get_mem_addr(t_core *core, t_process *process,
+							unsigned int reg);
+unsigned int				get_reg_ind(t_core *core, t_process *process,
 							unsigned int reg);
 unsigned int				get_dir_value(t_core *core, t_process *process,
 							unsigned int ind);

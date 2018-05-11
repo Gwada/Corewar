@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/10 19:09:20 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/11 15:44:26 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 
 static int			check_cycle_param(t_core *core)
 {
-//	ft_printf("{bold}{magenta}IN\tCHECK_CYCLE_PARAM{eoc}\n");//
 	t_process		*tmp;
 
 	core->bd & VISUAL ? visu(core, 0) : 0;
-	if (core->n_cycle == core->max_cycle)
+	if (core->current_cycle == core->max_cycle)
 	{
 		core->bd & VISUAL ? visu(core, 0) : 0;
-		while (core->n_process && !core->ps->n_live)
+		while (core->n_process && !core->ps->current_cycle_live)
 		{
 			core->ps = del_process(core, core->ps);
 			core->bd & VISUAL ? visu(core, 0) : 0;
@@ -31,22 +30,27 @@ static int			check_cycle_param(t_core *core)
 		while (core->n_process && tmp)
 		{
 			core->bd & VISUAL ? visu(core, 0) : 0;
-			if (tmp->next && !tmp->next->n_live)
+			if (tmp->next && !tmp->next->current_cycle_live)
 				tmp->next = del_process(core, tmp->next);
 			core->bd & VISUAL ? visu(core, 0) : 0;
 			tmp = tmp->next;
 		}
-		core->n_cycle = 0;
-		core->n_live >= NBR_LIVE ? core->max_cycle -= CYCLE_DELTA : 0;
-		core->n_live >= NBR_LIVE ? core->last_decr = 0 : ++core->last_decr;
-		core->n_live >= NBR_LIVE ? core->n_live = 0 : 0;
+		core->current_cycle = 0;
+		if (core->current_cycle_live >= NBR_LIVE)
+		{
+			core->max_cycle -= CYCLE_DELTA;
+			core->last_decr = 0;
+			core->current_cycle_live = 0;
+		}
+		else
+			++core->last_decr;
 		core->last_decr == MAX_CHECKS ? core->max_cycle -= CYCLE_DELTA : 0;
 		core->bd & VISUAL ? visu(core, 0) : 0;
 	}
-	if (core->bd & DUMP && core->n_cycle == core->dump)
+	if (core->bd & DUMP && core->current_cycle == core->dump)
 		ft_print_mem(core->ram, MEM_SIZE, 32, 0);
-//	ft_printf("{bold}{magenta}END\tCHECK_CYCLE_PARAM{eoc}\n\n");//
-	return (!core->n_process || (core->n_cycle && core->n_cycle == core->dump));
+	return (!core->n_process
+	|| (core->current_cycle && core->current_cycle == core->dump));
 }
 
 void				check_instruct(t_core *c, t_process *tmp, unsigned char opc)
@@ -112,12 +116,12 @@ void				corewar(t_core *core)
 			break ;
 		check_instruct(core, core->ps, 0);
 		core->bd & VISUAL ? visu(core, 0) : 0;
-		++core->cycle;
-		++core->n_cycle;
+		++core->total_cycle;
+		++core->current_cycle;
 	}
 
-	ft_printf("there are %u total cycles\n", core->cycle);//
-	ft_printf("%u is last cycle number\n", core->n_cycle);//
+	ft_printf("there are %u total cycles\n", core->total_cycle);//
+	ft_printf("%u is last cycle number\n", core->current_cycle);//
 	ft_printf("%u is cycle_to_die\n", core->max_cycle);//
 	ft_printf("%u process in progress\n", core->n_process);//
 	ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");//

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/09 15:13:33 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/11 14:07:41 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_process		*del_process(t_core *core, t_process *lst)
 	if (!lst)
 		return (NULL);
 	tmp = lst->next;
-	if (!lst->n_live)
+	if (!lst->current_cycle_live)
 	{
 		ft_printf("One of the processes of the player ");//
 		ft_printf("n. %u does not respond anymore.{red}", lst->reg[1]);//
