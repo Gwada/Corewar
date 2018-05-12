@@ -2,3 +2,5 @@ New instruct
 	if (instruct == live)
 		reload states
 	reload arena
+
+Quit event
