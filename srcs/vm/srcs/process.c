@@ -31,7 +31,7 @@ t_process		*del_process(t_core *core, t_process *lst)
 	if (!lst)
 		return (NULL);
 	tmp = lst->next;
-	if (!lst->current_cycle_live)
+	if (!lst->live)
 	{
 		ft_printf("One of the processes of the player ");//
 		ft_printf("n. %u does not respond anymore.{red}", lst->rg[1]);//

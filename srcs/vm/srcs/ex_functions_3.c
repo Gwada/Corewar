@@ -53,7 +53,8 @@ void			_ex_fork(t_core *c, t_process *p)
 	}
 	*new = *p;
 	new->pc = id((p->pc + c->v[T_DIR](c, p, 1)) % IDX_MOD);
-	*new->rg = new->pc;
+	*p->rg = id(*p->rg + 3);
+	*new->rg = *p->rg;
 	insert_process(&c->ps, new);
 }
 
@@ -106,7 +107,8 @@ void			_ex_lfork(t_core *c, t_process *p)
 		exit(EXIT_FAILURE);
 	}
 	*new = *p;
-	new->pc = id(c->v[T_DIR](c, p, 1) % IDX_MOD);
-	*new->rg = new->pc;
+	new->pc = id(c->v[T_DIR](c, p, 1));
+	*p->rg = id(*p->rg + 3);
+	*new->rg = *p->rg;
 	insert_process(&c->ps, new);
 }

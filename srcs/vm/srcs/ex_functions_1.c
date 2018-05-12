@@ -20,9 +20,8 @@ void				_ex_live(t_core *c, t_process *p)
 
 	i = 0;
 	++c->total_live;
-	++p->total_live;
+	++p->live;
 	++c->current_cycle_live;
-	++p->current_cycle_live;
 	id_p = c->v[T_DIR](c, p, 1);
 	if (!id_p || id_p > MAX_PLAYERS)
 		return ;

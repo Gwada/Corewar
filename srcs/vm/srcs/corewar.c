@@ -17,35 +17,37 @@ static int			check_cycle_param(t_core *core)
 {
 	t_process		*tmp;
 
-	core->bd & VISUAL ? visu(core, 0) : 0;
+	ft_printf("core->max_cycle = %u\n\n", core->max_cycle);
 	if (core->current_cycle == core->max_cycle)
 	{
-		core->bd & VISUAL ? visu(core, 0) : 0;
-		while (core->n_process && !core->ps->current_cycle_live)
-		{
-			core->ps = del_process(core, core->ps);
-			core->bd & VISUAL ? visu(core, 0) : 0;
-		}
 		tmp = core->ps;
+		while (core->n_process && !tmp->live)
+		{
+			ft_printf("name = %s\t", tmp->ins.name);
+			ft_printf("live = %u\t", tmp->live);
+			core->ps = del_process(core, core->ps);
+		}
+		tmp->live = 0;
 		while (core->n_process && tmp)
 		{
-			core->bd & VISUAL ? visu(core, 0) : 0;
-			if (tmp->next && !tmp->next->current_cycle_live)
+			ft_printf("name = %s\t", tmp->ins.name);
+			ft_printf("live = %u\t", tmp->live);
+			if (tmp->next && !tmp->next->live)
 				tmp->next = del_process(core, tmp->next);
-			core->bd & VISUAL ? visu(core, 0) : 0;
+			else if(tmp->next)
+				tmp->next->live = 0;
 			tmp = tmp->next;
 		}
-		core->current_cycle = 0;
 		if (core->current_cycle_live >= NBR_LIVE)
 		{
 			core->max_cycle -= CYCLE_DELTA;
 			core->last_decr = 0;
-			core->current_cycle_live = 0;
 		}
-		else
-			++core->last_decr;
-		core->last_decr == MAX_CHECKS ? core->max_cycle -= CYCLE_DELTA : 0;
-		core->bd & VISUAL ? visu(core, 0) : 0;
+		else if (++core->last_decr == MAX_CHECKS)
+			core->max_cycle -= CYCLE_DELTA;
+		core->current_cycle = 0;
+		core->current_cycle_live = 0;
+
 	}
 	if (core->bd & DUMP && core->current_cycle == core->dump)
 		ft_print_mem(core->ram, MEM_SIZE, 32, 0);
@@ -64,18 +66,18 @@ static void				check_instruct(t_core *c, unsigned char opc)
 		opc = c->ram[id(*tmp->rg)];
 		if ((!opc_c(opc) || !tmp->ins.name) && !tmp->ins.nb_cycles)
 		{
-			ft_printf("bad opc = %hhx\n", opc);
+//			ft_printf("bad opc = %hhx\n", opc);
 			*tmp->rg = id(*tmp->rg + 1);
 			read_instruct(c, tmp);
 		}
 		if (tmp->ins.name && opc_c(opc) && !tmp->ins.nb_cycles)
 		{
-			ft_printf("opc = %hhu\n", opc);
+//			ft_printf("opc = %hhu\n", opc);
 			if (!ft_strcmp(tmp->ins.name, g_op_tab[opc - 1].name))
 				exec_instruct(c, tmp, opc - 1);
 			else
 			{
-				ft_printf("bad match\n");
+//				ft_printf("bad match\n");
 				*tmp->rg = id(*tmp->rg + 1);
 				read_instruct(c, tmp);
 			}
@@ -96,7 +98,7 @@ void				corewar(t_core *core)
 /*
 **	DEBUG DISPLAY
 */
-	ft_printf("{red}------------------------------------------------{eoc}\n\n");
+/*	ft_printf("{red}------------------------------------------------{eoc}\n\n");
 	ft_printf("{yellow}{bold}START{eoc}\n");//
 	ft_printf("%u process in progress\n\n", core->n_process);//
 	t_process *tmp = core->ps;
@@ -108,8 +110,8 @@ void				corewar(t_core *core)
 		tmp = tmp->next;
 	}
 	ft_printf("{red}------------------------------------------------{eoc}\n\n");
-	ft_print_mem(core->ram, MEM_SIZE, 64, 0);
-
+//	ft_print_mem(core->ram, MEM_SIZE, 64, 0);
+*/
 
 	while (core->n_process > 0)
 	{
@@ -119,6 +121,7 @@ void				corewar(t_core *core)
 		check_instruct(core, 0);
 		++core->total_cycle;
 		++core->current_cycle;
+		ft_printf("\n");
 	}
 
 	ft_printf("there are %u total cycles\n", core->total_cycle);//
