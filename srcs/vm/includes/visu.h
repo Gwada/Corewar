@@ -55,6 +55,8 @@ struct s_visu_env
 	t_win		arena;
 };
 
+void	visu(t_core *c, bool s);
+
 void	draw_basics(t_visu_env *env);
 void	fill_title(t_visu_env *env);
 void	fill_usages(t_visu_env *env);

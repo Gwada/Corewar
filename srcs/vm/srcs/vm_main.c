@@ -12,7 +12,6 @@
 
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
-#include "visu.h"
 
 static	void		get_magic_number(unsigned char **b, t_core *c, int i)
 {
@@ -109,6 +108,21 @@ static	void		put_champ(t_core *c, unsigned int i)
 	}
 }
 
+static void	init_visu(t_visu_env *env)
+{
+	setlocale(LC_ALL, "");
+	ft_bzero(env, sizeof(*env));
+	initscr();
+	raw();
+	noecho();
+	keypad(stdscr, TRUE);
+	start_color();
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	init_pair(2, COLOR_CYAN, COLOR_BLACK);
+	init_pair(3, COLOR_BLUE, COLOR_BLACK);
+	init_pair(4, COLOR_GREEN, COLOR_BLACK);
+}
+
 int					main(int argc, char **argv)
 {
 	unsigned int	i;
@@ -121,15 +135,14 @@ int					main(int argc, char **argv)
 		while (++i < (unsigned int)argc && argv[i])
 			if (get_arg(argv[i], &c, i, 0) || c.bd == ERROR)
 				return (0);
+		c.bd & VISUAL ? init_visu(&c.visu): 0;
 		c.player && c.bd & GET_OPT ? ft_printf("Missing one champion\n") : 0;
-		c.bd & VISUAL ? visu(&c, 1) : 0;
 		c.player && !(c.bd & GET_OPT) ? put_champ(&c, 0) : 0;
-		c.bd & VISUAL ? visu(&c, 0) : 0;
 		c.player && !(c.bd & GET_OPT) ? corewar(&c) : 0;
 		!c.player ? display_usage(*argv) : 0;
 	}
 	else if (!(c.bd & INIT))
 		display_usage(*argv);
-	endwin();
+		c.bd & VISUAL ? endwin(): 0;
 	return (0);
 }

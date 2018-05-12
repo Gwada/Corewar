@@ -1,4 +1,4 @@
-#include "visu.h"
+#include "corewar.h"
 
 void	ft_exit_alloc_failure()
 {

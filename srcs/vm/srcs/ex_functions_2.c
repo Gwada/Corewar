@@ -106,7 +106,7 @@ void				_ex_zjmp(t_core *core, t_process *process)
 		while (++i < 2)
 			p_1 = p_1 << 8 | core->ram[id(*process->reg + 1 + i)];
 		p_1 = (unsigned short)(*process->reg + (p_1 % IDX_MOD));
-		ft_printf("p_1 = %hx(hex) %hu(dec)\n", p_1, p_1);
+		/*ft_printf("p_1 = %hx(hex) %hu(dec)\n", p_1, p_1);*/
 		*process->reg = id(core->v[4](core, process, 1));
 	}
 	else
