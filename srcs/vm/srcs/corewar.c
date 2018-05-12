@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/11 15:44:26 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/12 11:00:06 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void				check_instruct(t_core *c, t_process *tmp, unsigned char opc)
 	while (tmp)
 	{
 		tmp->ins.nb_cycles > 0 ? --tmp->ins.nb_cycles : 0;
-		opc = c->ram[id(*tmp->reg)];
+		opc = c->ram[id(tmp->pc)];
 		if ((!opc_c(opc) || !tmp->ins.name) && !tmp->ins.nb_cycles)
 		{
 			ft_printf("bad opc = %hhx\n", opc);
-			*tmp->reg = id(*tmp->reg + 1);
+			tmp->pc = id(tmp->pc + 1);
 			read_instruct(c, tmp);
 		}
 		if (tmp->ins.name && opc_c(opc) && !tmp->ins.nb_cycles)
@@ -67,7 +67,7 @@ void				check_instruct(t_core *c, t_process *tmp, unsigned char opc)
 			else
 			{
 				ft_printf("bad match\n");
-				*tmp->reg = id(*tmp->reg + 1);
+				tmp->pc = id(tmp->pc + 1);
 				read_instruct(c, tmp);
 			}
 		}
@@ -92,7 +92,7 @@ void				corewar(t_core *core)
 	t_process *tmp = core->ps;
 	while (tmp)
 	{
-		ft_printf("tmp->id = %u\n", tmp->reg[1]);
+		ft_printf("tmp->id = %u\n", tmp->rg[1]);
 		ft_printf("tmp->ins.name = %s\n", tmp->ins.name);
 		ft_printf("tmp->ins.nb_cycles = %u\n\n", tmp->ins.nb_cycles);
 		tmp = tmp->next;

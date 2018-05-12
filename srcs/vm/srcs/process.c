@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/11 14:07:41 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/12 11:19:06 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_process		*del_process(t_core *core, t_process *lst)
 	if (!lst->current_cycle_live)
 	{
 		ft_printf("One of the processes of the player ");//
-		ft_printf("n. %u does not respond anymore.{red}", lst->reg[1]);//
+		ft_printf("n. %u does not respond anymore.{red}", lst->rg[1]);//
 		ft_printf(" FUCK THIS SHIT!!!! He must die now{eoc}\n");//
 	}
 	free(lst);
@@ -87,8 +87,8 @@ t_process		*init_process(t_core *core, int i)
 	{
 		if (!(new = new_process()))
 			return (clean_process(lst));
-		*new->reg = core->p[i].oc;
-		new->reg[1] = core->p[i].id;
+		new->pc = core->p[i].oc;
+		new->rg[1] = core->p[i].id;
 		read_instruct(core, new);
 		insert_process(core, &lst, new);
 	}

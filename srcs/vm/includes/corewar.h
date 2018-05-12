@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/11 21:12:36 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/12 11:27:04 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,8 @@ typedef struct				s_process
 	unsigned int			carry;
 	unsigned int			total_live;
 	unsigned int			current_cycle_live;
-	unsigned int			reg[REG_NUMBER + 1];
+	unsigned int			rg[REG_NUMBER + 1];
+	unsigned short			pc;
 	t_op					ins;
 	struct s_process		*next;
 }							t_process;
@@ -205,7 +206,7 @@ void						insert_process(t_core *core, t_process **lst,
 void						read_instruct(t_core *c, t_process *process);
 void						exec_instruct(t_core *c, t_process *p,
 							unsigned char opc);
-unsigned int				id(unsigned int id);
+unsigned short				id(unsigned int id);
 unsigned int				opc_c(unsigned char opc);
 void						add_data(t_op *dst, t_op *src);
 unsigned int				_reg(const unsigned char oct, unsigned char opt);
