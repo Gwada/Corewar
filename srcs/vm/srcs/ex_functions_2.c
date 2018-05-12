@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/12 11:26:58 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/12 20:47:11 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void				_ex_and(t_core *c, t_process *p)
 		return ;
 	p->rg[p_3] = p_1 & p_2;
 	p->carry = p->carry ? 0 : 1;
-	p->pc = id(p->pc + i);
+	*p->rg = id(*p->rg + i);
 }
 
 void				_ex_or(t_core *c, t_process *p)
@@ -64,7 +64,7 @@ void				_ex_or(t_core *c, t_process *p)
 		return ;
 	p->rg[p_3] = p_1 | p_2;
 	p->carry = p->carry ? 0 : 1;
-	p->pc = id(p->pc + id_o);
+	*p->rg = id(*p->rg + id_o);
 }
 
 void		_ex_xor(t_core *c, t_process *p)
@@ -91,38 +91,33 @@ void		_ex_xor(t_core *c, t_process *p)
 		return ;
 	p->rg[p_3] = p_1 ^ p_2;
 	p->carry = p->carry ? 0 : 1;
-	p->pc = id(p->pc + id_o);
+	*p->rg = id(*p->rg + id_o);
 }
 
 void				_ex_zjmp(t_core *c, t_process *p)
 {
-	int				i;
-	unsigned short	p_1;
-
-	i = -1;
-	p_1 = 0;
 	if (p->carry == 1)
-	{
-		while (++i < 2)
-			p_1 = p_1 << 8 | c->ram[id(p->pc + 1 + i)];
-		ft_printf("p_1\t= %h4x(hex)\t%h6u(dec)\n", p_1, p_1);
-//		p_1 = p->pc + (p_1 % IDX_MOD);
-		ft_printf("1 p->pc\t= %h4x(hex)\t%h6u(dec)\n", p->pc, p->pc);
-		ft_printf("p->pc + p_1\t= %h4x(hex)\t%h6u(dec)\n", p->pc + p_1, p->pc + p_1);
-		p->pc = p->pc + (p_1 % IDX_MOD);
-		ft_printf("2 p->pc\t= %h4x(hex)\t%h6u(dec)\n", p->pc, p->pc);
-
-/*		ft_printf("1 *p->reg = %hx(hex) %hu(dec)\n", process->pc, process->pc);
-		process->pc = id(core->v[4](core, process, 1));
-		ft_printf("2 *p->pc = %hx(hex) %hu(dec)\n", process->pc, process->pc);
-*/	}
-	else
-		p->pc = id(p->pc + 2);
+		*p->rg = id(p->pc + ((*p->rg + c->v[3](c, p, 1)) % IDX_MOD) - 1);
 }
 
-void		_ex_ldi(t_core *core, t_process *process)
+void		_ex_ldi(t_core *c, t_process *p)
 {
-	(void)core;
-	(void)process;
+	unsigned int	id_o;
+	unsigned int	p_1;
+	unsigned int	p_2;
+	unsigned int	p_3;
 
+	id_o = 2;
+	p_1 = c->v[*p->ins.param](c, p, id_o++);
+	if (*p->ins.param & T_REG && (!p_1 || p_1 > 16))
+		return ;
+	*p->ins.param & T_REG ? p_1 = p->rg[p_1] : ++id_o;
+	p_2 = c->v[p->ins.param[1]](c, p, id_o++);
+	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
+		return ;
+	p->ins.param[1] & T_REG ? p_2 = p->rg[p_2] : ++id_o;
+	if (!(p_3 = c->v[1](c, p, id_o)) || p_3 > 16)
+		return ;
+	p->rg[p_3] = c->v[2](c, p, p_2 + p_1);
+	*p->rg = id(*p->rg + id_o);
 }

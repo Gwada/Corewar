@@ -6,20 +6,21 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/12 11:19:06 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/12 19:24:52 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
 
-t_process		*new_process(void)
+t_process		*new_process(t_core *core)
 {
 	t_process	*new;
 
 	if (!(new = malloc(sizeof(t_process))))
 		return (NULL);
 	ft_bzero(new, sizeof(t_process));
+	++core->n_process;
 	return (new);
 }
 
@@ -51,20 +52,20 @@ t_process		*clean_process(t_process *lst)
 	return (NULL);
 }
 
-void			insert_process(t_core *core, t_process **lst, t_process *new)
+void			insert_process(t_process **lst, t_process *new)
 {
 	t_process	*tmp;
 
 	tmp = *lst;
 	if (!new)
 		return ;
-	core->n_process++;
 	if (!*lst && (*lst = new))
 		return ;
 	if (new->ins.nb_cycles <= (*lst)->ins.nb_cycles)
 	{
 		new->next = *lst;
-		return ((void)(*lst = new));
+		*lst = new;
+		return ;
 	}
 	while (tmp->next)
 	{
@@ -85,12 +86,13 @@ t_process		*init_process(t_core *core, int i)
 	lst = NULL;
 	while (++i < (int)core->player)
 	{
-		if (!(new = new_process()))
+		if (!(new = new_process(core)))
 			return (clean_process(lst));
+		*new->rg = core->p[i].oc;
 		new->pc = core->p[i].oc;
 		new->rg[1] = core->p[i].id;
 		read_instruct(core, new);
-		insert_process(core, &lst, new);
+		insert_process(&lst, new);
 	}
 	ft_printf("{yellow}{bold}END\tINIT_PROCESS\n\n{eoc}");
 	return (lst);

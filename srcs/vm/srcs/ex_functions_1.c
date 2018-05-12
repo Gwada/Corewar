@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/12 10:48:41 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/12 19:45:56 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void				_ex_live(t_core *c, t_process *p)
 	if (!id_p || id_p > MAX_PLAYERS)
 		return ;
 	c->last_live_player = id_p;
-	p->pc = id(p->pc + 4);
+	*p->rg = id(*p->rg + 4);
 	while (c->p[i].id != id_p && i < 4)
 		++i;
 	++c->p[i].total_live;
@@ -40,8 +40,8 @@ void				_ex_live(t_core *c, t_process *p)
 void				_ex_ld(t_core *c, t_process *p)
 {
 	int				i;
-	unsigned int	p_2;
 	unsigned int	p_1;
+	unsigned int	p_2;
 
 	i = -1;
 	p_1 = c->v[*p->ins.param](c, p, 2);
@@ -50,7 +50,7 @@ void				_ex_ld(t_core *c, t_process *p)
 		return ;
 	p->rg[p_2] = p_1;
 	p->carry = p->carry ? 0 : 1;
-	p->pc = *p->ins.param & T_DIR ? id(p->pc + 6) : id(p->pc + 4);
+	*p->rg = id(*p->rg + (*p->ins.param & T_DIR ? 6 : 4));
 }
 
 void				_ex_st(t_core *c, t_process *p)
@@ -75,7 +75,7 @@ void				_ex_st(t_core *c, t_process *p)
 		while (++i < 4)
 			c->ram[c->v[0](c, p, p_2 + i)] = (p_1 >> (24 - (i * 8))) & 0xff;
 	}
-	p->pc = p->ins.param[1] & T_REG ? id(p->pc + 3) : id(p->pc + 4);
+	*p->rg = p->ins.param[1] & T_REG ? id(*p->rg + 3) : id(*p->rg + 4);
 }
 
 void				_ex_add(t_core *core, t_process *process)
@@ -92,7 +92,7 @@ void				_ex_add(t_core *core, t_process *process)
 		return ;
 	process->rg[p_3] = process->rg[p_1] + process->rg[p_2];
 	process->carry = process->carry ? 0 : 1;
-	process->pc = id(process->pc + 4);
+	*process->rg = id(*process->rg + 4);
 }
 
 void				_ex_sub(t_core *core, t_process *process)
@@ -109,5 +109,5 @@ void				_ex_sub(t_core *core, t_process *process)
 		return ;
 	process->rg[p_3] = process->rg[p_1] - process->rg[p_2];
 	process->carry = process->carry ? 0 : 1;
-	process->pc = id(process->pc + 4);
+	*process->rg = id(*process->rg + 4);
 }

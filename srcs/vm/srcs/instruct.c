@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/12 11:18:56 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/12 20:47:05 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,25 @@ void				add_data(t_op *dst, t_op *src)
 void				exec_instruct(t_core *c, t_process *p, unsigned char opc)
 {
 	ft_printf("{bold}{magenta}IN\tEXEC_INSTRUCT{eoc}\n");//
-	ft_printf("{red}{underline}go %s function{eoc}\n\n", p->ins.name);//
 
-	c->bd & VISUAL ? visu(c, 0) : 0;
-
-	if (c->ft[opc](&c->ram[id(p->pc + 1)], p))
+	if (c->ft[opc](&c->ram[id(*p->rg + 1)], p))
+	{
+		ft_printf("{red}{underline}go %s function{eoc}\n\n", p->ins.name);//
 		c->ex[opc](c, p);
+		t_process *tmp = c->ps;
+		while (tmp)
+		{
+			ft_printf("%s\n", tmp->ins.name);
+			tmp = tmp->next;
+		}
+		ft_printf("\n{red}{underline}end %s function{eoc}\n\n", p->ins.name);//
+	}
 
-	c->bd & VISUAL ? visu(c, 0) : 0;
-	p->pc = id(p->pc + 1);
+	*p->rg = id(*p->rg + 1);
 
-	ft_printf("*p->reg = %u(dec) %x(hex)\n", p->pc, p->pc);
-	c->bd & VISUAL ? visu(c, 0) : 0;
 	read_instruct(c, p);
 
-	c->bd & VISUAL ? visu(c, 0) : 0;
-	ft_print_mem(c->ram, MEM_SIZE, 64, 0);//
+//	ft_print_mem(c->ram, MEM_SIZE, 64, 0);//
 	ft_printf("{bold}{magenta}END\tEXEC_INSTRUCT{eoc}\n\n");//
 }
 
@@ -53,7 +56,7 @@ void				read_instruct(t_core *c, t_process *p)
 	unsigned char	opc;
 
 	c->bd & VISUAL ? visu(c, 0) : 0;
-	if (opc_c((opc = c->ram[id(p->pc)])))
+	if (opc_c((opc = c->ram[id(*p->rg)])))
 	{
 		add_data(&p->ins, &g_op_tab[opc - 1]);
 		c->bd & VISUAL ? visu(c, 0) : 0;
@@ -71,9 +74,20 @@ void				read_instruct(t_core *c, t_process *p)
 	}
 	else//
 	{
-		ft_bzero(&p->ins, sizeof(t_player));
 		ft_printf("Invalid instruct\n");//
 	}
 	ft_printf("{bold}{blue}END\tREAD_INSTRUCT{eoc}\n\n");//
 	c->bd & VISUAL ? visu(c, 0) : 0;
+}
+
+unsigned int		get_ind(t_core *core, t_process *process, unsigned int ind)
+{
+	unsigned int	i;
+	unsigned int	n;
+
+	i = 0;
+	n = 0;
+	while (i < 2)
+		n = (n << 8) | (core->ram[id(*process->rg + ind + i++)]);
+	return (n);
 }
