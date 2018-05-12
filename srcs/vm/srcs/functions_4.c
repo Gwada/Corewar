@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/11 12:27:43 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/12 11:27:00 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ unsigned int	opc_c(unsigned char opc)
 	return (opc && opc <= INST_NB);
 }
 
-unsigned int		id(unsigned id)
+unsigned short		id(unsigned id)
 {
 	return (id % MEM_SIZE);
 }

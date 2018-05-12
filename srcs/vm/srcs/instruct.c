@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/11 17:43:37 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/12 11:18:56 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ void				exec_instruct(t_core *c, t_process *p, unsigned char opc)
 
 	c->bd & VISUAL ? visu(c, 0) : 0;
 
-	if (c->ft[opc](&c->ram[id(*p->reg + 1)], p))
+	if (c->ft[opc](&c->ram[id(p->pc + 1)], p))
 		c->ex[opc](c, p);
 
 	c->bd & VISUAL ? visu(c, 0) : 0;
-	*p->reg = id(*p->reg + 1);
+	p->pc = id(p->pc + 1);
 
+	ft_printf("*p->reg = %u(dec) %x(hex)\n", p->pc, p->pc);
 	c->bd & VISUAL ? visu(c, 0) : 0;
 	read_instruct(c, p);
 
@@ -52,13 +53,13 @@ void				read_instruct(t_core *c, t_process *p)
 	unsigned char	opc;
 
 	c->bd & VISUAL ? visu(c, 0) : 0;
-	if (opc_c((opc = c->ram[id(*p->reg)])))
+	if (opc_c((opc = c->ram[id(p->pc)])))
 	{
 		add_data(&p->ins, &g_op_tab[opc - 1]);
 		c->bd & VISUAL ? visu(c, 0) : 0;
 
 		ft_printf("{green}carry\t= %u\n", p->carry);//
-		ft_printf("{green}id_player = %u\n\n{eoc}", p->reg[1]);//
+		ft_printf("{green}id_player = %u\n\n{eoc}", p->rg[1]);//
 		ft_printf("p->name\t\t= {green}%s{eoc}\n", p->ins.name);//
 		ft_printf("p->nb_param\t= {green}%d{eoc}\n", p->ins.nb_param);//
 		ft_printf("p->op_code\t= {green}%d{eoc}\n", p->ins.op_code);//
@@ -69,7 +70,10 @@ void				read_instruct(t_core *c, t_process *p)
 
 	}
 	else//
+	{
+		ft_bzero(&p->ins, sizeof(t_player));
 		ft_printf("Invalid instruct\n");//
+	}
 	ft_printf("{bold}{blue}END\tREAD_INSTRUCT{eoc}\n\n");//
 	c->bd & VISUAL ? visu(c, 0) : 0;
 }
