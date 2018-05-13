@@ -81,8 +81,7 @@ typedef struct				s_player
 typedef struct				s_process
 {
 	unsigned int			carry;
-	unsigned int			total_live;
-	unsigned int			current_cycle_live;
+	unsigned int			live;
 	unsigned int			pc;
 	unsigned int			rg[REG_NUMBER + 1];
 	t_op					ins;
