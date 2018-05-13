@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/12 19:45:56 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/13 17:33:09 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void				_ex_live(t_core *c, t_process *p)
 	++p->live;
 	++c->current_cycle_live;
 	id_p = c->v[T_DIR](c, p, 1);
+	ft_printf("%p\n", id_p);
 	if (!id_p || id_p > MAX_PLAYERS)
 		return ;
 	c->last_live_player = id_p;
@@ -62,19 +63,17 @@ void				_ex_st(t_core *c, t_process *p)
 	if (!(p_1 = c->v[1](c, p, 2)) || p_1 > 16)
 		return ;
 	p_1 = p->rg[p_1];
+	ft_printf("p_1 = %u / %d / %p\n", p_1, p_1, p_1);//
+	p_2 = c->v[p->ins.param[1]](c, p, 3);
+	ft_printf("p_2 = %u / %d / %p\n", p_2, p_2, p_2);//
+	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
+		return ;
 	if (p->ins.param[1] & T_REG)
-	{
-		if (!(p_2 = c->v[1](c, p, 3)) || p_2 > 16)
-			return ;
 		p->rg[p_2] = p->rg[p_1];
-	}
 	else
-	{
-		p_2 = c->v[2](c, p, 3) >> 16;
 		while (++i < 4)
 			c->ram[c->v[0](c, p, p_2 + i)] = (p_1 >> (24 - (i * 8))) & 0xff;
-	}
-	*p->rg = p->ins.param[1] & T_REG ? id(*p->rg + 3) : id(*p->rg + 4);
+	*p->rg = id(*p->rg + (p->ins.param[1] & T_REG ? 3 : 4));
 }
 
 void				_ex_add(t_core *core, t_process *process)

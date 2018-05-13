@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/03 09:33:12 by dlavaury          #+#    #+#              #
-#    Updated: 2018/05/13 11:00:49 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/05/13 17:45:53 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC		= vm_main.c \
 		  corewar.c \
 		  process.c \
 		  instruct.c \
+		  cycle.c \
 		  display.c \
 		  visu.c \
 		  visu_fill_wins.c \

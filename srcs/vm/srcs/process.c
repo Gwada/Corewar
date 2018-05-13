@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 11:00:51 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/13 15:26:46 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void			insert_process(t_process **lst, t_process *new)
 
 t_process		*init_process(t_core *core, int i)
 {
-	ft_printf("{yellow}{bold}IN\tINIT_PROCESS\n{eoc}");
 	t_process	*lst;
 	t_process	*new;
 
@@ -94,6 +93,5 @@ t_process		*init_process(t_core *core, int i)
 		read_instruct(core, new);
 		insert_process(&lst, new);
 	}
-	ft_printf("{yellow}{bold}END\tINIT_PROCESS\n\n{eoc}");
 	return (lst);
 }

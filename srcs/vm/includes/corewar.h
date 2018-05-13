@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 11:00:47 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/13 17:45:56 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ typedef struct				s_core
 	unsigned int			bd;
 	unsigned int			dump;
 	unsigned int			player;
+	int						max_cycle;
 	unsigned int			total_cycle;
-	unsigned int			total_live;
 	unsigned int			current_cycle;
+	unsigned int			last_decr;
+	unsigned int			total_live;
 	unsigned int			current_cycle_live;
 	unsigned int			last_live_player;
-	unsigned int			last_decr;
-	unsigned int			max_cycle;
 	unsigned int			n_process;
 	t_player				p[MAX_PLAYERS + 1];
 	unsigned char			id[MAX_PLAYERS + 1];
@@ -132,6 +132,12 @@ size_t						init_core(t_core *core, size_t ret);
 
 void						display_usage(char *name);
 void						display_error(t_core *core, int code);
+
+/*
+**	CYCLE FUNCTIONS
+*/
+
+size_t						cycle_checker(t_core *core);
 
 /*
 **	PROCESS FUNCTIONS
