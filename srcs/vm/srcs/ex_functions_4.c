@@ -19,14 +19,14 @@ void			_ex_aff(t_core *core, t_process *process)
 
 	if (!(p_1 = core->v[1](core, process, 2)) || p_1 > 16)
 		return ;
-	ft_printf("%c\n", (process->rg[p_1] % 256));
-	*process->rg = id(*process->rg + 2);
+	ft_printf("%c\n", (process->reg[p_1] % 256));
+	process->opc = id(process->opc + 2);
 }
 
 unsigned int		get_reg_ind(t_core *c, t_process *p, unsigned int ind)
 {
 //	ft_printf("{red}registre{eoc}\n");
-	return (c->ram[id(*p->rg + ind)]);
+	return (c->ram[id(p->opc + ind)]);
 }
 
 unsigned int		get_dir_value(t_core *c, t_process *p, unsigned int ind)
@@ -38,7 +38,7 @@ unsigned int		get_dir_value(t_core *c, t_process *p, unsigned int ind)
 	i = 0;
 	n = 0;
 	while (i < 4)
-		n = (n << 8) | c->ram[id(*p->rg + ind + i++)];
+		n = (n << 8) | c->ram[id(p->opc + ind + i++)];
 	return (n);
 }
 
@@ -53,7 +53,7 @@ unsigned int		get_ind_value(t_core *c, t_process *p, unsigned int ind)
 	i = 0;
 	pl = 0;
 	addr = c->v[3](c, p, ind);
-	if (c->ram[*p->rg] > 0x0c && c->ram[*p->rg] < 0x10)
+	if (c->ram[id(p->opc)] > 0x0c && c->ram[id(p->opc)] < 0x10)
 		n = c->v[2](c, p, addr);
 	else
 		n = c->v[2](c, p, p->pc + (addr % IDX_MOD));
@@ -65,7 +65,7 @@ unsigned int		get_mem_addr(t_core *c, t_process *p, unsigned int addr)
 	unsigned int	i;
 
 	i = 0;
-	if (c->ram[*p->rg] > 0x0c && c->ram[*p->rg] < 0x10)
-		return (id(*p->rg + addr));
-	return (id(p->pc + ((*p->rg + addr) % IDX_MOD)));
+	if (c->ram[id(p->opc)] > 0x0c && c->ram[id(p->opc)] < 0x10)
+		return (id(p->opc + addr));
+	return (id(p->pc + ((p->opc + addr) % IDX_MOD)));
 }

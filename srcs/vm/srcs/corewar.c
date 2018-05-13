@@ -13,26 +13,6 @@
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
 
-/*static void		check_ins(t_core *c, t_process *tmp, unsigned char opc)
-{
-	opc = c->ram[id(*tmp->rg)];
-	if ((!opc_c(opc) || !tmp->ins.name) && !tmp->ins.nb_cycles)
-	{
-		*tmp->rg = id(*tmp->rg + 1);
-		read_instruct(c, tmp);
-	}
-	if (tmp->ins.name && opc_c(opc) && !tmp->ins.nb_cycles)
-	{
-		if (!ft_strcmp(tmp->ins.name, g_op_tab[opc - 1].name))
-			exec_instruct(c, tmp, opc - 1);
-		else
-		{
-			*tmp->rg = id(*tmp->rg + 1);
-			read_instruct(c, tmp);
-		}
-	}
-}*/
-
 static void			check_instruct(t_core *c, unsigned char opc)
 {
 //	ft_printf("{bold}{yellow}IN\tCHECK_INSTRUCT{eoc}\n");//
@@ -45,11 +25,11 @@ static void			check_instruct(t_core *c, unsigned char opc)
 			--tmp->ins.nb_cycles;
 		else
 		{
-			opc = c->ram[id(*tmp->rg)];
+			opc = c->ram[id(tmp->opc)];
 			if (opc_c(opc) && tmp->ins.name
 			&& !ft_strcmp(tmp->ins.name, g_op_tab[opc - 1].name))
 				exec_instruct(c, tmp, opc - 1);
-			*tmp->rg = id(*tmp->rg + 1);
+			tmp->opc = id(tmp->opc + 1);
 			read_instruct(c, tmp);
 //			if (tmp->ins.nb_cycles > 0)
 //				ft_printf("{blue}{bold}{underline}NEED SORT\n{eoc}");
@@ -83,8 +63,7 @@ void				corewar(t_core *core)
 	ft_printf("1\n");
 	while (core->n_process > 0)
 	{
-		ft_printf("2\n");
-//		ft_printf("%u cycles\n", core->total_cycle);
+		ft_printf("%u cycles\n", core->total_cycle);
 		if (cycle_checker(core))
 			break ;
 		check_instruct(core, 0);
@@ -92,7 +71,6 @@ void				corewar(t_core *core)
 		++core->current_cycle;
 	}
 
-	ft_printf("3\n");
 	ft_printf("\nthere are %u total cycles\n", core->total_cycle);//
 	ft_printf("%u process in progress\n", core->n_process);//
 	ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");//

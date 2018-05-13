@@ -83,8 +83,10 @@ typedef struct				s_process
 	unsigned int			carry;
 	unsigned int			live;
 	unsigned int			pc;
-	unsigned int			rg[REG_NUMBER + 1];
+	unsigned int			reg[REG_NUMBER];
+	unsigned short			opc;
 	t_op					ins;
+	struct s_process		*prev;
 	struct s_process		*next;
 }							t_process;
 

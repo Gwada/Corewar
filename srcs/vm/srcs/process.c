@@ -34,7 +34,7 @@ t_process		*del_process(t_core *core, t_process *lst)
 	if (!lst->live)
 	{
 		ft_printf("One of the processes of the player ");//
-		ft_printf("n. %u does not respond anymore.{red}", lst->rg[1]);//
+		ft_printf("n. %u does not respond anymore.{red}", *lst->reg);//
 		ft_printf(" FUCK THIS SHIT!!!! He must die now{eoc}\n");//
 	}
 	free(lst);
@@ -64,10 +64,10 @@ void			insert_process(t_process **lst, t_process *new)
 	if (new->ins.nb_cycles <= (*lst)->ins.nb_cycles)
 	{
 		new->next = *lst;
-		*lst = new;
+		*lst->prev = new;
 		return ;
 	}
-	while (tmp->next)
+	while (tmp->next && new->ins.nb_cycles > tmp->ins.nb_cycles)
 	{
 		if (new->ins.nb_cycles <= tmp->next->ins.nb_cycles)
 			break ;
@@ -87,9 +87,9 @@ t_process		*init_process(t_core *core, int i)
 	{
 		if (!(new = new_process(core)))
 			return (clean_process(lst));
-		*new->rg = core->p[i].oc;
+		new->opc = core->p[i].oc;
 		new->pc = core->p[i].oc;
-		new->rg[1] = core->p[i].id;
+		*new->reg = core->p[i].id;
 		read_instruct(core, new);
 		insert_process(&lst, new);
 	}

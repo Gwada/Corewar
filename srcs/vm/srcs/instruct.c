@@ -29,28 +29,26 @@ void				exec_instruct(t_core *c, t_process *p, unsigned char opc)
 {
 //	ft_printf("{bold}{magenta}IN\tEXEC_INSTRUCT{eoc}\n");//
 
-	if (c->ft[opc](&c->ram[id(*p->rg + 1)], p))
+	if (c->ft[opc](&c->ram[id(p->opc + 1)], p))
 	{
 //		ft_print_mem(c->ram, MEM_SIZE, 64, 0);
 //		ft_printf("{red}{underline}go %s function{eoc}\n\n", p->ins.name);//
 //		int i = -1;
 //		while (++i < 17)
-//			ft_printf("rg[%d] = %u\t", i, p->rg[i]);
+//			ft_printf("rg[%d] = %p\t", i, *p->reg);
 //		ft_printf("\n\n");
-		ft_printf("2.0 %s\n", g_op_tab[opc].name);
 		c->ex[opc](c, p);
 //		i = -1;
-		ft_printf("2.1\n");
 //		while (++i < 17)
-//			ft_printf("rg[%d] = %u\t", i, p->rg[i]);
+//			ft_printf("rg[%d] = %p\t", i, *p->reg);
 //		ft_printf("\n{red}{underline}end %s function{eoc}\n\n", p->ins.name);//
 //		ft_print_mem(c->ram, MEM_SIZE, 64, 0);
 	}
-/*	else
-		ft_printf("{underline}{red}{bold}Bad OCP\n{eoc}");
+//	else
+//		ft_printf("{underline}{red}{bold}Bad OCP\n{eoc}");
 
 //	ft_printf("{bold}{magenta}END\tEXEC_INSTRUCT{eoc}\n\n");//
-*/}
+}
 
 void				read_instruct(t_core *c, t_process *p)
 {
@@ -58,7 +56,7 @@ void				read_instruct(t_core *c, t_process *p)
 	unsigned char	opc;
 
 	c->bd & VISUAL ? visu(c, 0) : 0;
-	if (opc_c((opc = c->ram[id(*p->rg)])))
+	if (opc_c((opc = c->ram[id(p->opc)])))
 	{
 		add_data(&p->ins, &g_op_tab[opc - 1]);
 		c->bd & VISUAL ? visu(c, 0) : 0;
@@ -89,6 +87,6 @@ unsigned int		get_ind(t_core *core, t_process *process, unsigned int ind)
 	i = 0;
 	n = 0;
 	while (i < 2)
-		n = (n << 8) | (core->ram[id(*process->rg + ind + i++)]);
+		n = (n << 8) | (core->ram[id(process->opc + ind + i++)]);
 	return (n);
 }
