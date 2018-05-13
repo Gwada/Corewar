@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 17:45:47 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/13 20:39:25 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,26 @@ void			_ex_aff(t_core *core, t_process *process)
 
 unsigned int		get_reg_ind(t_core *c, t_process *p, unsigned int ind)
 {
+//	ft_printf("{red}registre{eoc}\n");
 	return (c->ram[id(*p->rg + ind)]);
 }
 
 unsigned int		get_dir_value(t_core *c, t_process *p, unsigned int ind)
 {
+//	ft_printf("{red}direct{eoc}\n");
 	unsigned int	i;
 	unsigned int	n;
 
 	i = 0;
 	n = 0;
-	while (i < (p->ins.label_size ? 2 : 4))
+	while (i < 4)
 		n = (n << 8) | c->ram[id(*p->rg + ind + i++)];
 	return (n);
 }
 
 unsigned int		get_ind_value(t_core *c, t_process *p, unsigned int ind)
 {
+//	ft_printf("{red}index{eoc}\n");
 	unsigned int	i;
 	unsigned int	n;
 	unsigned int	pl;

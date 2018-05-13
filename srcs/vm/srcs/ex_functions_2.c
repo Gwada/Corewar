@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 17:45:49 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/13 20:25:28 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ void		_ex_xor(t_core *c, t_process *p)
 void				_ex_zjmp(t_core *c, t_process *p)
 {
 	if (p->carry == 1)
+	{
+//		ft_printf("opc = %p ind = %u\n", c->ram[*p->rg], *p->rg);//
 		*p->rg = id(p->pc + ((*p->rg + c->v[3](c, p, 1)) % IDX_MOD) - 1);
+	}
 }
 
 void		_ex_ldi(t_core *c, t_process *p)
@@ -120,4 +123,5 @@ void		_ex_ldi(t_core *c, t_process *p)
 		return ;
 	p->rg[p_3] = c->v[2](c, p, p_2 + p_1);
 	*p->rg = id(*p->rg + id_o);
+
 }

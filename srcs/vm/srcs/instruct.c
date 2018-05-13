@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 17:32:08 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/13 20:39:33 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,34 @@ void				add_data(t_op *dst, t_op *src)
 
 void				exec_instruct(t_core *c, t_process *p, unsigned char opc)
 {
-	ft_printf("{bold}{magenta}IN\tEXEC_INSTRUCT{eoc}\n");//
+//	ft_printf("{bold}{magenta}IN\tEXEC_INSTRUCT{eoc}\n");//
 
 	if (c->ft[opc](&c->ram[id(*p->rg + 1)], p))
 	{
-		ft_print_mem(c->ram, MEM_SIZE, 64, 0);
-		ft_printf("{red}{underline}go %s function{eoc}\n\n", p->ins.name);//
+//		ft_print_mem(c->ram, MEM_SIZE, 64, 0);
+//		ft_printf("{red}{underline}go %s function{eoc}\n\n", p->ins.name);//
+//		int i = -1;
+//		while (++i < 17)
+//			ft_printf("rg[%d] = %u\t", i, p->rg[i]);
+//		ft_printf("\n\n");
+		ft_printf("2.0 %s\n", g_op_tab[opc].name);
 		c->ex[opc](c, p);
-		ft_printf("\n{red}{underline}end %s function{eoc}\n\n", p->ins.name);//
-		ft_print_mem(c->ram, MEM_SIZE, 64, 0);
+//		i = -1;
+		ft_printf("2.1\n");
+//		while (++i < 17)
+//			ft_printf("rg[%d] = %u\t", i, p->rg[i]);
+//		ft_printf("\n{red}{underline}end %s function{eoc}\n\n", p->ins.name);//
+//		ft_print_mem(c->ram, MEM_SIZE, 64, 0);
 	}
-	else
+/*	else
 		ft_printf("{underline}{red}{bold}Bad OCP\n{eoc}");
 
-	ft_printf("{bold}{magenta}END\tEXEC_INSTRUCT{eoc}\n\n");//
-}
+//	ft_printf("{bold}{magenta}END\tEXEC_INSTRUCT{eoc}\n\n");//
+*/}
 
 void				read_instruct(t_core *c, t_process *p)
 {
-	ft_printf("{bold}{blue}IN\tREAD_INSTRUCT{eoc}\n");//
+//	ft_printf("{bold}{blue}IN\tREAD_INSTRUCT{eoc}\n");//
 	unsigned char	opc;
 
 	c->bd & VISUAL ? visu(c, 0) : 0;
@@ -54,7 +63,7 @@ void				read_instruct(t_core *c, t_process *p)
 		add_data(&p->ins, &g_op_tab[opc - 1]);
 		c->bd & VISUAL ? visu(c, 0) : 0;
 
-		ft_printf("{green}carry\t= %u\n", p->carry);//
+/*		ft_printf("{green}carry\t= %u\n", p->carry);//
 		ft_printf("{green}id_player = %u\n\n{eoc}", p->rg[1]);//
 		ft_printf("p->name\t\t= {green}%s{eoc}\n", p->ins.name);//
 		ft_printf("p->nb_param\t= {green}%d{eoc}\n", p->ins.nb_param);//
@@ -64,13 +73,13 @@ void				read_instruct(t_core *c, t_process *p)
 		ft_printf("p->ocp\t\t= {green}%d{eoc}\n", p->ins.ocp);//
 		ft_printf("p->label_size\t= {green}%d{eoc}\n", p->ins.label_size);//
 
-	}
-	else//
+*/	}
+/*	else//
 	{
-		ft_printf("Invalid instruct\n");//
+		ft_printf("Invalid instruct: opc = %p ind = %u\n", opc, *p->rg);//
 	}
 	ft_printf("{bold}{blue}END\tREAD_INSTRUCT{eoc}\n\n");//
-}
+*/}
 
 unsigned int		get_ind(t_core *core, t_process *process, unsigned int ind)
 {
