@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/12 11:27:04 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/12 20:47:18 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ typedef struct				s_player
 	unsigned int			prog_size;
 	unsigned int			total_live;
 	unsigned int			current_cycle_live;
+	unsigned int			total_process;
+	unsigned int			current_process;
 	unsigned char			buff[FILE_MAX_SIZE];
 
 }							t_player;
@@ -134,10 +136,9 @@ typedef struct				s_player
 typedef struct				s_process
 {
 	unsigned int			carry;
-	unsigned int			total_live;
-	unsigned int			current_cycle_live;
+	unsigned int			live;
+	unsigned int			pc;
 	unsigned int			rg[REG_NUMBER + 1];
-	unsigned short			pc;
 	t_op					ins;
 	struct s_process		*next;
 }							t_process;
@@ -149,7 +150,7 @@ typedef struct				s_core
 	unsigned char			ram[MEM_SIZE];
 	unsigned int			bd;
 	unsigned int			dump;
-	unsigned int			player; // nombre de player
+	unsigned int			player;
 	unsigned int			total_cycle;
 	unsigned int			total_live;
 	unsigned int			current_cycle;
@@ -192,12 +193,11 @@ void						display_error(t_core *core, int code);
 **	PROCESS FUNCTIONS
 */
 
-t_process					*new_process(void);
+t_process					*new_process(t_core *core);
 t_process					*clean_process(t_process *lst);
 t_process					*del_process(t_core *core, t_process *lst);
 t_process					*init_process(t_core *core, int i);
-void						insert_process(t_core *core, t_process **lst,
-							t_process *new);
+void						insert_process(t_process **lst, t_process *new);
 
 /*
 **	INSTRUCT FUNCTIONS
@@ -233,6 +233,8 @@ unsigned int				_aff(const unsigned char *oct, t_process *p);
 unsigned int				get_mem_addr(t_core *core, t_process *process,
 							unsigned int reg);
 unsigned int				get_reg_ind(t_core *core, t_process *process,
+							unsigned int reg);
+unsigned int				get_ind(t_core *core, t_process *process,
 							unsigned int reg);
 unsigned int				get_dir_value(t_core *core, t_process *process,
 							unsigned int ind);

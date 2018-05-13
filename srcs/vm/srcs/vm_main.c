@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/10 15:49:39 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/12 18:09:00 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,5 @@ int					main(int argc, char **argv)
 	}
 	else if (!(c.bd & INIT))
 		display_usage(*argv);
-		c.bd & VISUAL ? endwin(): 0;
 	return (0);
 }
