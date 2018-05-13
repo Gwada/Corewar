@@ -115,6 +115,7 @@ void				corewar(t_core *core)
 	ft_printf("%u process in progress\n", core->n_process);
 	ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");//
 
+	visu(core);
 
 	core->ps = clean_process(core->ps);
 }

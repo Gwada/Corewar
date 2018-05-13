@@ -48,7 +48,7 @@ void				read_instruct(t_core *c, t_process *p)
 	ft_printf("{bold}{blue}IN\tREAD_INSTRUCT{eoc}\n");//
 	unsigned char	opc;
 
-	if (opc_c((opc = c->ram[id(*p->reg)])))
+	if (opc_c((opc = c->ram[id(*p->rg)])))
 	{
 		add_data(&p->ins, &g_op_tab[opc - 1]);
 
