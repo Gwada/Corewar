@@ -84,7 +84,6 @@ typedef struct				s_process
 	unsigned int			live;
 	unsigned int			pc;
 	unsigned int			reg[REG_NUMBER];
-	unsigned short			opc;
 	t_op					ins;
 	struct s_process		*prev;
 	struct s_process		*next;

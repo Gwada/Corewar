@@ -30,11 +30,11 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 	ft_printf("{bold}{blue}IN\tREAD_INSTRUCT{eoc}\n");//
 	unsigned char	opc;
 
-	if (opc_c((opc = c->ram[id(p->opc)])))
+	if (opc_c((opc = c->ram[id(p->pc)])))
 	{
 		add_data(&p->ins, &g_op_tab[opc - 1]);
 
-		ft_printf("instruct: opc = %p ind = %u\n", opc, p->opc);//
+		ft_printf("instruct: opc = %p ind = %u\n", opc, p->pc);//
 		ft_printf("{green}carry\t= %u\n", p->carry);//
 		ft_printf("{green}id_player = %u\n\n{eoc}", *p->reg);//
 		ft_printf("p->name\t\t= {green}%s{eoc}\n", p->ins.name);//
@@ -49,7 +49,7 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 	}
 	p->ins.name = NULL;
 	p->ins.nb_cycles = 0;
-	ft_printf("Invalid instruct: opc = %p ind = %u\n", opc, p->opc);//
+	ft_printf("Invalid instruct: opc = %p ind = %u\n", opc, p->pc);//
 	ft_printf("{bold}{blue}2 END\tREAD_INSTRUCT{eoc}\n\n");//
 	return (0);
 }
@@ -63,6 +63,6 @@ unsigned int		get_ind(t_core *core, t_process *process, unsigned int ind)
 	i = 0;
 	n = 0;
 	while (i < 2)
-		n = (n << 8) | (core->ram[id(process->opc + ind + i++)]);
+		n = (n << 8) | (core->ram[id(process->pc + ind + i++)]);
 	return (n);
 }

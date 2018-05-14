@@ -34,7 +34,7 @@ t_process		*del_process(t_core *core, t_process *lst)
 	if (!lst->live)
 	{
 		ft_printf("One of the processes of the player ");//
-		ft_printf("n. %u does not respond anymore.{red}", lst->opc);//
+		ft_printf("n. %u does not respond anymore.{red}", lst->pc);//
 		ft_printf(" FUCK THIS SHIT!!!! He must die now{eoc}\n");//
 	}
 	lst->next ? lst->next->prev = lst->prev : 0;
@@ -103,7 +103,7 @@ t_process		*init_process(t_core *core, int i)
 	{
 		if (!(new = new_process(core)))
 			return (clean_process(lst));
-		new->opc = core->p[i].oc;
+		new->pc = core->p[i].oc;
 		new->pc = core->p[i].oc;
 		*new->reg = core->p[i].id;
 		read_instruct(core, new);

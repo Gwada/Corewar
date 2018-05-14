@@ -37,7 +37,7 @@ void				_ex_and(t_core *c, t_process *p)
 		return ;
 	p->reg[p_3] = p_1 & p_2;
 	p->carry = p->carry ? 0 : 1;
-	p->opc = id(p->opc + i);
+	p->pc = id(p->pc + i);
 }
 
 void				_ex_or(t_core *c, t_process *p)
@@ -64,7 +64,7 @@ void				_ex_or(t_core *c, t_process *p)
 		return ;
 	p->reg[p_3] = p_1 | p_2;
 	p->carry = p->carry ? 0 : 1;
-	p->opc = id(p->opc + id_o);
+	p->pc = id(p->pc + id_o);
 }
 
 void		_ex_xor(t_core *c, t_process *p)
@@ -91,18 +91,20 @@ void		_ex_xor(t_core *c, t_process *p)
 		return ;
 	p->reg[p_3] = p_1 ^ p_2;
 	p->carry = p->carry ? 0 : 1;
-	p->opc = id(p->opc + id_o);
+	p->pc = id(p->pc + id_o);
 }
 
 void				_ex_zjmp(t_core *c, t_process *p)
 {
 	if (p->carry == 1)
 	{
-		ft_printf("\np->opc = %p ind = %u\n", p->opc, p->opc);//
-		p->opc = id(p->pc + (c->v[3](c, p, 1) % IDX_MOD) - 1);
-		ft_printf("p->opc = %p ind = %u\n", p->opc, p->opc);//
+		ft_printf("\np->opc = %p ind = %u\n", p->pc, p->pc);//
+		p->pc = id(p->pc + (c->v[3](c, p, 1) % IDX_MOD) - 1);
+		ft_printf("p->opc = %p ind = %u\n", p->pc, p->pc);//
 		ft_printf("IDX_MOD = %p ind = %u\n\n", IDX_MOD, IDX_MOD);//
 	}
+	else
+		p->pc = id(p->pc + 3);
 }
 
 void		_ex_ldi(t_core *c, t_process *p)
@@ -124,6 +126,6 @@ void		_ex_ldi(t_core *c, t_process *p)
 	if (!(p_3 = c->v[1](c, p, id_o)) || p_3 > 16)
 		return ;
 	p->reg[p_3] = c->v[2](c, p, p_2 + p_1);
-	p->opc = id(p->opc + id_o);
+	p->pc = id(p->pc + id_o);
 
 }

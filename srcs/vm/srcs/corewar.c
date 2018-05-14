@@ -86,7 +86,7 @@ static void			check_instruct(t_core *c, unsigned char opc)
 		{
 //			ft_printf("2\n");
 
-			opc = c->ram[id(tmp->opc)] - 1;
+			opc = c->ram[id(tmp->pc)] - 1;
 //			ft_printf("2.1\t\topc = %hhu\n", opc - 1);
 
 			if (opc_c(opc) && tmp->ins.name)
@@ -97,7 +97,7 @@ static void			check_instruct(t_core *c, unsigned char opc)
 				{
 					ft_printf("2.1.1.1\t\tins: %s\n", g_op_tab[opc].name);
 
-					if (c->ft[opc](&c->ram[id(tmp->opc + 1)], tmp))
+					if (c->ft[opc](&c->ram[id(tmp->pc + 1)], tmp))
 					{
 //						ft_printf("2.1.1.1.1\n");
 
@@ -111,7 +111,7 @@ static void			check_instruct(t_core *c, unsigned char opc)
 			}
 			ft_printf("2.2 tmp->ins.nb_cycles: %u\n", tmp->ins.nb_cycles);
 
-			tmp->opc = id(tmp->opc + 1);
+			tmp->pc = id(tmp->pc + 1);
 			ft_printf("2.3\n");
 
 			tmp = read_instruct(c, tmp) ? process_up(c, tmp) : tmp->next;

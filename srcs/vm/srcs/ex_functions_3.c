@@ -42,8 +42,8 @@ void			_ex_sti(t_core *c, t_process *p)
 //	ft_printf("p->pc + (p_3 + p_2) %% IDX_MOD = %p\n", p_2);//
 	while (++i < 4)
 		c->ram[c->v[0](c, p, id(p_2 + i))] = (p_1 >> (24 - (i * 8))) & 0xff;
-	p->opc = id(p->opc + (p->ins.param[1] & T_REG ? 3 : 4));
-	p->opc = id(p->opc + (p->ins.param[2] & T_REG ? 1 : 2));
+	p->pc = id(p->pc + (p->ins.param[1] & T_REG ? 3 : 4));
+	p->pc = id(p->pc + (p->ins.param[2] & T_REG ? 1 : 2));
 }
 
 void			_ex_fork(t_core *c, t_process *p)
@@ -56,11 +56,11 @@ void			_ex_fork(t_core *c, t_process *p)
 		clean_process(c->ps);
 		exit(EXIT_FAILURE);
 	}
-	p->opc = id(p->opc + 2);
+	p->pc = id(p->pc + 2);
 	*new = *p;
 	new->pc = id(new->pc + (c->v[3](c, p, 1) % IDX_MOD));
 	ft_printf("new->pc %p %u\n", new->pc, new->pc);//
-	new->opc = id(new->opc + 1);
+	new->pc = id(new->pc + 1);
 	read_instruct(c, new);
 	insert_process(c, new);
 	ft_printf("{green}{bold}END\tFORK\n{eoc}");//
@@ -79,7 +79,7 @@ void			_ex_lld(t_core *c, t_process *p)
 		return ;
 	p->reg[p_2] = p_1;
 	p->carry = p->carry ? 0 : 1;
-	p->opc = id(p->opc + (*p->ins.param & T_DIR ? 6 : 4));
+	p->pc = id(p->pc + (*p->ins.param & T_DIR ? 6 : 4));
 }
 
 void			_ex_lldi(t_core *c, t_process *p)
@@ -101,7 +101,7 @@ void			_ex_lldi(t_core *c, t_process *p)
 	if ((p_3 = c->v[1](c, p, id_o)) > 15)
 		return ;
 	p->reg[p_3] = c->v[2](c, p, p_2 + p_1);
-	p->opc = id(p->opc + id_o);
+	p->pc = id(p->pc + id_o);
 	p->carry = p->carry ? 0 : 1;
 }
 
@@ -114,9 +114,9 @@ void			_ex_lfork(t_core *c, t_process *p)
 		clean_process(c->ps);
 		exit(EXIT_FAILURE);
 	}
-	p->opc = id(p->opc + 2);
+	p->pc = id(p->pc + 2);
 	*new = *p;
 	new->pc = id(c->v[3](c, p, 1));
-	new->opc = id(p->opc + 1);
+	new->pc = id(p->pc + 1);
 	insert_process(c, new);
 }
