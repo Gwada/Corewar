@@ -5,7 +5,7 @@
 EXEC	= asm
 CC		= clang
 FLAGS	= -Wall -Wextra -Werror -g3
-HEADER	= -I $(INC_DIR) -I ../../libft/includes/
+HEADER	= -I $(INC_DIR) -I ./libft/includes/
 SRC_DIR	= ./srcs/
 INC_DIR	= ./includes/
 
@@ -13,7 +13,14 @@ INC_DIR	= ./includes/
 ###                 Sources                   ###
 #################################################
 
-SRC		= asm_main.c
+SRC		= asm_main.c\
+		  tools.c\
+		  read_file.c\
+		  get_data.c\
+		  init_struct.c\
+		  param_type.c\
+		  free_.c\
+		  op.c\
 
 #################################################
 ###                   Format                  ###
@@ -45,8 +52,8 @@ _END=\x1b[0m
 
 all: $(EXEC)
 
-$(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h 
-	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ../../libft/libft.a
+$(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h
+	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ./libft/libft.a
 	@echo "$(_CYAN)Assembleur$(_END)	: $(_GREEN)compiled$(_end)"
 
 %.o: %.c

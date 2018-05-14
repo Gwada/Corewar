@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   op.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/05 01:09:32 by salemdjeg         #+#    #+#             */
+/*   Updated: 2018/05/05 01:09:38 by salemdjeg        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
 ** Toutes les tailles sont en octets.
 ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
@@ -16,7 +28,7 @@
 
 # define MAX_ARGS_NUMBER		4
 # define MAX_PLAYERS			4
-//# define MEM_SIZE				(1024)
+# define MEM_SIZE				(4*1024)
 # define IDX_MOD				(MEM_SIZE / 8)
 # define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
 
