@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 11:54:44 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 21:30:27 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void			_ex_sti(t_core *c, t_process *p)
 
 void			_ex_fork(t_core *c, t_process *p)
 {
+	ft_printf("{green}{bold}IN\tFORK\n{eoc}");//
 	t_process	*new;
 
 	if (!(new = new_process(c)))
@@ -57,9 +58,12 @@ void			_ex_fork(t_core *c, t_process *p)
 	}
 	p->opc = id(p->opc + 2);
 	*new = *p;
-	new->pc = id((p->pc + c->v[4](c, p, 1)) % IDX_MOD);
+	new->pc = id(new->pc + (c->v[3](c, p, 1) % IDX_MOD));
+	ft_printf("new->pc %p %u\n", new->pc, new->pc);//
+	new->opc = id(new->opc + 1);
 	read_instruct(c, new);
-	insert_process(&c->ps, new);
+	insert_process(c, new);
+	ft_printf("{green}{bold}END\tFORK\n{eoc}");//
 }
 
 void			_ex_lld(t_core *c, t_process *p)
@@ -110,8 +114,9 @@ void			_ex_lfork(t_core *c, t_process *p)
 		clean_process(c->ps);
 		exit(EXIT_FAILURE);
 	}
-	p->opc = id(p->opc + 3);
+	p->opc = id(p->opc + 2);
 	*new = *p;
-	new->pc = id(c->v[4](c, p, 1));
-	insert_process(&c->ps, new);
+	new->pc = id(c->v[3](c, p, 1));
+	new->opc = id(p->opc + 1);
+	insert_process(c, new);
 }

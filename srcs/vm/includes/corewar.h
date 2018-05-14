@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 13:40:07 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 21:41:25 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,13 +149,13 @@ t_process					*new_process(t_core *core);
 t_process					*clean_process(t_process *lst);
 t_process					*del_process(t_core *core, t_process *lst);
 t_process					*init_process(t_core *core, int i);
-void						insert_process(t_process **lst, t_process *new);
+void						insert_process(t_core *core, t_process *new);
 
 /*
 **	INSTRUCT FUNCTIONS
 */
 
-void						read_instruct(t_core *c, t_process *process);
+unsigned int				read_instruct(t_core *c, t_process *process);
 void						exec_instruct(t_core *c, t_process *p,
 							unsigned char opc);
 unsigned short				id(unsigned int id);

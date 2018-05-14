@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 13:26:59 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 20:23:08 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,33 +66,31 @@ t_process		*clean_process(t_process *lst)
 	return (NULL);
 }
 
-void			insert_process(t_process **lst, t_process *new)
+void			insert_process(t_core *c, t_process *p)
 {
 	t_process	*tmp;
 
-	tmp = *lst;
-	if (!new || (!*lst && (*lst = new)))
+	if (!c || !p || (!c->ps && (c->ps = p)))
 		return ;
-	if (new->ins.nb_cycles <= tmp->ins.nb_cycles)
+	tmp = c->ps;
+	while (tmp->next && p->ins.nb_cycles > tmp->ins.nb_cycles)
+		tmp = tmp->next;
+	if (p->ins.nb_cycles <= tmp->ins.nb_cycles)
 	{
-		if (tmp->prev && new->ins.nb_cycles <= tmp->prev->ins.nb_cycles)
-			return (insert_process(&tmp->prev, new));
-		tmp->prev ? tmp->prev->next = new : 0;
-		new->prev = tmp->prev;
-		new->next = tmp;
-		tmp->prev = new;
-		return ;
+		p->prev = tmp->prev ? tmp->prev : NULL;
+		p->next = tmp;
+		p->prev ? p->prev->next = p : 0;
+		p->next->prev = p;
 	}
-	if (new->ins.nb_cycles > tmp->ins.nb_cycles)
+	else
 	{
-		if (tmp->next && new->ins.nb_cycles > tmp->next->ins.nb_cycles)
-			return (insert_process(&tmp->next, new));
-		tmp->next ? tmp->next->prev = new : 0;
-		new->prev = tmp;
-		new->next = tmp->next;
-		tmp->next = new;
-		return ;
+		p->prev = tmp;
+		p->next = tmp->next ? tmp->next : NULL;
+		p->prev->next = p;
+		p->next ? p->next->prev = p : 0;
 	}
+	while (c->ps->prev)
+		c->ps = c->ps->prev;
 }
 
 t_process		*init_process(t_core *core, int i)
@@ -109,7 +107,8 @@ t_process		*init_process(t_core *core, int i)
 		new->pc = core->p[i].oc;
 		*new->reg = core->p[i].id;
 		read_instruct(core, new);
-		insert_process(&lst, new);
+		insert_process(core, new);
 	}
+	lst = core->ps;
 	return (lst);
 }

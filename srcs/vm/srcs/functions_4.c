@@ -6,11 +6,12 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 13:40:04 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 15:11:36 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+#include "../../libft/includes/ft_printf.h"
 
 unsigned int	_aff(const unsigned char *oct, t_process *p)
 {
@@ -23,7 +24,7 @@ unsigned int	_aff(const unsigned char *oct, t_process *p)
 
 unsigned int	opc_c(unsigned char opc)
 {
-	return (opc < INST_NB);
+	return (opc < 16);
 }
 
 unsigned short	id(unsigned id)

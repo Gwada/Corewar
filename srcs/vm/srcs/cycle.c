@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 11:17:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 14:53:16 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 15:27:08 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,10 @@ static size_t	process_live_checker(t_core *core)
 {
 	t_process	*tmp;
 
-	while (core->n_process && !core->ps->live)
-		core->ps = del_process(core, core->ps);
-	if (!core->n_process || !core->ps)
-		return (1);
 	tmp = core->ps;
 	while (core->n_process && tmp)
-	{
-		if (tmp->next && !tmp->next->live)
-			tmp->next = del_process(core, tmp->next);
-		tmp->live = 0;
-		tmp = tmp->next;
-	}
-	return (!core->n_process || !core->ps ? 1 : 0);
+		tmp = !tmp->live ? del_process(core, tmp) : tmp->next;
+	return (!core->n_process ? 1 : 0);
 }
 
 static size_t	cycle_to_die_checker(t_core *core)

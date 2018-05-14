@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 20:39:21 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 21:41:08 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void				_ex_live(t_core *c, t_process *p)
 	++p->live;
 	++c->current_cycle_live;
 	id_p = c->v[T_DIR](c, p, 1);
-//	ft_printf("%p\np->live = %u\n", id_p, p->live);//
+	ft_printf("\nid_p: %p | %u\np->live = %u\n\n", id_p, id_p, p->live);//
 	if (!id_p || id_p > MAX_PLAYERS)
 		return ;
 	c->last_live_player = id_p;
@@ -84,21 +84,30 @@ void				_ex_st(t_core *c, t_process *p)
 	p->opc = id(p->opc + (p->ins.param[1] & T_REG ? 3 : 4));
 }
 
-void				_ex_add(t_core *core, t_process *process)
+void				_ex_add(t_core *c, t_process *p)
 {
+	ft_printf("{green}{bold}IN\tADD{eoc}\n");
 	unsigned int	p_1;
 	unsigned int	p_2;
 	unsigned int	p_3;
 
-	if ((p_1 = core->v[1](core, process, 2)) > 15)
+	if ((p_1 = c->v[1](c, p, 2)) > 15)
 		return ;
-	if ((p_2 = core->v[1](core, process, 3)) > 15)
+	if ((p_2 = c->v[1](c, p, 3)) > 15)
 		return ;
-	if ((p_3 = core->v[1](core, process, 4)) > 15)
+	if ((p_3 = c->v[1](c, p, 4)) > 15)
 		return ;
-	process->reg[p_3] = process->reg[p_1] + process->reg[p_2];
-	process->carry = process->carry ? 0 : 1;
-	process->opc = id(process->opc + 4);
+	ft_printf("p_1 = %u | %p\n", p_1, p_1);
+	ft_printf("p_2 = %u | %p\n", p_2, p_2);
+	ft_printf("p_3 = %u | %p\n", p_3, p_3);
+	ft_printf("p->reg[p_1] = %u | %p\n", p->reg[p_1], p->reg[p_1]);
+	ft_printf("p->reg[p_2] = %u | %p\n", p->reg[p_2], p->reg[p_2]);
+	ft_printf("p->reg[p_1] + p->reg[p_2] = %u\n", p->reg[p_2] + p->reg[p_1]);
+	p->reg[p_3] = p->reg[p_1] + p->reg[p_2];
+	ft_printf("p->reg[p_3] = %u | %p\n", p->reg[p_3], p->reg[p_3]);
+	p->carry = p->carry ? 0 : 1;
+	p->opc = id(p->opc + 4);
+	ft_printf("{green}{bold}IN\tADD{eoc}\n");
 }
 
 void				_ex_sub(t_core *core, t_process *process)

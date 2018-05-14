@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 13:27:39 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 21:41:00 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,29 @@ void			_ex_aff(t_core *core, t_process *process)
 
 unsigned int		get_reg_ind(t_core *c, t_process *p, unsigned int ind)
 {
-//	ft_printf("{red}registre{eoc}\n");
+	ft_printf("{red}registre{eoc}\n");
 	return (c->ram[id(p->opc + ind)]);
 }
 
 unsigned int		get_dir_value(t_core *c, t_process *p, unsigned int ind)
 {
-//	ft_printf("{red}direct{eoc}\n");
+	ft_printf("{red}direct{eoc}\n");
 	unsigned int	i;
 	unsigned int	n;
 
 	i = 0;
 	n = 0;
+	if (p->ins.label_size)
+		return (c->v[3](c, p, ind));
 	while (i < 4)
 		n = (n << 8) | c->ram[id(p->opc + ind + i++)];
+	ft_printf("{red}n: %p | %u{eoc}\n", n, n);
 	return (n);
 }
 
 unsigned int		get_ind_value(t_core *c, t_process *p, unsigned int ind)
 {
-//	ft_printf("{red}index{eoc}\n");
+	ft_printf("{red}index{eoc}\n");
 	unsigned int	i;
 	unsigned int	n;
 	unsigned int	pl;
