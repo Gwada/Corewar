@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 15:26:46 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 13:26:59 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,19 @@ t_process		*del_process(t_core *core, t_process *lst)
 
 	if (!lst)
 		return (NULL);
-	tmp = lst->next;
+	tmp = NULL;
 	if (!lst->live)
 	{
 		ft_printf("One of the processes of the player ");//
-		ft_printf("n. %u does not respond anymore.{red}", *lst->reg);//
+		ft_printf("n. %u does not respond anymore.{red}", lst->opc);//
 		ft_printf(" FUCK THIS SHIT!!!! He must die now{eoc}\n");//
 	}
+	lst->next ? lst->next->prev = lst->prev : 0;
+	lst->prev ? lst->prev->next = lst->next : 0;
+	if (lst->prev)
+		tmp = lst->prev;
+	else if (lst->next)
+		tmp = lst->next;;
 	free(lst);
 	core ? --core->n_process : 0;
 	return (tmp);
@@ -44,11 +50,19 @@ t_process		*del_process(t_core *core, t_process *lst)
 
 t_process		*clean_process(t_process *lst)
 {
-	if (lst)
+	if (!lst)
+		return (NULL);
+	if (lst->next)
 	{
-		lst->next ? lst->next = clean_process(lst->next) : 0;
-		free(lst);
+		lst->next->prev = NULL;
+		lst->next = clean_process(lst->next);
 	}
+	if (lst->prev)
+	{
+		lst->prev->next = NULL;
+		lst->prev = clean_process(lst->prev);
+	}
+	free(lst);
 	return (NULL);
 }
 
@@ -57,24 +71,28 @@ void			insert_process(t_process **lst, t_process *new)
 	t_process	*tmp;
 
 	tmp = *lst;
-	if (!new)
+	if (!new || (!*lst && (*lst = new)))
 		return ;
-	if (!*lst && (*lst = new))
-		return ;
-	if (new->ins.nb_cycles <= (*lst)->ins.nb_cycles)
+	if (new->ins.nb_cycles <= tmp->ins.nb_cycles)
 	{
-		new->next = *lst;
-		*lst->prev = new;
+		if (tmp->prev && new->ins.nb_cycles <= tmp->prev->ins.nb_cycles)
+			return (insert_process(&tmp->prev, new));
+		tmp->prev ? tmp->prev->next = new : 0;
+		new->prev = tmp->prev;
+		new->next = tmp;
+		tmp->prev = new;
 		return ;
 	}
-	while (tmp->next && new->ins.nb_cycles > tmp->ins.nb_cycles)
+	if (new->ins.nb_cycles > tmp->ins.nb_cycles)
 	{
-		if (new->ins.nb_cycles <= tmp->next->ins.nb_cycles)
-			break ;
-		tmp = tmp->next;
+		if (tmp->next && new->ins.nb_cycles > tmp->next->ins.nb_cycles)
+			return (insert_process(&tmp->next, new));
+		tmp->next ? tmp->next->prev = new : 0;
+		new->prev = tmp;
+		new->next = tmp->next;
+		tmp->next = new;
+		return ;
 	}
-	tmp->next ? new->next = tmp->next : 0;
-	tmp->next = new;
 }
 
 t_process		*init_process(t_core *core, int i)

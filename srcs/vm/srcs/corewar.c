@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 20:39:28 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 13:40:01 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,29 @@
 
 static void			check_instruct(t_core *c, unsigned char opc)
 {
-//	ft_printf("{bold}{yellow}IN\tCHECK_INSTRUCT{eoc}\n");//
+	ft_printf("{bold}{yellow}IN\tCHECK_INSTRUCT{eoc}\n");//
 	t_process		*tmp;
 
 	tmp = c->ps;
 	while (tmp)
 	{
 		if (tmp->ins.nb_cycles > 0)
+		{
 			--tmp->ins.nb_cycles;
+			tmp = tmp->next;
+		}
 		else
 		{
 			opc = c->ram[id(tmp->opc)];
 			if (opc_c(opc) && tmp->ins.name
 			&& !ft_strcmp(tmp->ins.name, g_op_tab[opc - 1].name))
-				exec_instruct(c, tmp, opc - 1);
+				exec_instruct(c, &tmp, opc - 1);
 			tmp->opc = id(tmp->opc + 1);
 			read_instruct(c, tmp);
-//			if (tmp->ins.nb_cycles > 0)
-//				ft_printf("{blue}{bold}{underline}NEED SORT\n{eoc}");
+			!tmp->ins.nb_cycles ? tmp = tmp->next : 0;
 		}
-		tmp = tmp->next;
 	}
-//	ft_printf("{bold}{yellow}END\tCHECK_INSTRUCT{eoc}\n\n");//
+	ft_printf("{bold}{yellow}END\tCHECK_INSTRUCT{eoc}\n\n");//
 }
 static void		put_champ(t_core *core)
 {

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 20:39:33 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 13:40:14 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void				add_data(t_op *dst, t_op *src)
 void				exec_instruct(t_core *c, t_process *p, unsigned char opc)
 {
 //	ft_printf("{bold}{magenta}IN\tEXEC_INSTRUCT{eoc}\n");//
-
 	if (c->ft[opc](&c->ram[id(p->opc + 1)], p))
 	{
 //		ft_print_mem(c->ram, MEM_SIZE, 64, 0);
@@ -44,9 +43,6 @@ void				exec_instruct(t_core *c, t_process *p, unsigned char opc)
 //		ft_printf("\n{red}{underline}end %s function{eoc}\n\n", p->ins.name);//
 //		ft_print_mem(c->ram, MEM_SIZE, 64, 0);
 	}
-//	else
-//		ft_printf("{underline}{red}{bold}Bad OCP\n{eoc}");
-
 //	ft_printf("{bold}{magenta}END\tEXEC_INSTRUCT{eoc}\n\n");//
 }
 
@@ -55,11 +51,9 @@ void				read_instruct(t_core *c, t_process *p)
 //	ft_printf("{bold}{blue}IN\tREAD_INSTRUCT{eoc}\n");//
 	unsigned char	opc;
 
-	c->bd & VISUAL ? visu(c, 0) : 0;
 	if (opc_c((opc = c->ram[id(p->opc)])))
 	{
 		add_data(&p->ins, &g_op_tab[opc - 1]);
-		c->bd & VISUAL ? visu(c, 0) : 0;
 
 /*		ft_printf("{green}carry\t= %u\n", p->carry);//
 		ft_printf("{green}id_player = %u\n\n{eoc}", p->rg[1]);//

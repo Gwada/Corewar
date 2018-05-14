@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 18:59:12 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 13:40:04 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ unsigned int	_aff(const unsigned char *oct, t_process *p)
 
 unsigned int	opc_c(unsigned char opc)
 {
-	return (opc && opc <= INST_NB);
+	return (opc < INST_NB);
 }
 
 unsigned short	id(unsigned id)
