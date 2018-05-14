@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:16:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 13:22:09 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/14 14:21:48 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void		parse_args(char *av, t_data *data)
 
 int			main(int ac, char **av)
 {
-	t_data	*data;
+	t_data	data;
 	int		i;
 
 	i = 0;
@@ -50,12 +50,11 @@ int			main(int ac, char **av)
 	ac == 1 ? handle_err(3, QUIT) : 0;
 	while (++i < ac)
 	{
-		data = init_data();
-		parse_args(av[i], data);
-		read_file(data);
-		free_data(data);
+		init_data(&data);
+		parse_args(av[i], &data);
+		read_file(&data);
+		free_data(&data);
 	//	ft_putendl("salut");
 	}
-	while (1);
 	return (0);
 }

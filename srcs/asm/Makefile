@@ -50,7 +50,7 @@ _END=\x1b[0m
 
 .SILENT:
 
-all: $(EXEC)
+all: lib $(EXEC)
 
 $(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h
 	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ./libft/libft.a
@@ -60,13 +60,18 @@ $(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h
 	@printf "%-60b\r" "$(ECHO)"
 	@$(CC) $(FLAGS) -c $< -o $@ $(HEADER)
 
+lib:
+	@make -C ./libft/
+
 clean:
+	@make -C ./libft/ clean
 	@rm -rf $(OBJ)
 
 fclean: clean
+	@make -C ./libft/ fclean
 	@rm -f $(EXEC)
 
 re: fclean
 	@make all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 13:16:30 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/14 14:08:36 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void				get_comment(char *line, t_data *data, int fd);
 t_label				*init_label(void);
 t_cmd				*init_cmd(void);
 t_header			*init_header(void);
-t_data				*init_data(void);
+void				init_data(t_data *data);
 
 void				free_data(t_data *data);
 void				free_cmd(t_cmd *list);
