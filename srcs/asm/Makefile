@@ -13,13 +13,14 @@ INC_DIR	= ./includes/
 ###                 Sources                   ###
 #################################################
 
-SRC		= asm_main.c\
-		  tools.c\
-		  read_file.c\
-		  get_data.c\
-		  init_struct.c\
-		  param_type.c\
-		  free_.c\
+SRC		= m_asm.c\
+		  f_tool.c\
+		  s_tool.c\
+		  f_rdwr.c\
+		  g_data.c\
+		  s_init.c\
+		  p_type.c\
+		  s_free.c\
 		  op.c\
 
 #################################################

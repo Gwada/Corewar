@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 14:08:36 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/14 17:47:18 by salemdjeg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,29 @@ typedef struct		s_data
 	t_header		*header;
 }					t_data;
 
-
-
-uint32_t			swap_bigendian(int var);
+void				write_cmd(int fd, t_cmd *cmd);
+void				write_file(t_data *data);
 void				read_cmd(int fd, t_data *data);
 void				read_header(int fd, t_data *data);
 void				read_file(t_data *data);
 
+int					is_reg(char *param);
+int					is_dir(char *param);
+int					is_ind(char *param);
+int					is_lab(char *param);
+
+uint32_t			swap_bigendian(int var);
 void				check_labels(t_data *data);
 t_label				*go_lastlabel(t_label *label);
 void				put_err(char *msg, int line);
 void				handle_err(int num, int line);
 
+int					get_optab_index(int opcode);
 int					get_size(char *param, int op);
 int					get_code(char *param);
 int					get_param_value(char *param, t_data *data);
+
+void				get_params(char **tab, t_cmd *cmd, t_data *data);
 void				get_label(char **line, t_cmd *cmd);
 void				get_cmd(char *line, t_cmd *cmd, t_data *data);
 void				get_name(char *line, t_data *data, int fd);
@@ -79,10 +87,5 @@ void				init_data(t_data *data);
 void				free_data(t_data *data);
 void				free_cmd(t_cmd *list);
 void				free_label(t_label *list);
-
-int					is_reg(char *param);
-int					is_dir(char *param);
-int					is_ind(char *param);
-int					is_lab(char *param);
 
 #endif

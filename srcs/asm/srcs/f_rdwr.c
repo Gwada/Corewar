@@ -1,40 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_file.c                                        :+:      :+:    :+:   */
+/*   f_rdwr.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/05 18:56:18 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/13 22:49:19 by salemdjeg        ###   ########.fr       */
+/*   Created: 2018/05/14 17:35:45 by salemdjeg         #+#    #+#             */
+/*   Updated: 2018/05/14 17:50:55 by salemdjeg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
-#include <stdio.h>
 
 # define O_FLAGS    O_RDWR | O_CREAT | O_TRUNC
 # define S_FLAGS    S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
-
-int		get_optab_index(int opcode)
-{
-	int		i;
-
-	i = 0;
-	while (i < 16 && g_op_tab[i].op_code != opcode)
-		i++;
-	return (i);
-}
-
-uint32_t		swap_bigendian(int var)
-{
-	uint32_t	r;
-
-	r = var;
-	r = (r >> 24) | ((r << 8) & 0x00ff0000) |
-		((r >> 8) & 0x0000ff00) | (r << 24);
-	return (r);
-}
 
 void	write_cmd(int fd, t_cmd *cmd)
 {
@@ -59,7 +38,7 @@ void	write_file(t_data *data)
 	t_cmd	*cmd;
 
 	if ((fd = open(data->cor, O_FLAGS, S_FLAGS)) <= 0)
-		handle_err(16, 0);
+		handle_err(16, QUIT);
 	data->header->prog_size = swap_bigendian(data->header->prog_size);
 	write(fd, data->header, sizeof(t_header));
 	cmd = data->cmd;
@@ -93,7 +72,6 @@ void		read_cmd(int fd, t_data *data)
 		if (cmd->opcode && (cmd->next = init_cmd()))
 			cmd = cmd->next;
 	}
-	printf("data->prog_size: %d\n", data->header->prog_size);
 	data->gnl ? ft_strdel(&data->gnl) : 0;
 	ret == -1 ? handle_err(5, QUIT) : 0;
 }
@@ -110,7 +88,8 @@ void		read_header(int fd, t_data *data)
 		!data->line ? handle_err(MALLOC_ERR, QUIT) : 0;
 		if (!*data->gnl)
 			data->gnl ? ft_strdel(&data->gnl) : 0;
-		else if (!(ft_strncmp(data->gnl, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING))))
+		else if (!(ft_strncmp(data->gnl, NAME_CMD_STRING,
+						ft_strlen(NAME_CMD_STRING))))
 			get_name(data->gnl + ft_strlen(NAME_CMD_STRING), data, fd);
 		else if (!(ft_strncmp(data->gnl, COMMENT_CMD_STRING,
 			ft_strlen(COMMENT_CMD_STRING))))
@@ -132,7 +111,7 @@ void		read_file(t_data *data)
 	int		i;
 
 	i = -1;
-	(fd = open(data->s, O_RDONLY)) < 0 ? handle_err(5, -1) : 0;
+	(fd = open(data->s, O_RDONLY)) < 0 ? handle_err(5, QUIT) : 0;
 	read_header(fd, data);
 	!data->name ? handle_err(6, data->line) : 0;
 	!data->comment ? handle_err(7, data->line) : 0;
@@ -142,5 +121,4 @@ void		read_file(t_data *data)
 	data->eof = 1;
 	check_labels(data);
 	write_file(data);
-//	free_data(data);
 }

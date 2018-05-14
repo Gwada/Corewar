@@ -1,17 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   f_tool.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/13 22:13:48 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/13 22:17:36 by salemdjeg        ###   ########.fr       */
+/*   Created: 2018/05/14 17:53:20 by salemdjeg         #+#    #+#             */
+/*   Updated: 2018/05/14 17:53:22 by salemdjeg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
-#include <stdio.h>
+
+uint32_t		swap_bigendian(int var)
+{
+	uint32_t	r;
+
+	r = var;
+	r = (r >> 24) | ((r << 8) & 0x00ff0000) |
+		((r >> 8) & 0x0000ff00) | (r << 24);
+	return (r);
+}
 
 void		check_labels(t_data *data)
 {
@@ -50,16 +59,15 @@ t_label		*go_lastlabel(t_label *label)
 void		put_err(char *msg, int line)
 {
 	if (line > 0)
-		//	{
-		printf("Error line %d : %s\n", line, msg);
-	//		ft_putstr_fd("Error line ", 2);
-	//		ft_putnbr_fd(line, 2);
-	//		ft_putstr_fd(" : ", 2);
-	//	}
+	{
+		ft_putstr_fd("Error line ", 2);
+		ft_putnbr_fd(line, 2);
+		ft_putstr_fd(" : ", 2);
+	}
 	else
-		printf("Error : %s\n", msg);
-	//	ft_putstr_fd(errmsg, 2);
-	//	ft_putstr_fd("\n", 2);
+		ft_putstr("Error : ");
+	ft_putstr_fd(msg, 2);
+	ft_putstr_fd("\n", 2);
 }
 
 void			handle_err(int num, int line)
@@ -79,18 +87,7 @@ void			handle_err(int num, int line)
 	num == 13 ? put_err("Invalid number of parameters", line) : 0;
 	num == 14 ? put_err("Invalid parameter(s)", line) : 0;
 	num == 15 ? put_err("Label used as parameter does not exist", line) : 0;
+	num == 16 ? put_err(".cor creation failed", line) : 0;
 	num == 42 ? put_err("A memory allocation failed", line) : 0;
-	/*	errnum == 4 ? put_err("Invalid argument", line) : 0;
-		errnum == 5 ? put_err("Champion name expected", line) : 0;
-		errnum == 6 ? put_err("Champion name is too long", line) : 0;
-		errnum == 7 ? put_err("Champion comment expected", line) : 0;
-		errnum == 8 ? put_err("Champion comment is too long", line) : 0;
-		errnum == 9 ? put_err("Unknow instruction", line) : 0;
-		errnum == 10 ? put_err("Invalid parameter(s)", line) : 0;
-		errnum == 11 ? put_err("Invalid number of parameters", line) : 0;
-		errnum == 14 ? put_err("Label used as parameter does not exist", line) : 0;
-		errnum == 15 ? put_err("There is no instruction", line) : 0;
-		errnum == 16 ? put_err("Creating the output file failed", line) : 0;
-		errnum == 17 ? put_err("A memory allocation failled", line) : 0;*/
 	exit(0);
 }
