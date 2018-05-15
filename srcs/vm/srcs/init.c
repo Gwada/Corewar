@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 09:38:16 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/13 20:39:40 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/15 11:26:17 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void		init_tab_functions(t_core *core)
 	core->v[2] = get_dir_value;
 	core->v[3] = get_ind;
 	core->v[4] = get_ind_value;
+	core->v[5] = get_len;
 }
 
 static void		init_tab_ex_functions(t_core *core)

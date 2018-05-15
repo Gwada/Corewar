@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 21:41:08 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/15 14:13:01 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,18 @@
 
 void				_ex_live(t_core *c, t_process *p)
 {
+	ft_printf("{green}{bold}\tIN\tLIVE\n{eoc}");//
+
 	unsigned int	i;
 	unsigned int	id_p;
 
 	i = 0;
+	c->v[5](c, p, 0);
 	++c->total_live;
 	++p->live;
 	++c->current_cycle_live;
-	id_p = c->v[T_DIR](c, p, 1);
-	ft_printf("\nid_p: %p | %u\np->live = %u\n\n", id_p, id_p, p->live);//
+	id_p = c->v[T_DIR](c, p, p->l[1]);
+	ft_printf("\t\tid_p: %p | %u\n\t\tp->live = %u\n", id_p, id_p, p->live);//
 	if (id_p && id_p <= MAX_PLAYERS)
 	{
 		c->last_live_player = id_p;
@@ -35,7 +38,8 @@ void				_ex_live(t_core *c, t_process *p)
 		ft_printf("un processus dit que le joueur");
 		ft_printf(" %u(%s) est en vie\n", id_p, c->p[i].name);
 	}
-	p->pc = id(p->pc + 4);
+	p->pc = id(p->pc + *p->l);
+	ft_printf("\t{green}{bold}END\tLIVE\n{eoc}");//
 }
 
 void				_ex_ld(t_core *c, t_process *p)

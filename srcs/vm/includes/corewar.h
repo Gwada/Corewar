@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 21:41:25 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/15 14:13:25 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct				s_process
 	unsigned int			live;
 	unsigned int			pc;
 	unsigned int			reg[REG_NUMBER];
+	unsigned int			l[4];
 	t_op					ins;
 	struct s_process		*prev;
 	struct s_process		*next;
@@ -109,7 +110,7 @@ typedef struct				s_core
 	unsigned int			(*ft[INST_NB])(const unsigned char *c,
 							t_process *process);
 	void					(*ex[INST_NB])(struct s_core *c, t_process *p);
-	unsigned int			(*v[5])(struct s_core *c, t_process *p,
+	unsigned int			(*v[6])(struct s_core *c, t_process *p,
 							unsigned int i);
 	t_process				*ps;
 }							t_core;
@@ -190,6 +191,8 @@ unsigned int				get_ind(t_core *core, t_process *process,
 unsigned int				get_dir_value(t_core *core, t_process *process,
 							unsigned int ind);
 unsigned int				get_ind_value(t_core *core, t_process *process,
+							unsigned int reg);
+unsigned int				get_len(t_core *core, t_process *process,
 							unsigned int reg);
 void						_ex_live(t_core *core, t_process *process);
 void						_ex_ld(t_core *core, t_process *process);
