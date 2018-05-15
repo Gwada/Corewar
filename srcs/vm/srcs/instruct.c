@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/15 14:13:12 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/15 20:24:38 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 
 	unsigned char	opc;
 
-	if (opc_c((opc = c->ram[id(p->pc)])))
+	if (opc_c((opc = c->ram[id(p->pc)]) - 1))
 	{
 		add_data(&p->ins, &g_op_tab[opc - 1]);
 
@@ -66,7 +66,8 @@ unsigned int		get_ind(t_core *core, t_process *process, unsigned int ind)
 	i = 0;
 	n = 0;
 	while (i < 2)
-		n = (n << 8) | (core->ram[id(process->pc + ind + i++)]);
+		n = (n << 8) | (core->ram[id(ind + i++)]);
+	(void)process;
 	return (n);
 }
 
@@ -96,6 +97,7 @@ unsigned int		get_len(t_core *core, t_process *p, unsigned int ind)
 				*p->l += 2;
 		}
 	}
+	++*p->l;
 	(void)core;
 	(void)ind;
 

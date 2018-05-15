@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 15:11:36 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/15 22:07:19 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 unsigned int	_aff(const unsigned char *oct, t_process *p)
 {
-	if (!(p->ins.param[0] = _reg(*oct, EITH)))
+	if (!(*p->ins.param = _reg(*oct, EITH)))
 		return (0);
 	if (_abs(*oct, SITH) || _abs(*oct, FOTH) || _abs(*oct, SND))
 		return (0);

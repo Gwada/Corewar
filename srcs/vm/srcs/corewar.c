@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/15 14:13:05 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/15 22:10:19 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static t_process	*process_up(t_core *c, t_process *lst)
 
 static void			check_instruct(t_core *c, unsigned char opc)
 {
-	ft_printf("{bold}{yellow}{underline}IN\tCHECK_INSTRUCT{eoc}\n");//
+	ft_printf("\n{bold}{yellow}{underline}IN\tCHECK_INSTRUCT\t");//
+	ft_printf("{red}CYCLE: %u\n{eoc}", c->total_cycle);//
 
 	t_process		*tmp;
 
@@ -47,15 +48,19 @@ static void			check_instruct(t_core *c, unsigned char opc)
 		if (!tmp->ins.nb_cycles)
 		{
 			opc = c->ram[id(tmp->pc)] - 1;
+			ft_printf("\t2.1 opc: %hhu\t p->pc: %u", opc, tmp->pc);//
 			if (opc_c(opc) && tmp->ins.name)
 			{
+				ft_printf("\t2.1.1\t\tins: %s\t|", g_op_tab[opc].name);//
 				if (!ft_strcmp(tmp->ins.name, g_op_tab[opc].name))
 				{
 
-					ft_printf("\t2.1.1.1\t\tins: %s\n", g_op_tab[opc].name);//
+					ft_printf("\t2.1.1.1\t\tins: %s\t", g_op_tab[opc].name);//
 
 					if (c->ft[opc](&c->ram[id(tmp->pc + 1)], tmp))
-					{
+					{//
+						ft_printf("\t2.2\n");//
+
 						c->ex[opc](c, tmp);
 
 						int i = -1;//
@@ -65,19 +70,25 @@ static void			check_instruct(t_core *c, unsigned char opc)
 							i == 7 ? ft_printf("\n") : 0;//
 						}//
 
-					}
+					}//
+					else
+						tmp->pc = id(tmp->pc + 1);
 				}
 			}
+			else
+				tmp->pc = id(tmp->pc + 1);
 
-			ft_printf("\n\ttmp->ins.nb_cycles: %u\n", tmp->ins.nb_cycles);//
+			ft_printf("\n\t{magenta}tmp->ins.nb_cycles: ");//
+			ft_printf("%u{eoc}\n", tmp->ins.nb_cycles);//
 
-			tmp->pc = id(tmp->pc + 1);
 			tmp = read_instruct(c, tmp) ? process_up(c, tmp) : tmp->next;
+
 		}
 		else
 		{
 
-			ft_printf("\t1\tins.nb_cycles: %u\t", tmp->ins.nb_cycles - 1);//
+			ft_printf("\ttmp->ins.nb_cycles: %u\t", tmp->ins.nb_cycles);//
+			ft_printf("ins.name: %s\t", tmp->ins.name);//
 			ft_printf("n_process: %u\n", c->n_process);//
 
 			--tmp->ins.nb_cycles;
@@ -111,10 +122,9 @@ void				corewar(t_core *core)
 		return (display_error(core, 0));
 	while (core->n_process > 0)
 	{
-		ft_printf("\n\t\t\t{underline}{bold}{red}CYCLE: %05u\n{eoc}", core->total_cycle);//
+		check_instruct(core, 0);
 		if (cycle_checker(core))
 			break ;
-		check_instruct(core, 0);
 		++core->total_cycle;
 		++core->current_cycle;
 	}
