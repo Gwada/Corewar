@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 11:17:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 15:27:08 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/16 18:57:36 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ size_t			cycle_checker(t_core *core)
 	if (core->bd & DUMP && core->dump && core->total_cycle == core->dump)
 	{
 //		ft_print_mem(core->ram, MEM_SIZE, 32, 0);
+//
+		ft_print_mem(core->ram, MEM_SIZE, 64, 0);
+
 		return (1);
 	}
 	if ((int)core->current_cycle == core->max_cycle)

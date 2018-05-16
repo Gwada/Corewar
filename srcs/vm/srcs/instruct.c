@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/15 20:24:38 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/16 18:26:57 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ unsigned int		get_ind(t_core *core, t_process *process, unsigned int ind)
 	i = 0;
 	n = 0;
 	while (i < 2)
-		n = (n << 8) | (core->ram[id(ind + i++)]);
+		n = (n << 8) | (core->ram[id(process->pc + ind + i++)]);
 	(void)process;
 	return (n);
 }
@@ -102,9 +102,10 @@ unsigned int		get_len(t_core *core, t_process *p, unsigned int ind)
 	(void)ind;
 
 	int i = -1;//
+	ft_printf("\t\t\t");//
 	while (++i <= p->ins.nb_param)//
-		ft_printf("\t\t\tp->l[%d]: %u\n", i, p->l[i]);//
-	ft_printf("{bold}{underline}{black}\t\tIN\tGET_LEN{eoc}\n");//
+		ft_printf("p->l[%d]: %u\t", i, p->l[i]);//
+	ft_printf("\n{bold}{underline}{black}\t\tEND\tGET_LEN{eoc}\n");//
 
 	return (0);
 }

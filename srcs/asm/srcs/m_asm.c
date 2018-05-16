@@ -5,13 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD:srcs/asm/srcs/asm_main.c
 /*   Created: 2018/04/29 18:16:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 14:22:52 by dlavaury         ###   ########.fr       */
-=======
+/*   Updated: 2018/05/16 15:41:51 by dlavaury         ###   ########.fr       */
 /*   Created: 2018/05/14 17:23:25 by salemdjeg         #+#    #+#             */
 /*   Updated: 2018/05/14 17:48:40 by salemdjeg        ###   ########.fr       */
->>>>>>> 66350cd2aa5e6605bd77b745a6151bb3a28e4f1a:srcs/asm/srcs/m_asm.c
 /*                                                                            */
 /* ************************************************************************** */
 

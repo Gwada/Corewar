@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/15 22:10:29 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/16 20:44:55 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@ void			_ex_aff(t_core *core, t_process *process)
 	unsigned	p_1;
 
 	core->v[5](core, process, 0);
-	if ((p_1 = core->v[1](core, process, process->l[1])) > 15)
-		return ((void)(process->pc = id(process->pc + *process->l)));
-	ft_printf("%c\n", (process->reg[p_1] % 256));
+	if ((p_1 = core->v[1](core, process, process->l[1])) < 16)
+	{
+		ft_printf("\t\tp_1 = %#x | %u\n", p_1, p_1);
+		ft_printf("\t\tprocess->reg[p_1]: %#x\n", process->reg[p_1]);
+		ft_printf("%c\n", (process->reg[p_1] % 256));
+	}
 	process->pc = id(process->pc + *process->l);
 }
 
@@ -38,12 +41,11 @@ unsigned int		get_dir_value(t_core *c, t_process *p, unsigned int ind)
 
 	i = 0;
 	n = 0;
-	ind += p->pc;
 	if (p->ins.label_size)
 		return (c->v[3](c, p, ind));
 	ft_printf("\t\t{red}direct (4 octets){eoc}\n");//
 	while (i < 4)
-		n = (n << 8) | c->ram[id(ind + i++)];
+		n = (n << 8) | c->ram[id(p->pc + ind + i++)];
 	return (n);
 }
 

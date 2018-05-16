@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/14 20:23:08 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/16 16:41:12 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_process		*init_process(t_core *core, int i)
 			return (clean_process(lst));
 		new->pc = core->p[i].oc;
 		new->pc = core->p[i].oc;
-		*new->reg = core->p[i].id;
+		new->reg[1] = -core->p[i].id;
 		read_instruct(core, new);
 		insert_process(core, new);
 	}

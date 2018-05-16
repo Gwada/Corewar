@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/15 22:10:39 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/16 20:45:10 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@
 
 typedef struct				s_player
 {
-	unsigned char			id;
+	int						id;
 	unsigned char			*name;
 	unsigned char			*comment;
 	unsigned char			*prog;
@@ -83,7 +83,7 @@ typedef struct				s_process
 	unsigned int			carry;
 	unsigned int			live;
 	unsigned int			pc;
-	unsigned int			reg[REG_NUMBER];
+	int						reg[REG_NUMBER + 1];
 	unsigned int			l[4];
 	t_op					ins;
 	struct s_process		*prev;
@@ -103,7 +103,7 @@ typedef struct				s_core
 	unsigned int			last_decr;
 	unsigned int			total_live;
 	unsigned int			current_cycle_live;
-	unsigned int			last_live_player;
+	int						last_live_player;
 	unsigned int			n_process;
 	t_player				p[MAX_PLAYERS + 1];
 	unsigned char			id[MAX_PLAYERS + 1];
