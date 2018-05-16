@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:53:20 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/14 17:53:22 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/16 16:39:55 by salemdjeg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ void			handle_err(int num, int line)
 	num == 3 ? put_err("Too many or no arguments [-h] for help", line) : 0;
 	num == 4 ? put_err("Invalid file extension, .s requiered", line) : 0;
 	num == 5 ? put_err("Invalid argument, can not open the file", line) : 0;
-	num == 6 ? put_err("Champion's name expected", line) : 0;
-	num == 7 ? put_err("Champions's comment expected", line) : 0;
+	num == 6 ? put_err("Champion's name is already/doesn't set", line) : 0;
+	num == 7 ? put_err("Champion's comment is already/doesn't set", line) : 0;
 	num == 8 ? put_err("Error in Champion's name format", line) : 0;
 	num == 9 ? put_err("Champion's name is too long", line) : 0;
-	num == 10 ? put_err("Error in Champion's comment format", line) : 0;
+	num == 10 ? put_err("Error in the champ's comment format", line) : 0;
 	num == 11 ? put_err("Champion's comment is too long", line) : 0;
 	num == 12 ? put_err("Unknow instruction", line) : 0;
 	num == 13 ? put_err("Invalid number of parameters", line) : 0;

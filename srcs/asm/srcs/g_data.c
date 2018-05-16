@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:24:20 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/14 17:51:35 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/16 16:54:28 by salemdjeg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void		get_name(char *line, t_data *data, int fd)
 {
 	char	*s;
 
+//	data->name ? handle_err(17, data->line) : 0;//
 	s = ft_strdup(line);
 	ft_count_char(s, '"') < 1 ? handle_err(8, data->line) : 0;
 	ft_count_char(s, '"') < 2 ? ft_strdel(&data->gnl) : 0;
@@ -103,10 +104,11 @@ void		get_name(char *line, t_data *data, int fd)
 	ft_strptr_replace(&s, ft_strrm_borders(s));
 	ft_count_char(s, '"') != 2 || *s != '"' || s[ft_strlen(s) -1] != '"' ?
 		handle_err(8, data->line): 0;
-	if (ft_strlen(s) - 2 > PROG_NAME_LENGTH - 1)
+	if (ft_strlen(s) - 2 > PROG_NAME_LENGTH)
 		handle_err(9, data->line);
 	ft_strncpy(data->header->prog_name, s + 1, ft_strlen(s) - 2);
 	data->name++;
+//	data->byte |= (1 << 0);//
 	s ? ft_strdel(&s) : 0;
 }
 
@@ -114,6 +116,7 @@ void		get_comment(char *line, t_data *data, int fd)
 {
 	char	*s;
 
+//	data->comment ? handle_err(18, data->line) : 0;//
 	s = ft_strdup(line);
 	ft_count_char(s, '"') < 2 ? ft_strdel(&data->gnl) : 0;
 	ft_count_char(s, '"') < 1 ? handle_err(10, data->line) : 0;
@@ -128,9 +131,10 @@ void		get_comment(char *line, t_data *data, int fd)
 	ft_strptr_replace(&s, ft_strrm_borders(s));
 	ft_count_char(s, '"') != 2 || *s != '"' || s[ft_strlen(s) -1] != '"' ?
 		handle_err(10, data->line): 0;
-	if (ft_strlen(s) - 2 > PROG_NAME_LENGTH - 1)
+	if (ft_strlen(s) - 2 > COMMENT_LENGTH)
 		handle_err(11, data->line);
 	ft_strncpy(data->header->comment, s + 1, ft_strlen(s) - 2);
 	data->comment++;
+//	data->byte |= (1 << 1);//
 	s ? ft_strdel(&s) : 0;
 }

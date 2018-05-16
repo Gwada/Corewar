@@ -6,7 +6,11 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:16:20 by dlavaury          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2018/05/16 15:41:51 by dlavaury         ###   ########.fr       */
+=======
+/*   Updated: 2018/05/14 23:43:46 by salemdjeg        ###   ########.fr       */
+>>>>>>> 314af96d7d70685e343008f6c0ee14bfd45494f3
 /*   Created: 2018/05/14 17:23:25 by salemdjeg         #+#    #+#             */
 /*   Updated: 2018/05/14 17:48:40 by salemdjeg        ###   ########.fr       */
 /*                                                                            */

@@ -6,31 +6,37 @@
 /*   By: sdjeghba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 11:32:55 by sdjeghba          #+#    #+#             */
-/*   Updated: 2016/12/24 21:21:34 by sdjeghba         ###   ########.fr       */
+/*   Updated: 2018/05/16 16:13:37 by salemdjeg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-int			ft_atoi(const char *str)
+int		ft_atoi(const char *nptr)
 {
-	int		i;
-	int		nbr;
-	int		negatif;
+	int					i;
+	int					num;
+	int					pos_num;
+	unsigned long long	max;
 
 	i = 0;
-	nbr = 0;
-	negatif = 0;
-	while ((str[i] == ' ') || (str[i] >= 7 && str[i] <= 13))
+	max = 0;
+	num = 0;
+	pos_num = 1;
+	while (nptr[i] == ' ' || (nptr[i] >= 7 && nptr[i] <= 13))
 		i++;
-	if (str[i] == '-')
-		negatif = 1;
-	if (str[i] == '-' || str[i] == '+')
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		if (nptr[i] == '-')
+			pos_num = -1;
 		i++;
-	while (str[i] >= '0' && str[i] <= '9')
-		nbr = (nbr * 10) + (str[i++] - '0');
-	if (negatif == 1)
-		return (-nbr);
-	else
-		return (nbr);
+	}
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		max = max * 10 + nptr[i] - '0';
+		if (max > INTMAXLEN)
+			return ((pos_num == 1) ? -1 : 0);
+		num = num * 10 + nptr[i++] - '0';
+	}
+	return (num * pos_num);
 }
