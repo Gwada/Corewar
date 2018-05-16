@@ -6,7 +6,7 @@
 /*   By: sdjeghba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 11:32:38 by sdjeghba          #+#    #+#             */
-/*   Updated: 2018/05/11 16:16:08 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/16 16:16:34 by salemdjeg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 # define MAX_NBR 2147483647
 # define MIN_NBR -2147483648
+# define INTMAXLEN 9223372036854775807
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>

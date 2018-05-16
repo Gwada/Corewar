@@ -6,11 +6,8 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/05/14 14:22:55 by dlavaury         ###   ########.fr       */
-=======
+/*   Updated: 2018/05/16 16:18:46 by salemdjeg        ###   ########.fr       */
 /*   Updated: 2018/05/14 17:47:18 by salemdjeg        ###   ########.fr       */
->>>>>>> 66350cd2aa5e6605bd77b745a6151bb3a28e4f1a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +48,7 @@ typedef struct		s_data
 	int				comment;
 	uint32_t		line;
 	uint8_t			eof;
+//	uint8_t			byte;
 	t_cmd			*cmd;
 	t_header		*header;
 }					t_data;

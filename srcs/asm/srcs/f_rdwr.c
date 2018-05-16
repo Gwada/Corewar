@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:35:45 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/14 17:50:55 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/16 16:57:28 by salemdjeg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ void	write_file(t_data *data)
 		write_cmd(fd, cmd);
 		cmd = cmd->next;
 	}
-	ft_putstr(data->cor);
-	ft_putchar('\n');
+	ft_putendl("your .cor file(s) was/were successfully created");
+	//ft_putstr(data->cor);//
+	//ft_putchar('\n');//
 	close(fd);
 }
 
@@ -100,6 +101,7 @@ void		read_header(int fd, t_data *data)
 			break;
 		data->gnl ? ft_strdel(&data->gnl) : 0;
 		if (data->name && data->comment)
+//		if ((data->byte & 1) && (data->byte & 2))//
 			return ;
 	}
 	ret == -1 ? handle_err(5, QUIT) : 0;
@@ -113,12 +115,15 @@ void		read_file(t_data *data)
 	i = -1;
 	(fd = open(data->s, O_RDONLY)) < 0 ? handle_err(5, QUIT) : 0;
 	read_header(fd, data);
-	!data->name ? handle_err(6, data->line) : 0;
-	!data->comment ? handle_err(7, data->line) : 0;
+//	!(data->byte & 1) ? handle_err(6, data->line) : 0;//
+//	!(data->byte & 2) ? handle_err(7, data->line) : 0;//
+	data->name != 1 ? handle_err(6, data->line) : 0;
+	data->comment != 1 ? handle_err(7, data->line) : 0;
 	read_cmd(fd, data);
 	close(fd);
 	!data->header->prog_size ? handle_err(16, QUIT) : 0;
 	data->eof = 1;
+	//data->byte |= (1 << 2);//
 	check_labels(data);
 	write_file(data);
 }
