@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 23:25:40 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/06 17:28:22 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/17 15:45:55 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char		*ft_strrm_borders(char *str)
 {
-	int     i;
+	int		i;
 
 	if (!str)
 		return (NULL);

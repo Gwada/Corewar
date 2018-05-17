@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 14:36:17 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 16:23:04 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "../libft/includes/libft.h"
 #include "op.h"
 
+# define O_FLAGS    O_RDWR | O_CREAT | O_TRUNC
+# define S_FLAGS    S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
 #define LEFT_BM(x) ((1 << (3 - x) * 2))
 #define QUIT -42
 #define MALLOC_ERR 42

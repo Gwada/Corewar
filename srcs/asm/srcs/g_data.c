@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:24:20 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/17 15:07:39 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 18:11:58 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ void		get_label(char **line, t_cmd *cmd, t_data *data)
 	}
 	label->name = ft_strcdup(*line, LABEL_CHAR);
 	ft_strptr_replace(line, ft_strdup(ft_strchr(*line, LABEL_CHAR) + 1));
-	!(*line) ? handle_err(42, QUIT, data): 0;
+	!(*line) ? handle_err(42, QUIT, data) : 0;
 }
 
-void		get_cmd(char *line, t_cmd *cmd, t_data *data)
+void		get_cmd(char *line, t_cmd *cmd, t_data *d)
 {
 	int		i;
 	char	**tab;
@@ -71,18 +71,19 @@ void		get_cmd(char *line, t_cmd *cmd, t_data *data)
 		if (!ft_strncmp(line, g_op_tab[i].name, ft_strlen(g_op_tab[i].name)))
 		{
 			cmd->opcode = g_op_tab[i].op_code;
-			break;
+			break ;
 		}
-	i < 0 ? handle_err(12, data->line, data) : 0;
+	i < 0 ? handle_err(12, d->line, d) : 0;
 	!cmd->opcode || !ft_isblank(line[ft_strlen(g_op_tab[i].name)]) ?
-		handle_err(12, data->line, data) : 0;
+		handle_err(12, d->line, d) : 0;
 	while (*line && !ft_isblank(*line))
 		line++;
 	while (*line && ft_isblank(*line))
 		line++;
-	tab = ft_strsplit(line, SEPARATOR_CHAR);
-	ft_tablen(tab) != g_op_tab[i].nb_param ? handle_err(13, data->line, data) : 0;
-	get_params(tab, cmd, data);
+	if (!(tab = ft_strsplit(line, SEPARATOR_CHAR)))
+		handle_err(13, QUIT, d);
+	ft_tablen(tab) != g_op_tab[i].nb_param ? handle_err(13, d->line, d) : 0;
+	get_params(tab, cmd, d);
 	tab ? ft_free_tab(tab) : 0;
 }
 
@@ -90,7 +91,6 @@ void		get_name(char *line, t_data *data, int fd)
 {
 	char	*s;
 
-//	data->name ? handle_err(17, data->line) : 0;//
 	s = ft_strdup(line);
 	ft_count_char(s, '"') < 1 ? handle_err(8, data->line, data) : 0;
 	ft_count_char(s, '"') < 2 ? ft_strdel(&data->gnl) : 0;
@@ -103,13 +103,12 @@ void		get_name(char *line, t_data *data, int fd)
 		data->gnl ? ft_strdel(&data->gnl) : 0;
 	}
 	ft_strptr_replace(&s, ft_strrm_borders(s));
-	ft_count_char(s, '"') != 2 || *s != '"' || s[ft_strlen(s) -1] != '"' ?
-		handle_err(8, data->line, data): 0;
+	ft_count_char(s, '"') != 2 || *s != '"' || s[ft_strlen(s) - 1] != '"' ?
+		handle_err(8, data->line, data) : 0;
 	if (ft_strlen(s) - 2 > PROG_NAME_LENGTH)
 		handle_err(9, data->line, data);
 	ft_strncpy(data->header->prog_name, s + 1, ft_strlen(s) - 2);
 	data->name++;
-//	data->byte |= (1 << 0);//
 	s ? ft_strdel(&s) : 0;
 }
 
@@ -117,7 +116,6 @@ void		get_comment(char *line, t_data *data, int fd)
 {
 	char	*s;
 
-//	data->comment ? handle_err(18, data->line) : 0;//
 	s = ft_strdup(line);
 	ft_count_char(s, '"') < 2 ? ft_strdel(&data->gnl) : 0;
 	ft_count_char(s, '"') < 1 ? handle_err(10, data->line, data) : 0;
@@ -130,12 +128,11 @@ void		get_comment(char *line, t_data *data, int fd)
 		data->gnl ? ft_strdel(&data->gnl) : 0;
 	}
 	ft_strptr_replace(&s, ft_strrm_borders(s));
-	ft_count_char(s, '"') != 2 || *s != '"' || s[ft_strlen(s) -1] != '"' ?
-		handle_err(10, data->line, data): 0;
+	ft_count_char(s, '"') != 2 || *s != '"' || s[ft_strlen(s) - 1] != '"' ?
+		handle_err(10, data->line, data) : 0;
 	if (ft_strlen(s) - 2 > COMMENT_LENGTH)
 		handle_err(11, data->line, data);
 	ft_strncpy(data->header->comment, s + 1, ft_strlen(s) - 2);
 	data->comment++;
-//	data->byte |= (1 << 1);//
 	s ? ft_strdel(&s) : 0;
 }
