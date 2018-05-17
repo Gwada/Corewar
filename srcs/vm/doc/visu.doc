@@ -4,3 +4,22 @@ New instruct
 	reload arena
 
 Quit event
+
+
+| stats window |
+
+VARIABLE
+nombre de cycle par second du visu
+nombre de cycle
+nombre de process
+nombre de process par joueur
+nombre de live par joueur par cycle_to_die
+
+CONSTANTE
+cycle to die
+cycle delta
+max check
+nombre de vie
+
+
+| log window |
