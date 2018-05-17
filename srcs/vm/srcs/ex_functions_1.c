@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 13:48:25 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 15:26:12 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void				_ex_live(t_core *c, t_process *p)
 	++c->total_live;
 	++p->live;
 	++c->current_cycle_live;
-	id_p = c->v[T_DIR](c, p, p->l[1]);
+	id_p = -c->v[T_DIR](c, p, p->l[1]);
 
 	ft_printf("\t\tid_p: %#x | %d\t-idp: %#x | %d\n", id_p, id_p, -id_p, -id_p);//
 
