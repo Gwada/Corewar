@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 13:31:49 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 15:23:00 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 	return (0);
 }
 
-unsigned int		get_ind(t_core *core, t_process *process, unsigned int ind)
+int					get_ind(t_core *core, t_process *process, unsigned int ind)
 {
 	ft_printf("\t\t{red}direct (short){eoc}\n");//
 	unsigned int	i;
@@ -71,7 +71,7 @@ unsigned int		get_ind(t_core *core, t_process *process, unsigned int ind)
 	return (n);
 }
 
-unsigned int		get_len(t_core *core, t_process *p, unsigned int ind)
+int					get_len(t_core *core, t_process *p, unsigned int ind)
 {
 	ft_printf("{bold}{underline}{black}\t\tIN\tGET_LEN{eoc}\n");//
 

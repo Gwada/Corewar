@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 13:48:43 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 15:22:11 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,17 +182,17 @@ unsigned int				_lldi(const unsigned char *oct, t_process *p);
 unsigned int				_lfork(const unsigned char *oct, t_process *p);
 unsigned int				_aff(const unsigned char *oct, t_process *p);
 
-unsigned int				get_mem_addr(t_core *core, t_process *process,
+int							get_mem_addr(t_core *core, t_process *process,
 							unsigned int reg);
-unsigned int				get_reg_ind(t_core *core, t_process *process,
+int							get_reg_ind(t_core *core, t_process *process,
 							unsigned int reg);
-unsigned int				get_ind(t_core *core, t_process *process,
+int							get_ind(t_core *core, t_process *process,
 							unsigned int reg);
-unsigned int				get_dir_value(t_core *core, t_process *process,
+int							get_dir_value(t_core *core, t_process *process,
 							unsigned int ind);
-unsigned int				get_ind_value(t_core *core, t_process *process,
+int							get_ind_value(t_core *core, t_process *process,
 							unsigned int reg);
-unsigned int				get_len(t_core *core, t_process *process,
+int							get_len(t_core *core, t_process *process,
 							unsigned int reg);
 void						_ex_live(t_core *core, t_process *process);
 void						_ex_ld(t_core *core, t_process *process);
