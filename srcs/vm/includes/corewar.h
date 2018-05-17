@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 15:22:11 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 20:14:36 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ size_t						init_core(t_core *core, size_t ret);
 */
 
 void						display_usage(char *name);
-void						display_error(t_core *core, int code);
+int							display_error(t_core *core, int code, char *s);
 
 /*
 **	CYCLE FUNCTIONS

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 16:15:14 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 20:16:01 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void				corewar(t_core *core)
 //	ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");//
 
 	if (!(core->ps = init_process(core, -1)))
-		return (display_error(core, 0));
+		return ((void)display_error(core, 0, NULL));
 	while (core->n_process > 0)
 	{
 /*		ft_printf("{bold}{yellow}current cycle: %u\t", core->current_cycle);

@@ -51,17 +51,13 @@ _END=\x1b[0m
 
 .SILENT:
 
-<<<<<<< HEAD
-all: lib $(EXEC)
-=======
 all:
 	@make lib
 	@make $(EXEC)
->>>>>>> e50bab15643a600707bf17376c0db53b21a4f54c
 
 $(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h
 	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ./libft/libft.a
-	@echo "$(_CYAN)Assembleur$(_END)	: $(_GREEN)compiled$(_end)"
+	@echo "$(_CYAN)Assembleur$(_END)	: $(_GREEN)compiled$(_END)"
 
 %.o: %.c
 	@printf "%-60b\r" "$(ECHO)"
