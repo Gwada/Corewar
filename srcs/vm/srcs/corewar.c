@@ -110,6 +110,7 @@ static void		put_champ(t_core *core)
 		++i;
 	ft_printf("le joueur %u(%s) a gagne\n", core->p[i].id, core->p[i].name);//
 }
+
 void				corewar(t_core *core)
 {
 	ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");//
@@ -133,5 +134,6 @@ void				corewar(t_core *core)
 	ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");//
 
 	put_champ(core);
+	visu(core);
 	core->n_process ? clean_process(core->ps) : 0;
 }

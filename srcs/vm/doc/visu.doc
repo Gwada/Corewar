@@ -10,16 +10,21 @@ Quit event
 
 VARIABLE
 nombre de cycle par second du visu
-nombre de cycle
-nombre de process
-nombre de process par joueur
-nombre de live par joueur par cycle_to_die
+
+nombre de cycle = core->total_cycle
+nombre de process = core->n_process
+
+player
+nombre de process par joueur = core->p[playerID].total_process
+nombre de live par joueur par cycle_to_die = core->p[playerID].current_cycle_live
+// total live
 
 CONSTANTE
-cycle to die
-cycle delta
-max check
-nombre de vie
-
+cycle to die = op.h
+cycle delta = op.h
+max check = op.h
+nombre de vie = op.h
 
 | log window |
+
+flush display log
