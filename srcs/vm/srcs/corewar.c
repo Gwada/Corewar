@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 15:42:34 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 16:15:14 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static void		put_champ(t_core *core)
 }
 void				corewar(t_core *core)
 {
-	ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");//
+//	ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");//
 
 	if (!(core->ps = init_process(core, -1)))
 		return (display_error(core, 0));
@@ -129,10 +129,10 @@ void				corewar(t_core *core)
 		++core->current_cycle;
 	}
 
-	ft_printf("\n%u process in progress at end\n", core->n_process);//
+/*	ft_printf("\n%u process in progress at end\n", core->n_process);//
 	ft_printf("\nend after %u cycles\n", core->total_cycle);//
 	ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");//
-
+*/
 	put_champ(core);
 	core->n_process ? clean_process(core->ps) : 0;
 }

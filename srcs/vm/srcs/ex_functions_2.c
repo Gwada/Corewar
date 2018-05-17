@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 13:47:45 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 16:16:38 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void				_ex_and(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tAND{eoc}\n");//
+//	ft_printf("{green}{bold}\tIN\tAND{eoc}\n");//
 //	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);//
 
 	int				p_1;
@@ -56,12 +56,12 @@ void				_ex_and(t_core *c, t_process *p)
 	p->carry = p->carry ? 0 : 1;
 	p->pc = id(p->pc + *p->l);
 
-	ft_printf("{green}{bold}\tEND\tAND{eoc}\n");//
+//	ft_printf("{green}{bold}\tEND\tAND{eoc}\n");//
 }
 
 void				_ex_or(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tOR{eoc}\n");//
+//	ft_printf("{green}{bold}\tIN\tOR{eoc}\n");//
 
 	int				p_1;
 	int				p_2;
@@ -82,12 +82,12 @@ void				_ex_or(t_core *c, t_process *p)
 	p->carry = p->carry ? 0 : 1;
 	p->pc = id(p->pc + *p->l);
 
-	ft_printf("{green}{bold}\tEND\tOR{eoc}\n");//
+//	ft_printf("{green}{bold}\tEND\tOR{eoc}\n");//
 }
 
 void		_ex_xor(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tXOR{eoc}\n");//
+//	ft_printf("{green}{bold}\tIN\tXOR{eoc}\n");//
 
 	int				p_1;
 	int				p_2;
@@ -108,12 +108,12 @@ void		_ex_xor(t_core *c, t_process *p)
 	p->carry = p->carry ? 0 : 1;
 	p->pc = id(p->pc + *p->l);
 
-	ft_printf("{green}{bold}\tEND\tXOR{eoc}\n");//
+//	ft_printf("{green}{bold}\tEND\tXOR{eoc}\n");//
 }
 
 void				_ex_zjmp(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tZJMP (si carry == 1 charge p->pc en p->pc + (p_1 %% IDX_MOD)){eoc}\n");//
+//	ft_printf("{green}{bold}\tIN\tZJMP (si carry == 1 charge p->pc en p->pc + (p_1 %% IDX_MOD)){eoc}\n");//
 
 	c->v[5](c, p, 0);
 	if (p->carry == 1)
@@ -122,12 +122,12 @@ void				_ex_zjmp(t_core *c, t_process *p)
 		p->pc = id(p->pc + *p->l);
 
 //	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
-	ft_printf("{green}{bold}\tEND\tZJMP{eoc}\n");//
+//	ft_printf("{green}{bold}\tEND\tZJMP{eoc}\n");//
 }
 
 void				_ex_ldi(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tLDI{eoc}\n");//
+//	ft_printf("{green}{bold}\tIN\tLDI{eoc}\n");//
 
 	int				p_1;
 	int				p_2;
@@ -149,5 +149,5 @@ void				_ex_ldi(t_core *c, t_process *p)
 	p->reg[p_3] = c->v[2](c, p, (p_2 + p_1) % IDX_MOD);
 	p->pc = id(p->pc + *p->l);
 
-	ft_printf("{green}{bold}\tEND\tLDI{eoc}\n");//
+//	ft_printf("{green}{bold}\tEND\tLDI{eoc}\n");//
 }

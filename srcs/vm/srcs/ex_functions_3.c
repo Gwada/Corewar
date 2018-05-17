@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 11:29:53 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 16:17:11 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void				_ex_sti(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tSTI\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tSTI\n{eoc}");//
 //	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);//
 
 	int				i;
@@ -52,12 +52,12 @@ void				_ex_sti(t_core *c, t_process *p)
 		c->ram[id(p_2 + i)] = (p->reg[p_1] >> (24 - (i * 8))) & 0xff;
 	p->pc = id(p->pc + *p->l);
 
-	ft_printf("\t{green}{bold}END\tSTI\n{eoc}");//
+//	ft_printf("\t{green}{bold}END\tSTI\n{eoc}");//
 }
 
 void				_ex_fork(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tFORK (nouv process pareil que le pere sauf new->pc = p->pc + (p_1 % IDX_MOD))\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tFORK (nouv process pareil que le pere sauf new->pc = p->pc + (p_1 % IDX_MOD))\n{eoc}");//
 
 	t_process		*new;
 
@@ -77,12 +77,12 @@ void				_ex_fork(t_core *c, t_process *p)
 	p->pc = id(p->pc + *p->l);
 	insert_process(c, new);
 
-	ft_printf("\t{green}{bold}END\tFORK\n{eoc}");//
+//	ft_printf("\t{green}{bold}END\tFORK\n{eoc}");//
 }
 
 void				_ex_lld(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tLLD\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tLLD\n{eoc}");//
 
 	unsigned char	reg;
 
@@ -93,12 +93,12 @@ void				_ex_lld(t_core *c, t_process *p)
 	p->carry = p->carry ? 0 : 1;
 	p->pc = id(p->pc + *p->l);
 
-	ft_printf("\t{green}{bold}END\tLLD\n{eoc}");//
+//	ft_printf("\t{green}{bold}END\tLLD\n{eoc}");//
 }
 
 void				_ex_lldi(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tLLDI\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tLLDI\n{eoc}");//
 
 	int				p_1;
 	int				p_2;
@@ -121,12 +121,12 @@ void				_ex_lldi(t_core *c, t_process *p)
 	p->pc = id(p->pc + *p->l);
 	p->carry = p->carry ? 0 : 1;
 
-	ft_printf("\t{green}{bold}END\tLLDI\n{eoc}");//
+//	ft_printf("\t{green}{bold}END\tLLDI\n{eoc}");//
 }
 
 void				_ex_lfork(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tFORK (nouv process pareil que le pere sauf new->pc = p->pc + p_1)\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tFORK (nouv process pareil que le pere sauf new->pc = p->pc + p_1)\n{eoc}");//
 	t_process		*new;
 
 	if (!(new = new_process(c)))
@@ -144,5 +144,5 @@ void				_ex_lfork(t_core *c, t_process *p)
 	p->pc = id(p->pc + *p->l);
 	insert_process(c, new);
 
-	ft_printf("\t{green}{bold}END\tFORK\n{eoc}");//
+//	ft_printf("\t{green}{bold}END\tFORK\n{eoc}");//
 }
