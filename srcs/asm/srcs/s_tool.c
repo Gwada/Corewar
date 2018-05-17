@@ -6,13 +6,13 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:42:51 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/17 14:30:32 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 16:27:44 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
 
-int		get_optab_index(int opcode)
+int			get_optab_index(int opcode)
 {
 	int		i;
 
@@ -22,7 +22,7 @@ int		get_optab_index(int opcode)
 	return (i);
 }
 
-int		get_size(char *param, int op)
+int			get_size(char *param, int op)
 {
 	if (is_ind(param) || is_lab(param))
 		return (2);
@@ -73,7 +73,6 @@ int			get_param_value(char *param, t_data *data)
 		}
 		cmd = cmd->next;
 	}
-//	(data->byte & 4) ? handle_err(15, data->line) : 0;//
 	data->eof ? handle_err(15, data->line, data) : 0;
 	return (0);
 }

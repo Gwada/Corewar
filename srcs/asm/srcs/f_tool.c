@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:53:20 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/17 14:23:25 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 16:23:27 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ uint32_t		swap_bigendian(int var)
 	return (r);
 }
 
-void		check_labels(t_data *data)
+void			check_labels(t_data *data)
 {
 	t_cmd		*cmd;
 	int			i;
@@ -46,9 +46,9 @@ void		check_labels(t_data *data)
 	}
 }
 
-t_label		*go_lastlabel(t_label *label)
+t_label			*go_lastlabel(t_label *label)
 {
-	t_label	*tmp;
+	t_label		*tmp;
 
 	tmp = label;
 	while (tmp->next)
@@ -56,7 +56,7 @@ t_label		*go_lastlabel(t_label *label)
 	return (tmp);
 }
 
-void		put_err(char *msg, int line)
+void			put_err(char *msg, int line)
 {
 	if (line > 0)
 	{

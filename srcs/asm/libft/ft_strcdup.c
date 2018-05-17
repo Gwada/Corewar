@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 22:39:33 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/09 22:44:05 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/17 15:46:47 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char		*ft_strcdup(const char *s1, char c)
 {
-	int				i;
-	char			*s2;
+	int		i;
+	char	*s2;
 
 	i = 0;
 	while (s1[i] && s1[i] != c)
@@ -30,5 +30,4 @@ char		*ft_strcdup(const char *s1, char c)
 	}
 	s2[i] = '\0';
 	return (s2);
-
 }
