@@ -6,11 +6,12 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:46:57 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/03 21:07:23 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/16 13:53:15 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_printf.h"
 
 static void				put_hex(const unsigned char *s, size_t size,
 						size_t elem, size_t i)
@@ -68,11 +69,14 @@ void					ft_print_mem(const void *mem, size_t size, size_t elem,
 {
 	size_t				i;
 	const unsigned char	*s;
+	char				*hex;
 
 	i = 0;
+	hex = "0x";
 	s = (const unsigned char*)mem;
 	while (i < size)
 	{
+		ft_printf("%s%04x : ", hex, i);
 		put_hex(s, size, elem, i);
 		opt ? put_car(s, size, elem, i) : write(1, "\n", 1);
 		i += elem;

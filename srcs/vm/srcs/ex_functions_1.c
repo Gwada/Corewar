@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/12 19:45:56 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/16 19:44:57 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,98 +15,153 @@
 
 void				_ex_live(t_core *c, t_process *p)
 {
+	ft_printf("{green}{bold}\tIN\tLIVE\n{eoc}");//
+
 	unsigned int	i;
-	unsigned int	id_p;
+	int				id_p;
 
 	i = 0;
+	c->v[5](c, p, 0);
 	++c->total_live;
 	++p->live;
 	++c->current_cycle_live;
-	id_p = c->v[T_DIR](c, p, 1);
-	if (!id_p || id_p > MAX_PLAYERS)
-		return ;
-	c->last_live_player = id_p;
-	*p->rg = id(*p->rg + 4);
-	while (c->p[i].id != id_p && i < 4)
-		++i;
-	++c->p[i].total_live;
-	++c->p[i].current_cycle_live;
-	c->last_live_player = id_p;
-	ft_printf("un processus dit que le joueur");
-	ft_printf(" %u(%s) est en vie\n", id_p, c->p[i].name);
+	if ((id_p = -c->v[T_DIR](c, p, p->l[1])) > 0 && id_p <= (int)c->player)
+	{
+		c->last_live_player = id_p;
+		while (c->p[i].id != id_p && i < 4)
+			++i;
+		++c->p[i].total_live;
+		++c->p[i].current_cycle_live;
+		c->last_live_player = id_p;
+		ft_printf("{green}un processus dit que le joueur");
+		ft_printf(" %u(%s) est en vie\n{eoc}", id_p, c->p[i].name);
+	}
+
+//	ft_printf("\t\tid_p: %#x | %d\t-idp: %#x | %d", id_p, id_p, -id_p, -id_p);//
+//	ft_printf("\tp->live = %u\n", p->live);//
+//	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
+	ft_printf("\t{green}{bold}END\tLIVE\n{eoc}");//
+
+	p->pc = id(p->pc + *p->l);
 }
 
 void				_ex_ld(t_core *c, t_process *p)
 {
-	int				i;
-	unsigned int	p_1;
-	unsigned int	p_2;
+	ft_printf("\t{green}{bold}IN\tLD (charge p_1 dans p->reg[reg] + carry)\n{eoc}");//
 
+	int				i;
+	unsigned char	reg;
+
+	c->v[5](c, p, 0);
 	i = -1;
-	p_1 = c->v[*p->ins.param](c, p, 2);
-	p_2 = *p->ins.param & T_DIR ? c->v[1](c, p, 6) : c->v[1](c, p, 4);
-	if (!p_2 || p_2 > REG_NUMBER)
-		return ;
-	p->rg[p_2] = p_1;
+	if (!(reg = c->v[1](c, p, p->l[2])) || reg > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+
+//	ft_printf("\t\treg: %hhu\tp->reg[reg]: %#x\n", reg, p->reg[reg]);
+
+	p->reg[reg] = c->v[*p->ins.param](c, p, p->l[1]);
+
+//	ft_printf("\t\tp->reg[reg]: %#x\n", p->reg[reg]);
+
 	p->carry = p->carry ? 0 : 1;
-	*p->rg = id(*p->rg + (*p->ins.param & T_DIR ? 6 : 4));
+	p->pc = id(p->pc + *p->l);
+
+//	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
+	ft_printf("\t{green}{bold}END\tLD\n{eoc}");//
 }
 
 void				_ex_st(t_core *c, t_process *p)
 {
+	ft_printf("\t{green}{bold}IN\tST (copie p_1 vers p_2)\n{eoc}");//
+//	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
+
 	int				i;
-	unsigned int	p_1;
-	unsigned int	p_2;
+	unsigned char	p_1;
+	unsigned short	p_2;
 
+	c->v[5](c, p, 0);
 	i = -1;
-	if (!(p_1 = c->v[1](c, p, 2)) || p_1 > 16)
-		return ;
-	p_1 = p->rg[p_1];
-	if (p->ins.param[1] & T_REG)
+	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+
+//	ft_printf("\t\tp_1 = %hhu\tp->reg[p_1] = %#x\n", p_1, p->reg[p_1]);//
+
+	p_2 = c->v[p->ins.param[1] & T_REG ? 1 : 3](c, p, p->l[2]);
+	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	p->ins.param[1] & T_REG ? p->reg[p_2] = p->reg[p_1] : 0;
+
+//	if (p->ins.param[1] & T_REG)//
+//		ft_printf("\t\tp_2 = %hu\tp_2 = %#x\n", p_2, p->reg[p_2]);//
+
+	if (p->ins.param[1] & T_IND)
 	{
-		if (!(p_2 = c->v[1](c, p, 3)) || p_2 > 16)
-			return ;
-		p->rg[p_2] = p->rg[p_1];
-	}
-	else
-	{
-		p_2 = c->v[2](c, p, 3) >> 16;
+
+//		ft_printf("\t\t{yellow}(addr)p_2 = %#x(hex) %hu{eoc}", p_2, p_2);//
+
+		p_2 = c->v[0](c, p, p_2);
+
+//		ft_printf("\t\t{green}(addr)p_2 = %#x(hex) %hu\n{eoc}", p_2, p_2);//
+
 		while (++i < 4)
-			c->ram[c->v[0](c, p, p_2 + i)] = (p_1 >> (24 - (i * 8))) & 0xff;
+			c->ram[id(p_2 + i)] = (p->reg[p_1] >> (24 - (i * 8))) & 0xff;
 	}
-	*p->rg = p->ins.param[1] & T_REG ? id(*p->rg + 3) : id(*p->rg + 4);
+	p->pc = id(p->pc + *p->l);
+
+	ft_printf("\t{green}{bold}END\tST\n{eoc}");//
 }
 
-void				_ex_add(t_core *core, t_process *process)
+void				_ex_add(t_core *c, t_process *p)
 {
-	unsigned int	p_1;
-	unsigned int	p_2;
-	unsigned int	p_3;
+	ft_printf("\t{green}{bold}IN\tADD{eoc}\n");//
 
-	if (!(p_1 = core->v[1](core, process, 2)) || p_1 > 16)
-		return ;
-	if (!(p_2 = core->v[1](core, process, 3)) || p_2 > 16)
-		return ;
-	if (!(p_3 = core->v[1](core, process, 4)) || p_3 > 16)
-		return ;
-	process->rg[p_3] = process->rg[p_1] + process->rg[p_2];
-	process->carry = process->carry ? 0 : 1;
-	*process->rg = id(*process->rg + 4);
+	unsigned char	p_1;
+	unsigned char	p_2;
+	unsigned char	p_3;
+
+	c->v[5](c, p, 0);
+	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	if (!(p_2 = c->v[1](c, p, p->l[2])) || p_2 > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_2 > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+
+/*	ft_printf("\t\tp_1: %u | %#x\n", p_1, p_1);
+	ft_printf("\t\tp_2: %u | %#x\n", p_2, p_2);
+	ft_printf("\t\tp_3: %u | %#x\n", p_3, p_3);
+	ft_printf("\t\tp->reg[p_1]: %#x\n", p->reg[p_1]);
+	ft_printf("\t\tp->reg[p_2]: %#x\n", p->reg[p_2]);
+	ft_printf("\t\tp->reg[p_1] + p->reg[p_2]: %u\n", p->reg[p_2] + p->reg[p_1]);
+*/
+	p->reg[p_3] = p->reg[p_1] + p->reg[p_2];
+
+//	ft_printf("\t\tp->reg[p_3]: %u | %p\n", p->reg[p_3], p->reg[p_3]);
+
+	p->carry = p->carry ? 0 : 1;
+	p->pc = id(p->pc + *p->l);
+
+	ft_printf("\t{green}{bold}END\tADD{eoc}\n");//
 }
 
-void				_ex_sub(t_core *core, t_process *process)
+void				_ex_sub(t_core *c, t_process *p)
 {
-	unsigned int	p_1;
-	unsigned int	p_2;
-	unsigned int	p_3;
+	ft_printf("\t{green}{bold}IN\tSUB{eoc}\n");//
 
-	if (!(p_1 = core->v[1](core, process, 2)) || p_1 > 16)
-		return ;
-	if (!(p_2 = core->v[1](core, process, 3)) || p_2 > 16)
-		return ;
-	if (!(p_3 = core->v[1](core, process, 4)) || p_3 > 16)
-		return ;
-	process->rg[p_3] = process->rg[p_1] - process->rg[p_2];
-	process->carry = process->carry ? 0 : 1;
-	*process->rg = id(*process->rg + 4);
+	unsigned char	p_1;
+	unsigned char	p_2;
+	unsigned char	p_3;
+
+	c->v[5](c, p, 0);
+	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	if (!(p_2 = c->v[1](c, p, p->l[2])) || p_2 > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	p->reg[p_3] = p->reg[p_1] - p->reg[p_2];
+	p->carry = p->carry ? 0 : 1;
+	p->pc = id(p->pc + *p->l);
+
+	ft_printf("\t{green}{bold}END\tSUB{eoc}\n");//
 }

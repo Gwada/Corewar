@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/12 19:24:52 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/16 16:41:12 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,19 @@ t_process		*del_process(t_core *core, t_process *lst)
 
 	if (!lst)
 		return (NULL);
-	tmp = lst->next;
+	tmp = NULL;
 	if (!lst->live)
 	{
 		ft_printf("One of the processes of the player ");//
-		ft_printf("n. %u does not respond anymore.{red}", lst->rg[1]);//
+		ft_printf("n. %u does not respond anymore.{red}", lst->pc);//
 		ft_printf(" FUCK THIS SHIT!!!! He must die now{eoc}\n");//
 	}
+	lst->next ? lst->next->prev = lst->prev : 0;
+	lst->prev ? lst->prev->next = lst->next : 0;
+	if (lst->prev)
+		tmp = lst->prev;
+	else if (lst->next)
+		tmp = lst->next;;
 	free(lst);
 	core ? --core->n_process : 0;
 	return (tmp);
@@ -44,42 +50,51 @@ t_process		*del_process(t_core *core, t_process *lst)
 
 t_process		*clean_process(t_process *lst)
 {
-	if (lst)
+	if (!lst)
+		return (NULL);
+	if (lst->next)
 	{
-		lst->next ? lst->next = clean_process(lst->next) : 0;
-		free(lst);
+		lst->next->prev = NULL;
+		lst->next = clean_process(lst->next);
 	}
+	if (lst->prev)
+	{
+		lst->prev->next = NULL;
+		lst->prev = clean_process(lst->prev);
+	}
+	free(lst);
 	return (NULL);
 }
 
-void			insert_process(t_process **lst, t_process *new)
+void			insert_process(t_core *c, t_process *p)
 {
 	t_process	*tmp;
 
-	tmp = *lst;
-	if (!new)
+	if (!c || !p || (!c->ps && (c->ps = p)))
 		return ;
-	if (!*lst && (*lst = new))
-		return ;
-	if (new->ins.nb_cycles <= (*lst)->ins.nb_cycles)
-	{
-		new->next = *lst;
-		*lst = new;
-		return ;
-	}
-	while (tmp->next)
-	{
-		if (new->ins.nb_cycles <= tmp->next->ins.nb_cycles)
-			break ;
+	tmp = c->ps;
+	while (tmp->next && p->ins.nb_cycles > tmp->ins.nb_cycles)
 		tmp = tmp->next;
+	if (p->ins.nb_cycles <= tmp->ins.nb_cycles)
+	{
+		p->prev = tmp->prev ? tmp->prev : NULL;
+		p->next = tmp;
+		p->prev ? p->prev->next = p : 0;
+		p->next->prev = p;
 	}
-	tmp->next ? new->next = tmp->next : 0;
-	tmp->next = new;
+	else
+	{
+		p->prev = tmp;
+		p->next = tmp->next ? tmp->next : NULL;
+		p->prev->next = p;
+		p->next ? p->next->prev = p : 0;
+	}
+	while (c->ps->prev)
+		c->ps = c->ps->prev;
 }
 
 t_process		*init_process(t_core *core, int i)
 {
-	ft_printf("{yellow}{bold}IN\tINIT_PROCESS\n{eoc}");
 	t_process	*lst;
 	t_process	*new;
 
@@ -88,12 +103,12 @@ t_process		*init_process(t_core *core, int i)
 	{
 		if (!(new = new_process(core)))
 			return (clean_process(lst));
-		*new->rg = core->p[i].oc;
 		new->pc = core->p[i].oc;
-		new->rg[1] = core->p[i].id;
+		new->pc = core->p[i].oc;
+		new->reg[1] = -core->p[i].id;
 		read_instruct(core, new);
-		insert_process(&lst, new);
+		insert_process(core, new);
 	}
-	ft_printf("{yellow}{bold}END\tINIT_PROCESS\n\n{eoc}");
+	lst = core->ps;
 	return (lst);
 }

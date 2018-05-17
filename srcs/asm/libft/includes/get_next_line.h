@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm_main.c                                         :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdjeghba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/29 18:16:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/29 18:17:49 by dlavaury         ###   ########.fr       */
+/*   Created: 2017/12/26 14:37:53 by sdjeghba          #+#    #+#             */
+/*   Updated: 2017/12/30 06:10:18 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include "op.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-int		main(void)
-{
-	return (0);
-}
+# include "./libft.h"
+# include <fcntl.h>
+
+# define BUFF_SIZE 4096
+# define MAX_FD 9728
+
+int	get_next_line(int fd, char **line);
+
+#endif

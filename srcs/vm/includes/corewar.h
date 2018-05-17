@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/12 20:47:18 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/16 20:45:10 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ struct s_visu_env
 
 typedef struct				s_player
 {
-	unsigned char			id;
+	int						id;
 	unsigned char			*name;
 	unsigned char			*comment;
 	unsigned char			*prog;
@@ -138,8 +138,10 @@ typedef struct				s_process
 	unsigned int			carry;
 	unsigned int			live;
 	unsigned int			pc;
-	unsigned int			rg[REG_NUMBER + 1];
+	int						reg[REG_NUMBER + 1];
+	unsigned int			l[4];
 	t_op					ins;
+	struct s_process		*prev;
 	struct s_process		*next;
 }							t_process;
 
@@ -151,20 +153,20 @@ typedef struct				s_core
 	unsigned int			bd;
 	unsigned int			dump;
 	unsigned int			player;
+	int						max_cycle;
 	unsigned int			total_cycle;
-	unsigned int			total_live;
 	unsigned int			current_cycle;
-	unsigned int			current_cycle_live;
-	unsigned int			last_live_player;
 	unsigned int			last_decr;
-	unsigned int			max_cycle;
+	unsigned int			total_live;
+	unsigned int			current_cycle_live;
+	int						last_live_player;
 	unsigned int			n_process;
 	t_player				p[MAX_PLAYERS + 1];
 	unsigned char			id[MAX_PLAYERS + 1];
 	unsigned int			(*ft[INST_NB])(const unsigned char *c,
 							t_process *process);
 	void					(*ex[INST_NB])(struct s_core *c, t_process *p);
-	unsigned int			(*v[5])(struct s_core *c, t_process *p,
+	unsigned int			(*v[6])(struct s_core *c, t_process *p,
 							unsigned int i);
 	t_process				*ps;
 }							t_core;
@@ -190,6 +192,12 @@ void						display_usage(char *name);
 void						display_error(t_core *core, int code);
 
 /*
+**	CYCLE FUNCTIONS
+*/
+
+size_t						cycle_checker(t_core *core);
+
+/*
 **	PROCESS FUNCTIONS
 */
 
@@ -197,13 +205,13 @@ t_process					*new_process(t_core *core);
 t_process					*clean_process(t_process *lst);
 t_process					*del_process(t_core *core, t_process *lst);
 t_process					*init_process(t_core *core, int i);
-void						insert_process(t_process **lst, t_process *new);
+void						insert_process(t_core *core, t_process *new);
 
 /*
 **	INSTRUCT FUNCTIONS
 */
 
-void						read_instruct(t_core *c, t_process *process);
+unsigned int				read_instruct(t_core *c, t_process *process);
 void						exec_instruct(t_core *c, t_process *p,
 							unsigned char opc);
 unsigned short				id(unsigned int id);
@@ -239,6 +247,8 @@ unsigned int				get_ind(t_core *core, t_process *process,
 unsigned int				get_dir_value(t_core *core, t_process *process,
 							unsigned int ind);
 unsigned int				get_ind_value(t_core *core, t_process *process,
+							unsigned int reg);
+unsigned int				get_len(t_core *core, t_process *process,
 							unsigned int reg);
 void						_ex_live(t_core *core, t_process *process);
 void						_ex_ld(t_core *core, t_process *process);

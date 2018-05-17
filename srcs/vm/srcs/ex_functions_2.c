@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/12 20:47:11 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/16 20:03:13 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,109 +15,146 @@
 
 void				_ex_and(t_core *c, t_process *p)
 {
-	int				i;
-	unsigned int	p_1;
-	unsigned int	p_2;
-	unsigned int	p_3;
+	ft_printf("{green}{bold}\tIN\tAND{eoc}\n");//
+//	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);//
 
-	i = 2;
-	p_1 = c->v[*p->ins.param](c, p, i++);
+	int				p_1;
+	int				p_2;
+	unsigned char	p_3;
+
+	c->v[5](c, p, 0);
+	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
 	if (*p->ins.param & T_REG && (!p_1 || p_1 > 16))
-		return ;
-	*p->ins.param & T_REG ? p_1 = p->rg[p_1] : 0;
-	*p->ins.param & T_DIR ? i += 3 : 0;
-	*p->ins.param & T_IND ? ++i : 0;
-	p_2 = c->v[p->ins.param[1]](c, p, i++);
+		return ((void)(p->pc = id(p->pc + *p->l)));
+
+//	ft_printf("\t\tp_1: %#x\n", p_1);//
+
+	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
+
+//	ft_printf("\t\tp_1: %#x\n", p_1);//
+
+	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
-		return ;
-	p->ins.param[1] & T_REG ? p_2 = p->rg[p_2] : 0;
-	p->ins.param[1] & T_DIR ? i += 3 : 0;
-	p->ins.param[1] & T_IND ? ++i : 0;
-	if (!(p_3 = c->v[1](c, p, i)) || p_3 > 16)
-		return ;
-	p->rg[p_3] = p_1 & p_2;
+		return ((void)(p->pc = id(p->pc + *p->l)));
+
+//	ft_printf("\t\tp_2: %#x\n", p_2);//
+
+	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
+
+//	ft_printf("\t\tp_2: %#x\n", p_2);//
+
+	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+
+//	ft_printf("\t\t1 p_3: %#x\n", p_3);//
+//	ft_printf("\t\t1 p_3: %#x\n", p->reg[p_3]);//
+
+	p->reg[p_3] = p_1 & p_2;
+
+//	ft_printf("\t\t2 p_3: %#x\n", p->reg[p_3]);//
+
 	p->carry = p->carry ? 0 : 1;
-	*p->rg = id(*p->rg + i);
+	p->pc = id(p->pc + *p->l);
+
+	ft_printf("{green}{bold}\tEND\tAND{eoc}\n");//
 }
 
 void				_ex_or(t_core *c, t_process *p)
 {
-	unsigned int	id_o;
-	unsigned int	p_1;
-	unsigned int	p_2;
-	unsigned int	p_3;
+	ft_printf("{green}{bold}\tIN\tOR{eoc}\n");//
 
-	id_o = 2;
-	p_1 = c->v[*p->ins.param](c, p, id_o++);
+	int				p_1;
+	int				p_2;
+	unsigned char	p_3;
+
+	c->v[5](c, p, 0);
+	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
 	if (*p->ins.param & T_REG && (!p_1 || p_1 > 16))
-		return ;
-	*p->ins.param & T_REG ? p_1 = p->rg[p_1] : 0;
-	*p->ins.param & T_DIR ? id_o += 3 : 0;
-	*p->ins.param & T_IND ? ++id_o : 0;
-	p_2 = c->v[p->ins.param[1]](c, p, id_o++);
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
+	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
-		return ;
-	p->ins.param[1] & T_REG ? p_2 = p->rg[p_2] : 0;
-	p->ins.param[1] & T_DIR ? id_o += 3 : 0;
-	p->ins.param[1] & T_IND ? ++id_o : 0;
-	if (!(p_3 = c->v[1](c, p, id_o)) || p_3 > 16)
-		return ;
-	p->rg[p_3] = p_1 | p_2;
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
+	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	p->reg[p_3] = p_1 | p_2;
 	p->carry = p->carry ? 0 : 1;
-	*p->rg = id(*p->rg + id_o);
+	p->pc = id(p->pc + *p->l);
+
+	ft_printf("{green}{bold}\tEND\tOR{eoc}\n");//
 }
 
 void		_ex_xor(t_core *c, t_process *p)
 {
-	unsigned int	id_o;
-	unsigned int	p_1;
-	unsigned int	p_2;
-	unsigned int	p_3;
+	ft_printf("{green}{bold}\tIN\tXOR{eoc}\n");//
 
-	id_o = 2;
-	p_1 = c->v[*p->ins.param](c, p, id_o++);
+	int				p_1;
+	int				p_2;
+	unsigned char	p_3;
+
+	c->v[5](c, p, 0);
+	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
 	if (*p->ins.param & T_REG && (!p_1 || p_1 > 16))
-		return ;
-	*p->ins.param & T_REG ? p_1 = p->rg[p_1] : 0;
-	*p->ins.param & T_DIR ? id_o += 3 : 0;
-	*p->ins.param & T_IND ? ++id_o : 0;
-	p_2 = c->v[p->ins.param[1]](c, p, id_o++);
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
+	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
-		return ;
-	p->ins.param[1] & T_REG ? p_2 = p->rg[p_2] : 0;
-	p->ins.param[1] & T_DIR ? id_o += 3 : 0;
-	p->ins.param[1] & T_IND ? ++id_o : 0;
-	if (!(p_3 = c->v[1](c, p, id_o)) || p_3 > 16)
-		return ;
-	p->rg[p_3] = p_1 ^ p_2;
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
+	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	p->reg[p_3] = p_1 ^ p_2;
 	p->carry = p->carry ? 0 : 1;
-	*p->rg = id(*p->rg + id_o);
+	p->pc = id(p->pc + *p->l);
+
+	ft_printf("{green}{bold}\tEND\tXOR{eoc}\n");//
 }
 
 void				_ex_zjmp(t_core *c, t_process *p)
 {
+	ft_printf("{green}{bold}\tIN\tZJMP (si carry == 1 charge p->pc en p->pc + (p_1 %% IDX_MOD)){eoc}\n");//
+
+	c->v[5](c, p, 0);
+	//final line
+//	p->pc = id(p->pc + (p->carry ? c->v[3](c, p, p->l[1]) % IDX_MOD : *p->l));
+	
 	if (p->carry == 1)
-		*p->rg = id(p->pc + ((*p->rg + c->v[3](c, p, 1)) % IDX_MOD) - 1);
+	{
+//		ft_printf("\t\tp->opc: %p ind: %u\n", p->pc, p->pc);//
+
+		p->pc = id(p->pc + (c->v[3](c, p, p->l[1]) % IDX_MOD));
+
+//		ft_printf("\t\tp->opc = %p ind = %u\n", p->pc, p->pc);//
+	}
+	else
+		p->pc = id(p->pc + *p->l);
+
+//	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
+	ft_printf("{green}{bold}\tEND\tZJMP{eoc}\n");//
 }
 
-void		_ex_ldi(t_core *c, t_process *p)
+void				_ex_ldi(t_core *c, t_process *p)
 {
-	unsigned int	id_o;
-	unsigned int	p_1;
-	unsigned int	p_2;
-	unsigned int	p_3;
+	ft_printf("{green}{bold}\tIN\tLDI{eoc}\n");//
 
-	id_o = 2;
-	p_1 = c->v[*p->ins.param](c, p, id_o++);
+	int				p_1;
+	int				p_2;
+	unsigned char	p_3;
+
+	c->v[5](c, p, 0);
+	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
 	if (*p->ins.param & T_REG && (!p_1 || p_1 > 16))
-		return ;
-	*p->ins.param & T_REG ? p_1 = p->rg[p_1] : ++id_o;
-	p_2 = c->v[p->ins.param[1]](c, p, id_o++);
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
+	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
-		return ;
-	p->ins.param[1] & T_REG ? p_2 = p->rg[p_2] : ++id_o;
-	if (!(p_3 = c->v[1](c, p, id_o)) || p_3 > 16)
-		return ;
-	p->rg[p_3] = c->v[2](c, p, p_2 + p_1);
-	*p->rg = id(*p->rg + id_o);
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
+	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
+		return ((void)(p->pc = id(p->pc + *p->l)));
+	p->reg[p_3] = c->v[2](c, p, p_2 + p_1);
+	p->pc = id(p->pc + *p->l);
+
+	ft_printf("{green}{bold}\tEND\tLDI{eoc}\n");//
 }

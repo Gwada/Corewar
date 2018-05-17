@@ -5,7 +5,7 @@
 EXEC	= asm
 CC		= clang
 FLAGS	= -Wall -Wextra -Werror -g3
-HEADER	= -I $(INC_DIR) -I ../../libft/includes/
+HEADER	= -I $(INC_DIR) -I ./libft/includes/
 SRC_DIR	= ./srcs/
 INC_DIR	= ./includes/
 
@@ -13,7 +13,15 @@ INC_DIR	= ./includes/
 ###                 Sources                   ###
 #################################################
 
-SRC		= asm_main.c
+SRC		= m_asm.c\
+		  f_tool.c\
+		  s_tool.c\
+		  f_rdwr.c\
+		  g_data.c\
+		  s_init.c\
+		  p_type.c\
+		  s_free.c\
+		  op.c\
 
 #################################################
 ###                   Format                  ###
@@ -43,23 +51,28 @@ _END=\x1b[0m
 
 .SILENT:
 
-all: $(EXEC)
+all: lib $(EXEC)
 
-$(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h 
-	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ../../libft/libft.a
+$(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h
+	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ./libft/libft.a
 	@echo "$(_CYAN)Assembleur$(_END)	: $(_GREEN)compiled$(_end)"
 
 %.o: %.c
 	@printf "%-60b\r" "$(ECHO)"
 	@$(CC) $(FLAGS) -c $< -o $@ $(HEADER)
 
+lib:
+	@make -C ./libft/
+
 clean:
+	@make -C ./libft/ clean
 	@rm -rf $(OBJ)
 
 fclean: clean
+	@make -C ./libft/ fclean
 	@rm -f $(EXEC)
 
 re: fclean
 	@make all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft
