@@ -51,7 +51,7 @@ _END=\x1b[0m
 
 .SILENT:
 
-all: lib $(EXEC) $(INC_DIR)/$(EXEC).h
+all: lib $(EXEC)
 
 $(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h
 	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ./libft/libft.a

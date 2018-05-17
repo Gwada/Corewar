@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/03 20:17:08 by dlavaury          #+#    #+#              #
-#    Updated: 2018/05/14 13:55:18 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/05/17 15:45:39 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,10 @@ _END=\x1b[0m
 ###                   Rules                   ###
 #################################################
 
-all: libft asm corewar
+all:
+	@make libft 
+	@make asm 
+	@make corewar
 
 libft:
 	@make -j3 -C $(LIB)
