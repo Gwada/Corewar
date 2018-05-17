@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/16 18:26:57 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 13:31:49 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ unsigned int		get_ind(t_core *core, t_process *process, unsigned int ind)
 {
 	ft_printf("\t\t{red}direct (short){eoc}\n");//
 	unsigned int	i;
-	unsigned int	n;
+	short			n;
 
 	i = 0;
 	n = 0;

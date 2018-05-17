@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:23:09 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/14 17:23:11 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/17 14:33:34 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void		free_cmd(t_cmd *cmd)
 
 void		free_data(t_data *data)
 {
+	if (data == NULL)
+		return ;
 	data->s ? free(data->s) : 0;
 	data->cor ? free(data->cor) : 0;
 	data->gnl ? free(data->gnl) : 0;
