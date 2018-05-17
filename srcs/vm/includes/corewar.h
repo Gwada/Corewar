@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/16 20:45:10 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 13:48:43 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ typedef struct				s_core
 	unsigned int			(*ft[INST_NB])(const unsigned char *c,
 							t_process *process);
 	void					(*ex[INST_NB])(struct s_core *c, t_process *p);
-	unsigned int			(*v[6])(struct s_core *c, t_process *p,
+	int						(*v[6])(struct s_core *c, t_process *p,
 							unsigned int i);
 	t_process				*ps;
 }							t_core;

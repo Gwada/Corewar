@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/16 20:42:25 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 12:22:36 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,18 @@ static void			check_instruct(t_core *c, unsigned char opc)
 	tmp = c->ps;
 	while (tmp)
 	{
-		ft_printf("\n");
+/*		ft_printf("\n");
 		for (int i = 0; i < 16; ++i)//
 		{//
 			ft_printf("reg[%2u] = {magenta}%p{eoc}\t", i, tmp->reg[i]);//
 			i == 7 ? ft_printf("\n") : 0;//
 		}//
-
+*/
 		if (!tmp->ins.nb_cycles)
 		{
 			opc = c->ram[id(tmp->pc)] - 1;
 
-			ft_printf("\n2.1 opc: %hhu\t p->pc: %u", opc, tmp->pc);//
+			ft_printf("\t2.1 opc: %hhu\t p->pc: %u", opc, tmp->pc);//
 
 			if (opc_c(opc) && tmp->ins.name)
 			{
@@ -64,14 +64,10 @@ static void			check_instruct(t_core *c, unsigned char opc)
 				if (!ft_strcmp(tmp->ins.name, g_op_tab[opc].name))
 				{
 
-					ft_printf("\t2.1.1.1\t\tins: %s\t", g_op_tab[opc].name);//
+					ft_printf("\t2.1.1.1\t\tins: %s\n", g_op_tab[opc].name);//
 
 					if (c->ft[opc](&c->ram[id(tmp->pc + 1)], tmp))
-					{//
-						ft_printf("\t2.2\n");//
-
 						c->ex[opc](c, tmp);
-					}//
 					else
 						tmp->pc = id(tmp->pc + 1);
 				}
@@ -79,7 +75,7 @@ static void			check_instruct(t_core *c, unsigned char opc)
 			else
 				tmp->pc = id(tmp->pc + 1);
 
-			ft_printf("\n\t{magenta}tmp->ins.nb_cycles: ");//
+			ft_printf("\t{magenta}tmp->ins.nb_cycles: ");//
 			ft_printf("%u{eoc}\n", tmp->ins.nb_cycles);//
 
 			tmp = read_instruct(c, tmp) ? process_up(c, tmp) : tmp->next;
@@ -135,6 +131,7 @@ void				corewar(t_core *core)
 	}
 
 	ft_printf("\n%u process in progress at end\n", core->n_process);//
+	ft_printf("\nend after %u cycles\n", core->total_cycle);//
 	ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");//
 
 	put_champ(core);

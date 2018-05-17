@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:53:20 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/16 16:39:55 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/17 14:23:25 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void		put_err(char *msg, int line)
 	ft_putstr_fd("\n", 2);
 }
 
-void			handle_err(int num, int line)
+void			handle_err(int num, int line, t_data *data)
 {
 	num == 1 ? ft_putendl_fd("Usage: ./asm imput_file.s\n", 2) : 0;
 	num == 2 ? put_err("Wrong name/flag [-h] for help", line) : 0;
@@ -89,5 +89,6 @@ void			handle_err(int num, int line)
 	num == 15 ? put_err("Label used as parameter does not exist", line) : 0;
 	num == 16 ? put_err(".cor creation failed", line) : 0;
 	num == 42 ? put_err("A memory allocation failed", line) : 0;
+	free_data(data);
 	exit(0);
 }

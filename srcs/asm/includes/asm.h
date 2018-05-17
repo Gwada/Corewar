@@ -6,12 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/05/16 15:41:31 by dlavaury         ###   ########.fr       */
-=======
-/*   Updated: 2018/05/16 16:18:46 by salemdjeg        ###   ########.fr       */
->>>>>>> 314af96d7d70685e343008f6c0ee14bfd45494f3
-/*   Updated: 2018/05/14 17:47:18 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/17 14:36:17 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +67,7 @@ uint32_t			swap_bigendian(int var);
 void				check_labels(t_data *data);
 t_label				*go_lastlabel(t_label *label);
 void				put_err(char *msg, int line);
-void				handle_err(int num, int line);
+void				handle_err(int num, int line, t_data *data);
 
 int					get_optab_index(int opcode);
 int					get_size(char *param, int op);
@@ -80,14 +75,14 @@ int					get_code(char *param);
 int					get_param_value(char *param, t_data *data);
 
 void				get_params(char **tab, t_cmd *cmd, t_data *data);
-void				get_label(char **line, t_cmd *cmd);
+void				get_label(char **line, t_cmd *cmd, t_data *data);
 void				get_cmd(char *line, t_cmd *cmd, t_data *data);
 void				get_name(char *line, t_data *data, int fd);
 void				get_comment(char *line, t_data *data, int fd);
 
-t_label				*init_label(void);
-t_cmd				*init_cmd(void);
-t_header			*init_header(void);
+t_label				*init_label(t_data *data);
+t_cmd				*init_cmd(t_data *data);
+t_header			*init_header(t_data *data);
 void				init_data(t_data *data);
 
 void				free_data(t_data *data);

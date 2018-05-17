@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/16 20:03:13 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 13:47:45 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,17 +116,8 @@ void				_ex_zjmp(t_core *c, t_process *p)
 	ft_printf("{green}{bold}\tIN\tZJMP (si carry == 1 charge p->pc en p->pc + (p_1 %% IDX_MOD)){eoc}\n");//
 
 	c->v[5](c, p, 0);
-	//final line
-//	p->pc = id(p->pc + (p->carry ? c->v[3](c, p, p->l[1]) % IDX_MOD : *p->l));
-	
 	if (p->carry == 1)
-	{
-//		ft_printf("\t\tp->opc: %p ind: %u\n", p->pc, p->pc);//
-
-		p->pc = id(p->pc + (c->v[3](c, p, p->l[1]) % IDX_MOD));
-
-//		ft_printf("\t\tp->opc = %p ind = %u\n", p->pc, p->pc);//
-	}
+		p->pc = id(p->pc + ((short)c->v[3](c, p, p->l[1]) % IDX_MOD));
 	else
 		p->pc = id(p->pc + *p->l);
 
@@ -147,13 +138,15 @@ void				_ex_ldi(t_core *c, t_process *p)
 	if (*p->ins.param & T_REG && (!p_1 || p_1 > 16))
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
+
 	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
+
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
-	p->reg[p_3] = c->v[2](c, p, p_2 + p_1);
+	p->reg[p_3] = c->v[2](c, p, (p_2 + p_1) % IDX_MOD);
 	p->pc = id(p->pc + *p->l);
 
 	ft_printf("{green}{bold}\tEND\tLDI{eoc}\n");//
