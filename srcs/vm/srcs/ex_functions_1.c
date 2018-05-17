@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 15:26:12 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 16:16:01 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void				_ex_live(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tLIVE\n{eoc}");//
+//	ft_printf("{green}{bold}\tIN\tLIVE\n{eoc}");//
 
 	unsigned int	i;
 	int				id_p;
@@ -27,7 +27,7 @@ void				_ex_live(t_core *c, t_process *p)
 	++c->current_cycle_live;
 	id_p = -c->v[T_DIR](c, p, p->l[1]);
 
-	ft_printf("\t\tid_p: %#x | %d\t-idp: %#x | %d\n", id_p, id_p, -id_p, -id_p);//
+//	ft_printf("\t\tid_p: %#x | %d\t-idp: %#x | %d\n", id_p, id_p, -id_p, -id_p);//
 
 //	if ((id_p = -c->v[T_DIR](c, p, p->l[1])) > 0 && id_p <= (int)c->player)
 	if (id_p > 0 && id_p <= (int)c->player)
@@ -38,21 +38,21 @@ void				_ex_live(t_core *c, t_process *p)
 		++c->p[i].total_live;
 		++c->p[i].current_cycle_live;
 		c->last_live_player = id_p;
-		ft_printf("{green}un processus dit que le joueur");
-		ft_printf(" %u(%s) est en vie\n{eoc}", id_p, c->p[i].name);
+		/*ft_printf("{green}un processus dit que le joueur");*/
+		/*ft_printf(" %u(%s) est en vie\n{eoc}", id_p, c->p[i].name);*/
 	}
 
-	ft_printf("\t\tid_p: %#x | %d\t-idp: %#x | %d", id_p, id_p, -id_p, -id_p);//
+/*	ft_printf("\t\tid_p: %#x | %d\t-idp: %#x | %d", id_p, id_p, -id_p, -id_p);//
 	ft_printf("\tp->live = %u\n", p->live);//
 //	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
 	ft_printf("\t{green}{bold}END\tLIVE\n{eoc}");//
-
+*/
 	p->pc = id(p->pc + *p->l);
 }
 
 void				_ex_ld(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tLD (charge p_1 dans p->reg[reg] + carry)\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tLD (charge p_1 dans p->reg[reg] + carry)\n{eoc}");//
 
 	unsigned char	reg;
 
@@ -70,12 +70,12 @@ void				_ex_ld(t_core *c, t_process *p)
 	p->pc = id(p->pc + *p->l);
 
 //	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
-	ft_printf("\t{green}{bold}END\tLD\n{eoc}");//
+//	ft_printf("\t{green}{bold}END\tLD\n{eoc}");//
 }
 
 void				_ex_st(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tST (copie p_1 vers p_2)\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tST (copie p_1 vers p_2)\n{eoc}");//
 //	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
 
 	int				i;
@@ -111,12 +111,12 @@ void				_ex_st(t_core *c, t_process *p)
 	}
 	p->pc = id(p->pc + *p->l);
 
-	ft_printf("\t{green}{bold}END\tST\n{eoc}");//
+//	ft_printf("\t{green}{bold}END\tST\n{eoc}");//
 }
 
 void				_ex_add(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tADD{eoc}\n");//
+//	ft_printf("\t{green}{bold}IN\tADD{eoc}\n");//
 
 	unsigned char	p_1;
 	unsigned char	p_2;
@@ -130,24 +130,24 @@ void				_ex_add(t_core *c, t_process *p)
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_2 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 
-	ft_printf("\t\tp_1: %u | %#x\tp->reg[p_1]: %#x\n", p_1, p_1, p->reg[p_1]);//
+/*	ft_printf("\t\tp_1: %u | %#x\tp->reg[p_1]: %#x\n", p_1, p_1, p->reg[p_1]);//
 	ft_printf("\t\tp_2: %u | %#x\tp->reg[p_2]: %#x\n", p_2, p_2, p->reg[p_2]);//
 	ft_printf("\t\tp_3: %u | %#x\tp->reg[o_3]: %#x\n", p_3, p_3, p->reg[p_3]);//
 	ft_printf("\t\tp->reg[p_1] + p->reg[p_2]: %u\n", p->reg[p_2] + p->reg[p_1]);//
-
+*/
 	p->reg[p_3] = p->reg[p_1] + p->reg[p_2];
 
-	ft_printf("\t\tp->reg[p_3]: %u | %p\n", p->reg[p_3], p->reg[p_3]);//
+//	ft_printf("\t\tp->reg[p_3]: %u | %p\n", p->reg[p_3], p->reg[p_3]);//
 
 	p->carry = p->carry ? 0 : 1;
 	p->pc = id(p->pc + *p->l);
 
-	ft_printf("\t{green}{bold}END\tADD{eoc}\n");//
+//	ft_printf("\t{green}{bold}END\tADD{eoc}\n");//
 }
 
 void				_ex_sub(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tSUB{eoc}\n");//
+//	ft_printf("\t{green}{bold}IN\tSUB{eoc}\n");//
 
 	unsigned char	p_1;
 	unsigned char	p_2;
@@ -164,5 +164,5 @@ void				_ex_sub(t_core *c, t_process *p)
 	p->carry = p->carry ? 0 : 1;
 	p->pc = id(p->pc + *p->l);
 
-	ft_printf("\t{green}{bold}END\tSUB{eoc}\n");//
+//	ft_printf("\t{green}{bold}END\tSUB{eoc}\n");//
 }

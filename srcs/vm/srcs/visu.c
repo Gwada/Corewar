@@ -9,6 +9,7 @@ static void	load(t_core *c)
 		fill_title(c);
 		fill_usages(c);
 		fill_stats(c);
+		fill_logs(c);
 		fill_states(c);
 		fill_arena(c);
 		c->visu.event_flag &= ~F_RELOAD;
@@ -28,6 +29,7 @@ static void	refresh_win(t_visu_env *env)
 	wrefresh(env->title.win);
 	wrefresh(env->usages.win);
 	wrefresh(env->stats.win);
+	wrefresh(env->logs.win);
 	wrefresh(env->states.win);
 	wrefresh(env->arena.win);
 }
@@ -45,4 +47,5 @@ void	visu(t_core *c)
 	load(c);
 	refresh_win(&c->visu);
 	getchar();
+	exit(1); //
 }

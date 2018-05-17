@@ -27,4 +27,12 @@ nombre de vie = op.h
 
 | log window |
 
-flush display log
+flush display log (free old string)
+
+
+| usage window |
+
+Quit keypad
+Handle fram/second keypad
+Pause keypad
+Coup par coup keypad

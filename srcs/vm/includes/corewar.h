@@ -75,6 +75,7 @@ struct s_visu_env
 	t_win		title;
 	t_win		usages;
 	t_win		stats;
+	t_win		logs;
 	t_win		states;
 	t_win		arena;
 };
@@ -272,6 +273,7 @@ void	draw_basics(t_core *c);
 void	fill_title(t_core *c);
 void	fill_usages(t_core *c);
 void	fill_stats(t_core *c);
+void	fill_logs(t_core *c);
 void	fill_states(t_core *c);
 void	fill_arena(t_core *c); // make proper
 void	ft_exit_alloc_failure();

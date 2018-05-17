@@ -52,6 +52,7 @@ struct s_visu_env
 	t_win		usages;
 	t_win		stats;
 	t_win		states;
+	t_win		logs;
 	t_win		arena;
 };
 
@@ -61,6 +62,7 @@ void	draw_basics(t_visu_env *env);
 void	fill_title(t_visu_env *env);
 void	fill_usages(t_visu_env *env);
 void	fill_stats(t_core *c, t_visu_env *env);
+void	fill_logs(t_core *c);
 void	fill_states(t_core *c, t_visu_env *env);
 void	fill_arena(t_core *c, t_visu_env *env); // make proper
 
