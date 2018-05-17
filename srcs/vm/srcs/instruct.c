@@ -55,7 +55,6 @@ void				read_instruct(t_core *c, t_process *p)
 	//	ft_printf("{bold}{blue}IN\tREAD_INSTRUCT{eoc}\n");//
 	unsigned char	opc;
 
-	c->bd & VISUAL ? visu(c, 0) : 0;
 	if (opc_c((opc = c->ram[id(*p->rg)])))
 	{
 		add_data(&p->ins, &g_op_tab[opc - 1]);
@@ -76,7 +75,6 @@ void				read_instruct(t_core *c, t_process *p)
 		ft_printf("Invalid instruct\n");//
 		}
 		ft_printf("{bold}{blue}END\tREAD_INSTRUCT{eoc}\n\n");//
-		c->bd & VISUAL ? visu(c, 0) : 0;
 		*/}
 
 unsigned int		get_ind(t_core *core, t_process *process, unsigned int ind)
