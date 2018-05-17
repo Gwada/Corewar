@@ -76,6 +76,7 @@ void	draw_basics(t_core *c)
 
 void	fill_usages(t_core *c)
 {
+	(void)c;
 	/*mvwprintw(c->visu.arena.win, 0, c->visu.arena.size.x / 2 - 4, " ARENA ");*/
 }
 
