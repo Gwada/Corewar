@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:35:45 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/17 16:40:45 by sdjeghba         ###   ########.fr       */
+/*   Updated: 2018/05/17 18:28:20 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void		read_header(int fd, t_data *data)
 
 	while ((ret = get_next_line(fd, &data->gnl)) > 0 && ++data->line)
 	{
-		//data->line++;//
 		ft_char_replace(data->gnl, COMMENT_CHAR, '\0');
 		ft_strptr_replace(&data->gnl, ft_strrm_borders(data->gnl));
 		!data->line ? handle_err(MALLOC_ERR, QUIT, data) : 0;

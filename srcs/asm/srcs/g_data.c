@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:24:20 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/17 18:11:58 by sdjeghba         ###   ########.fr       */
+/*   Updated: 2018/05/17 18:37:49 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void		get_params(char **tab, t_cmd *cmd, t_data *data)
 		if ((is_lab(tab[i]) || (is_dir(tab[i]) && is_lab(tab[i] + 1))) &&
 				cmd->p_val[i])
 			cmd->p_val[i] -= cmd->index;
-		cmd->ocp += get_code(tab[i]) * LEFT_BM(i);
+		cmd->ocp += get_code(tab[i]) * ((1 << (3 - i) * 2));
 		cmd->size += get_size(tab[i], cmd->opcode);
 	}
 	data->header->prog_size += cmd->size;
@@ -80,8 +80,7 @@ void		get_cmd(char *line, t_cmd *cmd, t_data *d)
 		line++;
 	while (*line && ft_isblank(*line))
 		line++;
-	if (!(tab = ft_strsplit(line, SEPARATOR_CHAR)))
-		handle_err(13, QUIT, d);
+	(tab = ft_strsplit(line, SEPARATOR_CHAR)) ? 0 : handle_err(13, QUIT, d);
 	ft_tablen(tab) != g_op_tab[i].nb_param ? handle_err(13, d->line, d) : 0;
 	get_params(tab, cmd, d);
 	tab ? ft_free_tab(tab) : 0;

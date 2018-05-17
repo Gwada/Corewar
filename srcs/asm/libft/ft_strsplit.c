@@ -6,13 +6,13 @@
 /*   By: dlavaury <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:35:23 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 18:05:51 by sdjeghba         ###   ########.fr       */
+/*   Updated: 2018/05/17 18:32:57 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/libft.h"
 
-int     ft_countwords(const char *s, const char c, size_t state)
+int			ft_countwords(const char *s, const char c, size_t state)
 {
 	if (!s || !*s)
 		return (0);
@@ -25,7 +25,7 @@ int     ft_countwords(const char *s, const char c, size_t state)
 	return (ft_countwords(s + 1, c, 0));
 }
 
-char	**ft_strsplit(char const *s, char c)
+char		**ft_strsplit(char const *s, char c)
 {
 	int		nbwords;
 	int		nbletter;
