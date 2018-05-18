@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/18 14:55:06 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/18 20:27:33 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 int					get_ind(t_core *core, t_process *process, int ind)
 {
 //	ft_printf("\t\t{red}direct (short){eoc}\n");//
-	unsigned int	i;
+	int				i;
 	short			n;
 
 	i = 0;
@@ -68,7 +68,7 @@ int					get_ind(t_core *core, t_process *process, int ind)
 	while (i < 2)
 		n = (n << 8) | (core->ram[id(process->pc + ind + i++)]);
 	(void)process;
-	return (n);
+	return ((short)n);
 }
 
 int					get_len(t_core *core, t_process *p, int ind)
@@ -100,12 +100,6 @@ int					get_len(t_core *core, t_process *p, int ind)
 	++*p->l;
 	(void)core;
 	(void)ind;
-
-/*	int i = -1;//
-	ft_printf("\t\t\t");//
-	while (++i <= p->ins.nb_param)//
-		ft_printf("p->l[%d]: %u\t", i, p->l[i]);//
-	ft_printf("\n{bold}{underline}{black}\t\tEND\tGET_LEN{eoc}\n");//
-*/
+//	ft_printf("\n{bold}{underline}{black}\t\tEND\tGET_LEN{eoc}\n");//
 	return (0);
 }

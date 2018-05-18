@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/18 14:09:32 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/18 19:57:03 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void			_ex_aff(t_core *c, t_process *p)
 
 int				get_reg_ind(t_core *c, t_process *p, int ind)
 {
-	ft_printf("\t\t{red}registre{eoc}\n");//
+//	ft_printf("\t\t{red}registre{eoc}\n");//
 	return (c->ram[id(p->pc + ind)]);
 }
 
@@ -42,7 +42,7 @@ int				get_dir_value(t_core *c, t_process *p, int ind)
 	n = 0;
 	if (p->ins.label_size)
 		return ((short)c->v[3](c, p, ind));
-	ft_printf("\t\t{red}direct (4 octets){eoc}\n");//
+//	ft_printf("\t\t{red}direct (4 octets){eoc}\n");//
 	while (i < 4)
 		n = (n << 8) | c->ram[id(p->pc + ind + i++)];
 	return (n);
@@ -50,7 +50,7 @@ int				get_dir_value(t_core *c, t_process *p, int ind)
 
 int				get_ind_value(t_core *c, t_process *p, int ind)
 {
-	ft_printf("\t\t{red}index{eoc}\n");//
+//	ft_printf("\t\t{red}index{eoc}\n");//
 	int			i;
 	int			n;
 	int			try;
@@ -58,7 +58,7 @@ int				get_ind_value(t_core *c, t_process *p, int ind)
 
 	i = 0;
 	try = 0;
-	addr = (short)c->v[3](c, p, id(p->pc + ind));
+	addr = (short)c->v[3](c, p, ind);
 	p->ins.label_size ? try = 1 : 0;
 	p->ins.label_size ? p->ins.label_size = 0 : 0;
 	if (c->ram[id(p->pc)] > 0x0c && c->ram[id(p->pc)] < 0x10)

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/18 15:03:14 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/18 20:27:44 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static t_process	*process_up(t_core *c, t_process *lst)
 
 static void			check_instruct(t_core *c, unsigned char opc)
 {
-	ft_printf("\n{bold}{yellow}{underline}IN\tCHECK_INSTRUCT\t");//
-	ft_printf("{red}CYCLE: %u\n{eoc}", c->total_cycle);//
+//	ft_printf("\n{bold}{yellow}{underline}IN\tCHECK_INSTRUCT\t");//
+//	ft_printf("{red}CYCLE: %u\n{eoc}", c->total_cycle);//
 
 	t_process		*tmp;
 
@@ -92,7 +92,7 @@ static void			check_instruct(t_core *c, unsigned char opc)
 		}
 	}
 
-	ft_printf("{bold}{yellow}{underline}END\tCHECK_INSTRUCT{eoc}\n");//
+//	ft_printf("{bold}{yellow}{underline}END\tCHECK_INSTRUCT{eoc}\n");//
 
 }
 static void		put_champ(t_core *core)
@@ -117,16 +117,23 @@ void				corewar(t_core *core)
 
 	if (!(core->ps = init_process(core, -1)))
 		return ((void)display_error(core, 0, NULL));
-	while (core->n_process > 0)
+	int test = 0;
+	while (core->n_process > 0 && core->max_cycle > 0)
 	{
-		ft_printf("{bold}{black}current cycle: %u\t", core->current_cycle);
+/*		ft_printf("{bold}{red}current cycle: %u\t", core->current_cycle);
 		ft_printf("cycle_to_die: %d\t", core->max_cycle);
-		ft_printf("before cycle_to_die: %d\n{eoc}", core->max_cycle - core->current_cycle);
-		check_instruct(core, 0);
-		if (cycle_checker(core) || (core->total_cycle && core->max_cycle <= 0))
+		ft_printf("before cycle_to_die: %d\t", core->max_cycle - core->current_cycle);
+		ft_printf("current_live: %d\n{eoc}", core->current_cycle_live);
+*/		check_instruct(core, 0);
+		if (cycle_checker(core))
 			break ;
 		++core->total_cycle;
 		++core->current_cycle;
+		if (!(++test % 75))
+		{
+			system("clear");
+			ft_print_mem(&core->ram, MEM_SIZE, 64, 0);
+		}
 	}
 
 	ft_printf("\n%u process in progress at end\n", core->n_process);//
