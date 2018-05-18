@@ -78,6 +78,7 @@ struct s_visu_env
 	t_win		logs;
 	t_win		states;
 	t_win		arena;
+	unsigned	frame_second;
 };
 
 /*

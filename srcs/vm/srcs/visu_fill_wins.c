@@ -5,7 +5,7 @@ static void	init_wins_size(t_core *c)
 	c->visu.title.size.y = c->visu.w_size.y / 8;	
 	c->visu.title.size.x = c->visu.w_size.x / 4;
 
-	c->visu.usages.size.y = (int)(double)(c->visu.w_size.y / 3.5);
+	c->visu.usages.size.y = (int)(double)(c->visu.w_size.y / 7.5);
 	c->visu.usages.size.x = c->visu.w_size.x / 4;
 
 	c->visu.stats.size.y = (int)(double)(c->visu.w_size.y / 2.6);
@@ -76,13 +76,47 @@ void	draw_basics(t_core *c)
 
 void	fill_usages(t_core *c)
 {
-	(void)c;
-	/*mvwprintw(c->visu.arena.win, 0, c->visu.arena.size.x / 2 - 4, " ARENA ");*/
+	mvwprintw(c->visu.usages.win, (int)(double)(c->visu.usages.size.y / 2 - 1), 3, "Quit:  'q'");
+	mvwprintw(c->visu.usages.win, (int)(double)(c->visu.usages.size.y / 2), 3, "Pause: 'space'");
+	mvwprintw(c->visu.usages.win, (int)(double)(c->visu.usages.size.y / 2 - 1), c->visu.usages.size.x - 22, "Frame/Sec:    '+/-'");
+	mvwprintw(c->visu.usages.win, (int)(double)(c->visu.usages.size.y / 2), c->visu.usages.size.x - 22, "Step by step:   's'");
 }
 
 void	fill_stats(t_core *c)
 {
-	(void)c;
+	unsigned count;
+	unsigned x;
+	unsigned y;
+
+	// align
+	mvwprintw(c->visu.stats.win, 1, 3, "Cycle to die: %d", c->max_cycle);
+	mvwprintw(c->visu.stats.win, 2, 3, "Cycle delta: %d", CYCLE_DELTA);
+	mvwprintw(c->visu.stats.win, 3, 3, "Max check: %d", MAX_CHECKS);
+	mvwprintw(c->visu.stats.win, 4, 3, "Live number: %d", NBR_LIVE);
+
+	mvwprintw(c->visu.stats.win, 1, c->visu.stats.size.x - 19, "Frame/Second: %d", c->visu.frame_second);
+	mvwprintw(c->visu.stats.win, 2, c->visu.stats.size.x - 19, "Cycle: %d", c->total_cycle);
+	mvwprintw(c->visu.stats.win, 3, c->visu.stats.size.x - 19, "Current cycle: %d", c->current_cycle);
+	mvwprintw(c->visu.stats.win, 4, c->visu.stats.size.x - 19, "Last decr: %d", c->last_decr);
+	mvwprintw(c->visu.stats.win, 5, c->visu.stats.size.x - 19, "Process: %d", c->n_process);
+
+	count = 0;
+	x = 3;
+	y = 8;
+	while (count < c->player)
+	{
+		if (count == 2)
+		{
+			x = 3;
+			y += 6;
+		}
+		mvwprintw(c->visu.stats.win, y, x, "Player %d", count + 1);
+		mvwprintw(c->visu.stats.win, y + 1, x, "Process: %d", c->p[count].total_process);
+		mvwprintw(c->visu.stats.win, y + 2, x, "Current live: %d", c->p[count].current_cycle_live);
+		mvwprintw(c->visu.stats.win, y + 3, x, "Total live: %d", c->p[count].total_live);
+		++count;
+		x += 14;
+	}
 }
 
 void	fill_arena(t_core *c) // make proper
