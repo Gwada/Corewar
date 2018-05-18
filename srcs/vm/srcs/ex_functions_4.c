@@ -26,13 +26,13 @@ void			_ex_aff(t_core *c, t_process *p)
 	p->pc = id(p->pc + *p->l);
 }
 
-int				get_reg_ind(t_core *c, t_process *p, unsigned int ind)
+int				get_reg_ind(t_core *c, t_process *p, int ind)
 {
-//	ft_printf("\t\t{red}registre{eoc}\n");//
+	ft_printf("\t\t{red}registre{eoc}\n");//
 	return (c->ram[id(p->pc + ind)]);
 }
 
-int				get_dir_value(t_core *c, t_process *p, unsigned int ind)
+int				get_dir_value(t_core *c, t_process *p, int ind)
 {
 
 	int			i;
@@ -42,15 +42,15 @@ int				get_dir_value(t_core *c, t_process *p, unsigned int ind)
 	n = 0;
 	if (p->ins.label_size)
 		return (c->v[3](c, p, ind));
-//	ft_printf("\t\t{red}direct (4 octets){eoc}\n");//
+	ft_printf("\t\t{red}direct (4 octets){eoc}\n");//
 	while (i < 4)
 		n = (n << 8) | c->ram[id(p->pc + ind + i++)];
 	return (n);
 }
 
-int				get_ind_value(t_core *c, t_process *p, unsigned int ind)
+int				get_ind_value(t_core *c, t_process *p, int ind)
 {
-//	ft_printf("\t\t{red}index{eoc}\n");//
+	ft_printf("\t\t{red}index{eoc}\n");//
 	int			i;
 	int			n;
 	int			try;
@@ -69,7 +69,7 @@ int				get_ind_value(t_core *c, t_process *p, unsigned int ind)
 	return (n);
 }
 
-int				get_mem_addr(t_core *c, t_process *p, unsigned int addr)
+int				get_mem_addr(t_core *c, t_process *p, int addr)
 {
 	if (c->ram[id(p->pc)] > 0x0c && c->ram[id(p->pc)] < 0x10)
 		return (id(p->pc + addr));

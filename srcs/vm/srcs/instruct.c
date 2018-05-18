@@ -37,8 +37,8 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 	if (opc_c((opc = c->ram[id(p->pc)]) - 1))
 	{
 		add_data(&p->ins, &g_op_tab[opc - 1]);
-
-/*		ft_printf("\t\tp->name\t\t= {green}%s{eoc}\n", p->ins.name);//
+/*
+		ft_printf("\t\tp->name\t\t= {green}%s{eoc}\n", p->ins.name);//
 		ft_printf("\t\tp->nb_param\t= {green}%d{eoc}\n", p->ins.nb_param);//
 		ft_printf("\t\tp->op_code\t= {green}%d{eoc}\n", p->ins.op_code);//
 		ft_printf("\t\tp->nb_cycles\t= {green}%d{eoc}\n", p->ins.nb_cycles);//
@@ -57,7 +57,7 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 	return (0);
 }
 
-int					get_ind(t_core *core, t_process *process, unsigned int ind)
+int					get_ind(t_core *core, t_process *process, int ind)
 {
 //	ft_printf("\t\t{red}direct (short){eoc}\n");//
 	unsigned int	i;
@@ -71,7 +71,7 @@ int					get_ind(t_core *core, t_process *process, unsigned int ind)
 	return (n);
 }
 
-int					get_len(t_core *core, t_process *p, unsigned int ind)
+int					get_len(t_core *core, t_process *p, int ind)
 {
 //	ft_printf("{bold}{underline}{black}\t\tIN\tGET_LEN{eoc}\n");//
 

@@ -98,7 +98,7 @@ typedef struct				s_core
 	unsigned int			dump;
 	unsigned int			player;
 	int						max_cycle;
-	unsigned int			total_cycle;
+	int						total_cycle;
 	unsigned int			current_cycle;
 	unsigned int			last_decr;
 	unsigned int			total_live;
@@ -110,8 +110,7 @@ typedef struct				s_core
 	unsigned int			(*ft[INST_NB])(const unsigned char *c,
 							t_process *process);
 	void					(*ex[INST_NB])(struct s_core *c, t_process *p);
-	int						(*v[6])(struct s_core *c, t_process *p,
-							unsigned int i);
+	int						(*v[6])(struct s_core *c, t_process *p, int i);
 	t_process				*ps;
 }							t_core;
 
@@ -140,6 +139,7 @@ int							display_error(t_core *core, int code, char *s);
 */
 
 size_t						cycle_checker(t_core *core);
+size_t						max_checker(t_core *core);
 
 /*
 **	PROCESS FUNCTIONS
@@ -183,17 +183,17 @@ unsigned int				_lfork(const unsigned char *oct, t_process *p);
 unsigned int				_aff(const unsigned char *oct, t_process *p);
 
 int							get_mem_addr(t_core *core, t_process *process,
-							unsigned int reg);
+							int reg);
 int							get_reg_ind(t_core *core, t_process *process,
-							unsigned int reg);
+							int reg);
 int							get_ind(t_core *core, t_process *process,
-							unsigned int reg);
+							int reg);
 int							get_dir_value(t_core *core, t_process *process,
-							unsigned int ind);
+							int ind);
 int							get_ind_value(t_core *core, t_process *process,
-							unsigned int reg);
+							int reg);
 int							get_len(t_core *core, t_process *process,
-							unsigned int reg);
+							int reg);
 void						_ex_live(t_core *core, t_process *process);
 void						_ex_ld(t_core *core, t_process *process);
 void						_ex_st(t_core *core, t_process *process);

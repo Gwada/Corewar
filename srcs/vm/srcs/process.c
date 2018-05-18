@@ -34,7 +34,7 @@ t_process		*del_process(t_core *core, t_process *lst)
 	if (!lst->live)
 	{
 		ft_printf("One of the processes of the player ");//
-		ft_printf("n. %u does not respond anymore.{red}", lst->pc);//
+		ft_printf("n. %d does not respond anymore.{red}", lst->reg[1]);//
 		ft_printf(" FUCK THIS SHIT!!!! He must die now{eoc}\n");//
 	}
 	lst->next ? lst->next->prev = lst->prev : 0;
