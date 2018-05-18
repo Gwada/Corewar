@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 16:21:51 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/18 14:09:32 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int				get_dir_value(t_core *c, t_process *p, int ind)
 	i = 0;
 	n = 0;
 	if (p->ins.label_size)
-		return (c->v[3](c, p, ind));
+		return ((short)c->v[3](c, p, ind));
 	ft_printf("\t\t{red}direct (4 octets){eoc}\n");//
 	while (i < 4)
 		n = (n << 8) | c->ram[id(p->pc + ind + i++)];
@@ -58,7 +58,7 @@ int				get_ind_value(t_core *c, t_process *p, int ind)
 
 	i = 0;
 	try = 0;
-	addr = c->v[3](c, p, id(p->pc + ind));
+	addr = (short)c->v[3](c, p, id(p->pc + ind));
 	p->ins.label_size ? try = 1 : 0;
 	p->ins.label_size ? p->ins.label_size = 0 : 0;
 	if (c->ram[id(p->pc)] > 0x0c && c->ram[id(p->pc)] < 0x10)

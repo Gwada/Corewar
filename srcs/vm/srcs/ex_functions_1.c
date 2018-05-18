@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 16:16:01 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/18 15:03:17 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,20 @@ void				_ex_live(t_core *c, t_process *p)
 	++p->live;
 	++c->current_cycle_live;
 	id_p = c->v[T_DIR](c, p, p->l[1]);
+	ft_printf("\t\tid_p: %#x | %d\n", id_p, id_p);//
 	while (++i < (int)c->player)
-		if (id_p == -c->p[i].id)
+		if (id_p == c->p[i].id)
 		{
 			++c->p[i].total_live;
 			++c->p[i].current_cycle_live;
-			c->last_live_player = -id_p;
+			c->last_live_player = id_p;
 			ft_printf("{green}un processus dit que le joueur");
-			ft_printf(" %d(%s) est en vie\n{eoc}", -id_p, c->p[i].name);
+			ft_printf(" %d(%s) est en vie\n{eoc}", id_p, c->p[i].name);
 		}
 
-	ft_printf("\t\tid_p: %#x | %d\t-idp: %#x | %d", id_p, id_p, -id_p, -id_p);//
+	ft_printf("\t\tid_p: %#x | %d", id_p, id_p);//
 	ft_printf("\tp->live: %u\ttotal_live_payer: %u\n", p->live, c->p[i - 1].total_live);//
 	ft_printf("\t{green}{bold}END\tLIVE\n{eoc}");//
-//	if (c->total_live && !(c->current_cycle_live % NBR_LIVE))
-//		c->max_cycle -= max_checker(c);
 	p->pc = id(p->pc + *p->l);
 }
 
