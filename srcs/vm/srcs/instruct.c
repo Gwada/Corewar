@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/18 20:27:33 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/19 15:38:52 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void				add_data(t_op *dst, t_op *src)
 
 unsigned int		read_instruct(t_core *c, t_process *p)
 {
-/*	ft_printf("\t{bold}{blue}IN\tREAD_INSTRUCT");//
+/*
+	ft_printf("\t{bold}{blue}IN\tREAD_INSTRUCT");//
 	ft_printf("\tOPC: %p P->C: %u{eoc}\n", c->ram[id(p->pc)], p->pc);//
 	ft_printf("\t\t{green}carry\t= %u\n", p->carry);//
 	ft_printf("\t\tid_player = %u\n\n{eoc}", *p->reg);//
@@ -59,7 +60,7 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 
 int					get_ind(t_core *core, t_process *process, int ind)
 {
-//	ft_printf("\t\t{red}direct (short){eoc}\n");//
+	ft_printf("\t\t{red}direct (short){eoc}\n");//
 	int				i;
 	short			n;
 
@@ -73,8 +74,6 @@ int					get_ind(t_core *core, t_process *process, int ind)
 
 int					get_len(t_core *core, t_process *p, int ind)
 {
-//	ft_printf("{bold}{underline}{black}\t\tIN\tGET_LEN{eoc}\n");//
-
 	*p->l = p->ins.ocp ? 1 : 0;
 	p->l[1] = *p->l + 1;
 	if (*p->ins.param & T_REG || (*p->ins.param & T_DIR && !p->ins.label_size))
@@ -99,7 +98,5 @@ int					get_len(t_core *core, t_process *p, int ind)
 	}
 	++*p->l;
 	(void)core;
-	(void)ind;
-//	ft_printf("\n{bold}{underline}{black}\t\tEND\tGET_LEN{eoc}\n");//
-	return (0);
+	return (ind);
 }
