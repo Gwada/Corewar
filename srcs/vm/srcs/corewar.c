@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 16:56:36 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/19 20:23:53 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ static t_process	*process_up(t_core *c, t_process *lst)
 
 	if (c->n_process < 2)
 		return (NULL);
+	if ((!lst->prev || (lst->prev->ins.nb_cycles < lst->ins.nb_cycles))
+	&& (!lst->next || (lst->next->ins.nb_cycles >= lst->ins.nb_cycles)))
+		return (lst->next);
 	c->ps == lst ? c->ps = lst->next : 0;
 	tmp = lst;
 	lst = (lst->next ? lst->next : NULL);
@@ -104,13 +107,13 @@ static void		put_champ(t_core *core)
 		return ;
 	if (!core->last_live_player)
 	{
-		ft_printf("There is no winner at the end of this game\n");//
+		ft_printf("There is no winner at the end of this game\n");
 		return ;
 	}
 	i = 0;
 	while (i < core->player && core->p[i].id != core->last_live_player)
 		++i;
-	ft_printf("le joueur %u(%s) a gagne\n", core->p[i].id, core->p[i].name);//
+	ft_printf("le joueur %u(%s) a gagne\n", core->p[i].id, core->p[i].name);
 }
 void				corewar(t_core *core)
 {
@@ -130,9 +133,7 @@ void				corewar(t_core *core)
 		++core->current_cycle;
 	}
 
-	ft_printf("\n%u process in progress at end\n", core->n_process);//
-	ft_printf("\nend after %u cycles\n", core->total_cycle);//
-	ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");//
+	ft_printf("{bold}\n%u process in progress at end\nend after %u cycles\n{red}END\tCOREWAR{eoc}\n", core->n_process, core->total_cycle);//
 
 	put_champ(core);
 	core->n_process ? clean_process(core->ps) : 0;

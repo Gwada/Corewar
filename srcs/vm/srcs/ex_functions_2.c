@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 18:26:10 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/19 18:57:46 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void				_ex_ldi(t_core *c, t_process *p)
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
-	p_2 = (short)c->v[0](c, p, (short)p_2 + (short)p_1); //cast?
+	p_2 = (short)c->v[0](c, p, p_2 + p_1); //cast?
 	while (++i < 4)
 		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id((short)p_2 + i)]; //cast?
 	p->pc = id(p->pc + *p->l);

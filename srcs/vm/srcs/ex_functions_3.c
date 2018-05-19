@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 18:26:08 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/19 20:23:55 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void				_ex_sti(t_core *c, t_process *p)
 
 	ft_printf("\t\tp_3 = %#x\n", p_3);//
 
-	p_2 = (short)c->v[0](c, p, (short)p_2 + (short)p_3);
+	p_2 = (short)c->v[0](c, p, p_2 + p_3);
 
 	ft_printf("\t\tp->pc + (p_3 + p_2) %% IDX_MOD = %#x\n", p_2);//
 
@@ -73,8 +73,9 @@ void				_ex_fork(t_core *c, t_process *p)
 
 	read_instruct(c, new);
 	p->pc = id(p->pc + *p->l);
+	ft_printf("test 0\n");
 	insert_process(c, new);
-
+	ft_printf("test 2\n");
 	ft_printf("\t{green}{bold}END\tFORK\n{eoc}");//
 }
 
@@ -115,7 +116,7 @@ void				_ex_lldi(t_core *c, t_process *p)
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
-	p_2 = (short)c->v[0](c, p, (short)p_2 + (short)p_1); //cast?
+	p_2 = (short)c->v[0](c, p, p_2 + p_1); //cast?
 	while (++i < 4)
 		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id((short)p_2 + i)];//cast?
 	p->pc = id(p->pc + *p->l);
