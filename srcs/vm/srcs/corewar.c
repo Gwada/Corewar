@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 15:38:49 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/19 16:56:36 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void			check_instruct(t_core *c, unsigned char opc)
 						c->ex[opc](c, tmp);
 
 	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);//
-	nanosleep((const struct timespec[]){{0, 200000000L}}, NULL);
+	nanosleep((const struct timespec[]){{0, 100000000L}}, NULL);
 
 					}
 					else

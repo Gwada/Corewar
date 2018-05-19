@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 15:03:45 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/19 18:26:08 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,24 +98,26 @@ void				_ex_lldi(t_core *c, t_process *p)
 {
 	ft_printf("\t{green}{bold}IN\tLLDI\n{eoc}");//
 
+	int				i;
 	int				p_1;
 	int				p_2;
 	unsigned char	p_3;
 
+	i = -1;
 	c->v[5](c, p, 0);
 	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
 	if (*p->ins.param & T_REG && (!p_1 || p_1  > 16))
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
-
 	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
-
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
-	p->reg[p_3] = c->v[2](c, p, p_2 + p_1);
+	p_2 = (short)c->v[0](c, p, (short)p_2 + (short)p_1); //cast?
+	while (++i < 4)
+		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id((short)p_2 + i)];//cast?
 	p->pc = id(p->pc + *p->l);
 	p->carry = p->reg[p_3] ? 0 : 1;
 

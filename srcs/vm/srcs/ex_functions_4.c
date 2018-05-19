@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 14:55:00 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/19 18:26:12 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,21 @@ int				get_ind_value(t_core *c, t_process *p, int ind)
 	short		addr;
 
 	i = 0;
-	if (c->ram[id(p->pc)] > 0x0c && c->ram[id(p->pc)] < 0x10)
-		addr = (short)c->v[3](c, p, ind);
-	else
-		addr = (short)c->v[3](c, p, ind) % IDX_MOD;
+	addr = (short)c->v[3](c, p, ind);
+	c->ram[id(p->pc)] < 0x0d || c->ram[id(p->pc)] > 0x0f ? addr %= IDX_MOD : 0;
+
 	ft_printf("addr: %#x | %hd\t", addr, addr);
+
 	while (++i < 4)
 		n = (n << 8) | c->ram[id(p->pc + addr + i)];
+
 	ft_printf("value: %#x\n", n);
+
 	return (n);
 }
 
 int				get_mem_addr(t_core *c, t_process *p, int addr)
 {
-	if (c->ram[id(p->pc)] > 0x0c && c->ram[id(p->pc)] < 0x10)
-		return (id(p->pc + (short)addr));
-	return (id(p->pc + ((short)addr % IDX_MOD)));
+	c->ram[id(p->pc)] < 0x0d || c->ram[id(p->pc)] > 0x0f ? addr %= IDX_MOD : 0;
+	return (id(p->pc + addr));
 }

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 12:37:49 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/19 18:26:10 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,13 @@ void				_ex_and(t_core *c, t_process *p)
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 
-	ft_printf("\t\t1 p_3: %#x\n", p_3);//
-	ft_printf("\t\t1 p_3: %#x\n", p->reg[p_3]);//
+	ft_printf("\t\t1 p_3: %#x\n\t\t1 p_3: %#x\n", p_3, p->reg[p_3]);//
 
 	p->reg[p_3] = p_1 & p_2;
 
 	ft_printf("\t\t2 p_3: %#x\n", p->reg[p_3]);//
 
-	p->carry = p->reg[p_3] ? 0 : 1;
+	p->carry = (p->reg[p_3] == 0);
 	p->pc = id(p->pc + *p->l);
 
 	ft_printf("{green}{bold}\tEND\tAND{eoc}\n");//
@@ -78,7 +77,7 @@ void				_ex_or(t_core *c, t_process *p)
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->reg[p_3] = p_1 | p_2;
-	p->carry = p->reg[p_3] ? 1 : 0;
+	p->carry = (p->reg[p_3] == 0);
 	p->pc = id(p->pc + *p->l);
 
 	ft_printf("{green}{bold}\tEND\tOR{eoc}\n");//
@@ -104,7 +103,7 @@ void		_ex_xor(t_core *c, t_process *p)
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->reg[p_3] = p_1 ^ p_2;
-	p->carry = p->reg[p_3] ? 0 : 1;
+	p->carry = (p->reg[p_3] == 0);
 	p->pc = id(p->pc + *p->l);
 
 	ft_printf("{green}{bold}\tEND\tXOR{eoc}\n");//
@@ -129,24 +128,26 @@ void				_ex_ldi(t_core *c, t_process *p)
 {
 	ft_printf("{green}{bold}\tIN\tLDI{eoc}\n");//
 
+	int				i;
 	int				p_1;
 	int				p_2;
 	unsigned char	p_3;
 
+	i = -1;
 	c->v[5](c, p, 0);
 	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
 	if (*p->ins.param & T_REG && (!p_1 || p_1 > 16))
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
-
 	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
-
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
-	p->reg[p_3] = c->v[2](c, p, (p_2 + p_1) % IDX_MOD);
+	p_2 = (short)c->v[0](c, p, (short)p_2 + (short)p_1); //cast?
+	while (++i < 4)
+		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id((short)p_2 + i)]; //cast?
 	p->pc = id(p->pc + *p->l);
 
 	ft_printf("{green}{bold}\tEND\tLDI{eoc}\n");//

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 15:38:47 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/19 18:20:43 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void				_ex_st(t_core *c, t_process *p)
 
 		ft_printf("\t\t{yellow}(addr)p_2 = %#x(hex) %hu{eoc}", p_2, p_2);//
 
-		p_2 = c->v[0](c, p, p_2);
+		p_2 = (short)c->v[0](c, p, p_2); //cast ou pas?? that is the question
 
 		ft_printf("\t\t{green}(addr)p_2 = %#x(hex) %hu\n{eoc}", p_2, p_2);//
 
@@ -122,16 +122,13 @@ void				_ex_add(t_core *c, t_process *p)
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_2 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 
-	ft_printf("\t\tp_1: %u | %#x\tp->reg[p_1]: %#x\n", p_1, p_1, p->reg[p_1]);//
-	ft_printf("\t\tp_2: %u | %#x\tp->reg[p_2]: %#x\n", p_2, p_2, p->reg[p_2]);//
-	ft_printf("\t\tp_3: %u | %#x\tp->reg[o_3]: %#x\n", p_3, p_3, p->reg[p_3]);//
-	ft_printf("\t\tp->reg[p_1] + p->reg[p_2]: %u\n", p->reg[p_2] + p->reg[p_1]);//
+	ft_printf("\t\tp_1: %u | %#x\tp->reg[p_1]: %#x\n\t\tp_2: %u | %#x\tp->reg[p_2]: %#x\n\t\tp_3: %u | %#x\tp->reg[o_3]: %#x\n\t\tp->reg[p_1] + p->reg[p_2]: %u\n", p_1, p_1, p->reg[p_1], p_2, p_2, p->reg[p_2], p_3, p_3, p->reg[p_3], p->reg[p_2] + p->reg[p_1]);//
 
 	p->reg[p_3] = p->reg[p_1] + p->reg[p_2];
 
 	ft_printf("\t\tp->reg[p_3]: %u | %p\n", p->reg[p_3], p->reg[p_3]);//
 
-	p->carry = p->reg[p_3] ? 0 : 1;
+	p->carry = (p->reg[p_3] == 0);
 	p->pc = id(p->pc + *p->l);
 
 	ft_printf("\t{green}{bold}END\tADD{eoc}\n");//
@@ -153,7 +150,7 @@ void				_ex_sub(t_core *c, t_process *p)
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->reg[p_3] = p->reg[p_1] - p->reg[p_2];
-	p->carry = p->reg[p_3] ? 0 : 1;
+	p->carry = (p->reg[p_3] == 0);
 	p->pc = id(p->pc + *p->l);
 
 	ft_printf("\t{green}{bold}END\tSUB{eoc}\n");//
