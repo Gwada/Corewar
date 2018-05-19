@@ -39,6 +39,7 @@ t_process		*del_process(t_core *core, t_process *lst)
 	}
 	lst->next ? lst->next->prev = lst->prev : 0;
 	lst->prev ? lst->prev->next = lst->next : 0;
+	core->ps == lst ? core->ps = lst->next : 0;
 	if (lst->prev)
 		tmp = lst->prev;
 	else if (lst->next)
