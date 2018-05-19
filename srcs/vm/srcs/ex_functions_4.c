@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/18 19:57:03 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/19 18:57:27 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,58 +20,53 @@ void			_ex_aff(t_core *c, t_process *p)
 	c->v[5](c, p, 0);
 	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
-//	ft_printf("\t\tp_1 = %#x | %u\n", p_1, p_1);
-//	ft_printf("\t\tprocess->reg[p_1]: %#x\n", process->reg[p_1]);
 	ft_printf("%c\n", (p->reg[p_1] % 256));
 	p->pc = id(p->pc + *p->l);
 }
 
 int				get_reg_ind(t_core *c, t_process *p, int ind)
 {
-//	ft_printf("\t\t{red}registre{eoc}\n");//
+	ft_printf("\t\t{red}registre{eoc}\n");//
 	return (c->ram[id(p->pc + ind)]);
 }
 
 int				get_dir_value(t_core *c, t_process *p, int ind)
 {
-
+	ft_printf("\t\t{red}direct{eoc}\t");//
 	int			i;
 	int			n;
 
-	i = 0;
+	i = -1;
 	n = 0;
-	if (p->ins.label_size)
-		return ((short)c->v[3](c, p, ind));
-//	ft_printf("\t\t{red}direct (4 octets){eoc}\n");//
-	while (i < 4)
-		n = (n << 8) | c->ram[id(p->pc + ind + i++)];
+	while (++i < (p->ins.label_size ? 2 : 4))
+		n = (n << 8) | c->ram[id(p->pc + ind + i)];
+	ft_printf("value: %#x\n", n);
 	return (n);
 }
 
 int				get_ind_value(t_core *c, t_process *p, int ind)
 {
-//	ft_printf("\t\t{red}index{eoc}\n");//
+	ft_printf("\t\t{red}indirec{eoc}\t");//
 	int			i;
 	int			n;
-	int			try;
 	short		addr;
 
 	i = 0;
-	try = 0;
 	addr = (short)c->v[3](c, p, ind);
-	p->ins.label_size ? try = 1 : 0;
-	p->ins.label_size ? p->ins.label_size = 0 : 0;
-	if (c->ram[id(p->pc)] > 0x0c && c->ram[id(p->pc)] < 0x10)
-		n = c->v[2](c, p, addr);
-	else
-		n = c->v[2](c, p, addr % IDX_MOD);
-	try ? p->ins.label_size = 1 : 0;
+	c->ram[id(p->pc)] < 0x0d || c->ram[id(p->pc)] > 0x0f ? addr %= IDX_MOD : 0;
+
+	ft_printf("addr: %#x | %hd\t", addr, addr);
+
+	while (++i < 4)
+		n = (n << 8) | c->ram[id(p->pc + addr + i)];
+
+	ft_printf("value: %#x\n", n);
+
 	return (n);
 }
 
 int				get_mem_addr(t_core *c, t_process *p, int addr)
 {
-	if (c->ram[id(p->pc)] > 0x0c && c->ram[id(p->pc)] < 0x10)
-		return (id(p->pc + addr));
-	return (id(p->pc + (addr % IDX_MOD)));
+	c->ram[id(p->pc)] < 0x0d || c->ram[id(p->pc)] > 0x0f ? addr %= IDX_MOD : 0;
+	return (id(p->pc + addr));
 }

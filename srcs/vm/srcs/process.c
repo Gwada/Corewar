@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/18 14:33:22 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/19 20:26:17 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ t_process		*del_process(t_core *core, t_process *lst)
 	if (!lst)
 		return (NULL);
 	tmp = NULL;
+	if (core->ps == lst)
+	{
+		core->ps = core->ps->next;
+		core->ps->prev = NULL;
+	}
 	if (!lst->live)
 	{
 		ft_printf("One of the processes of the player ");//
@@ -67,31 +72,30 @@ t_process		*clean_process(t_process *lst)
 	return (NULL);
 }
 
-void			insert_process(t_core *c, t_process *p)
+void			insert_process(t_core *c, t_process *new)
 {
 	t_process	*tmp;
 
-	if (!c || !p || (!c->ps && (c->ps = p)))
+	if (!c || !new || (!c->ps && (c->ps = new)))
 		return ;
 	tmp = c->ps;
-	while (tmp->next && p->ins.nb_cycles > tmp->ins.nb_cycles)
+	while (tmp->next && new->ins.nb_cycles > tmp->ins.nb_cycles)
 		tmp = tmp->next;
-	if (p->ins.nb_cycles <= tmp->ins.nb_cycles)
+	if (new->ins.nb_cycles <= tmp->ins.nb_cycles)
 	{
-		p->prev = tmp->prev ? tmp->prev : NULL;
-		p->next = tmp;
-		p->prev ? p->prev->next = p : 0;
-		p->next->prev = p;
+		new->next = tmp;
+		new->prev = tmp->prev;
+		tmp->prev ? tmp->prev->next = new : 0;
+		tmp->prev = new;
 	}
 	else
 	{
-		p->prev = tmp;
-		p->next = tmp->next ? tmp->next : NULL;
-		p->prev->next = p;
-		p->next ? p->next->prev = p : 0;
+		new->prev = tmp;
+		new->next = tmp->next;
+		tmp->next ? tmp->next->prev = new : 0;
+		tmp->next = new;
 	}
-	while (c->ps->prev)
-		c->ps = c->ps->prev;
+	tmp->prev && c->ps == tmp->prev ? c->ps = tmp->prev : 0;
 }
 
 t_process		*init_process(t_core *core, int i)
