@@ -19,7 +19,18 @@ static size_t	process_live_checker(t_core *core)
 
 	tmp = core->ps;
 	while (core->n_process && tmp)
-		tmp = !tmp->live ? del_process(core, tmp) : tmp->next;
+	{
+		if (!tmp->live)
+		{
+			if (!(tmp = del_process(core, tmp)))
+				return (1);
+		}
+		else
+			tmp->live = 0;
+		if (!tmp || !tmp->next || !core->ps)
+			break ;
+		tmp = tmp->next;
+	}
 	return (!core->n_process ? 1 : 0);
 }
 
@@ -34,8 +45,11 @@ size_t			cycle_checker(t_core *core)
 	{
 		if (process_live_checker(core))
 			return (1);
-		if (core->current_cycle_live >= NBR_LIVE && !(core->last_decr = 0))
+		if (core->current_cycle_live >= NBR_LIVE)
+		{
+			core->last_decr = 0;
 			core->max_cycle -= CYCLE_DELTA;
+		}
 		else
 			++core->last_decr;
 		if (core->last_decr >= MAX_CHECKS)

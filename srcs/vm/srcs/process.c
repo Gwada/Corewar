@@ -28,19 +28,18 @@ t_process		*del_process(t_core *core, t_process *lst)
 {
 	t_process	*tmp;
 
-	if (!lst)
+	if (!lst || !core)
 		return (NULL);
 	tmp = NULL;
-	if (core->ps == lst)
-	{
-		core->ps = core->ps->next;
-		core->ps->prev = NULL;
-	}
 	if (!lst->live)
 	{
-		ft_printf("One of the processes of the player ");//
-		ft_printf("n. %d does not respond anymore.{red}", lst->reg[1]);//
+		ft_printf("One of the processes does not respond anymore.{red}");//
 		ft_printf(" FUCK THIS SHIT!!!! He must die now{eoc}\n");//
+	}
+	if (core->n_process-- == 1 && core->ps == lst)
+	{
+		free(core->ps);
+		return((core->ps = NULL));
 	}
 	lst->next ? lst->next->prev = lst->prev : 0;
 	lst->prev ? lst->prev->next = lst->next : 0;
@@ -50,7 +49,6 @@ t_process		*del_process(t_core *core, t_process *lst)
 	else if (lst->next)
 		tmp = lst->next;;
 	free(lst);
-	core ? --core->n_process : 0;
 	return (tmp);
 }
 

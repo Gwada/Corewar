@@ -77,7 +77,7 @@ void				_ex_st(t_core *c, t_process *p)
 	if (!(p_1 = c->v[*p->ins.param](c, p, p->l[1])) || p_1 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 
-	ft_printf("\t\tp_1 = %hhu\tp->reg[p_1] = %#x\n", p_1, p->reg[p_1]);//
+	ft_printf("p->reg[%hhu]: %#x\n", p_1, p->reg[p_1]);//
 
 	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
@@ -92,11 +92,11 @@ void				_ex_st(t_core *c, t_process *p)
 	else
 	{
 
-		ft_printf("\t\t{yellow}(addr)p_2 = %#x(hex) %hu{eoc}", p_2, p_2);//
+		ft_printf("\t\t{yellow}(addr)p_2 = %#x(hex) %4hd{eoc}", p_2, p_2);//
 
-		p_2 = (short)c->v[0](c, p, p_2); //cast ou pas?? that is the question
+		p_2 = id(p->pc + (p_2 % IDX_MOD)); //cast ou pas?? that is the question
 
-		ft_printf("\t\t{green}(addr)p_2 = %#x(hex) %hu\n{eoc}", p_2, p_2);//
+		ft_printf("\t\t{green}(addr)p_2 = %#x(hex) %4hd\n{eoc}", p_2, p_2);//
 
 		while (++i < 4)
 			c->ram[id(p_2 + i)] = (p->reg[p_1] >> (24 - (i * 8))) & 0xff;

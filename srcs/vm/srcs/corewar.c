@@ -41,9 +41,10 @@ static t_process	*process_up(t_core *c, t_process *lst)
 
 static void			check_instruct(t_core *c, unsigned char opc)
 {
-//	ft_printf("\n{bold}{yellow}{underline}IN\tCHECK_INSTRUCT\t");//
-//	ft_printf("{red}CYCLE: %u\n{eoc}", c->total_cycle);//
-
+/*
+	ft_printf("\n{bold}{yellow}{underline}IN\tCHECK_INSTRUCT\t");//
+	ft_printf("{red}CYCLE: %u\n{eoc}", c->total_cycle);//
+*/
 	t_process		*tmp;
 
 	tmp = c->ps;
@@ -59,7 +60,7 @@ static void			check_instruct(t_core *c, unsigned char opc)
 					{
 
 	system("clear");//
-	ft_printf("cycle: [%5d]\tn_process: [%2d]\topc: [%2hhu]\tp->pc: [%5u]\tins: [%s]\n\n", c->total_cycle, c->n_process, opc, tmp->pc, g_op_tab[opc].name);//
+	ft_printf("cycle: [%5d]\tcurrent_cycle: [%4d]\tcurrent_live: [%4d]\tmax_cycle: [%4d]\tlast_decr: [%2d]\tn_process: [%2d]\topc: [%2hhu]\tp->pc: [%5u]\tins: [%s]\n\n", c->total_cycle, c->current_cycle, c->current_cycle_live, c->max_cycle, c->last_decr, c->n_process, opc, tmp->pc, g_op_tab[opc].name);//
 	for (int i = 1; i <= 16; ++i)//
 	{//
 		ft_printf("reg[%2u] = {magenta}%p{eoc}\t", i, tmp->reg[i]);//
@@ -121,7 +122,7 @@ void				corewar(t_core *core)
 
 	if (!(core->ps = init_process(core, -1)))
 		return ((void)display_error(core, 0, NULL));
-	while (core->n_process > 0 && core->max_cycle > 0)
+	while (core->n_process > 0 && core->max_cycle > 0 && core->ps)
 	{
 /*
 		ft_printf("{bold}{red}current cycle: %u\tcycle_to_die: %d\tbefore cycle_to_die: %d\tcurrent_live: %d\n{eoc}",  core->current_cycle, core->max_cycle, core->max_cycle - core->current_cycle, core->current_cycle_live);
@@ -132,9 +133,9 @@ void				corewar(t_core *core)
 		++core->total_cycle;
 		++core->current_cycle;
 	}
-
+/*
 	ft_printf("{bold}\n%u process in progress at end\nend after %u cycles\n{red}END\tCOREWAR{eoc}\n", core->n_process, core->total_cycle);//
-
+*/
 	put_champ(core);
 	core->n_process ? clean_process(core->ps) : 0;
 }

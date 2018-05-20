@@ -26,7 +26,7 @@ void			_ex_aff(t_core *c, t_process *p)
 
 int				get_reg_ind(t_core *c, t_process *p, int ind)
 {
-	ft_printf("\t\t{red}registre{eoc}\n");//
+	ft_printf("\t\t{red}registre{eoc}\t");//
 	return (c->ram[id(p->pc + ind)]);
 }
 
@@ -46,7 +46,7 @@ int				get_dir_value(t_core *c, t_process *p, int ind)
 
 int				get_ind_value(t_core *c, t_process *p, int ind)
 {
-	ft_printf("\t\t{red}indirec{eoc}\t");//
+	ft_printf("\t\t{red}indirect{eoc}\t");//
 	int			i;
 	int			n;
 	short		addr;
@@ -54,13 +54,10 @@ int				get_ind_value(t_core *c, t_process *p, int ind)
 	i = 0;
 	addr = (short)c->v[3](c, p, ind);
 	c->ram[id(p->pc)] < 0x0d || c->ram[id(p->pc)] > 0x0f ? addr %= IDX_MOD : 0;
-
-	ft_printf("addr: %#x | %hd\t", addr, addr);
-
 	while (++i < 4)
 		n = (n << 8) | c->ram[id(p->pc + addr + i)];
 
-	ft_printf("value: %#x\n", n);
+	ft_printf("\t\taddr: %#hx | %hd\tvalue: %8#x | %d\n", addr, addr, n, n);
 
 	return (n);
 }
