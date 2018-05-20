@@ -60,10 +60,10 @@ static void			check_instruct(t_core *c, unsigned char opc)
 					{
 
 	system("clear");//
-	ft_printf("cycle: [%5d]\tcurrent_cycle: [%4d]\tcurrent_live: [%4d]\tmax_cycle: [%4d]\tlast_decr: [%2d]\tn_process: [%2d]\topc: [%2hhu]\tp->pc: [%5u]\tins: [%s]\n\n", c->total_cycle, c->current_cycle, c->current_cycle_live, c->max_cycle, c->last_decr, c->n_process, opc, tmp->pc, g_op_tab[opc].name);//
+	ft_printf("{bold}cycle:\t\t[{magenta}%5d{white}]\tcurrent_cycle:\t[{green}%4d{white}]\tcurrent_live:\t[{green}%4d{white}]\tmax_cycle:\t[%4d]\tlast_decr:\t[{red}%2d{white}]\nn_process:\t[{red}%3d{white}]\tp->pc:\t\t[{yellow}%5u{white}]\topc:\t\t[{yellow}%2hhu{white}]\n\n{eoc}", c->total_cycle, c->current_cycle, c->current_cycle_live, c->max_cycle, c->last_decr, c->n_process, tmp->pc, opc);//
 	for (int i = 1; i <= 16; ++i)//
 	{//
-		ft_printf("reg[%2u] = {magenta}%p{eoc}\t", i, tmp->reg[i]);//
+		ft_printf("reg[%2u] = {magenta}%10#x{eoc}\t", i, tmp->reg[i]);//
 		!(i % 8) ? ft_printf("\n") : 0;//
 	}//
 

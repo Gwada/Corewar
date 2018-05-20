@@ -55,7 +55,7 @@ void				_ex_sti(t_core *c, t_process *p)
 
 void				_ex_fork(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tFORK (nouv process pareil que le pere sauf new->pc = p->pc + (p_1 % IDX_MOD))\n{eoc}");//
+	ft_printf("\t{green}{bold}IN\tFORK (nouv process pareil que le pere sauf new->pc = p->pc + (p_1 %% IDX_MOD))\n{eoc}");//
 
 	t_process		*new;
 
@@ -67,14 +67,13 @@ void				_ex_fork(t_core *c, t_process *p)
 	}
 	c->v[5](c, p, 0);
 	*new = *p;
-	new->pc = id(p->pc + (c->v[1](c, p, p->l[1]) % IDX_MOD));
+	new->pc = id(p->pc + (c->v[3](c, p, p->l[1]) % IDX_MOD));
 
-	ft_printf("\t\tnew->pc %#x %u\n", new->pc, new->pc);//
+	ft_printf("\t\tnew->pc %#x %u\n\t{green}{bold}END\tFORK\n{eoc}", new->pc, new->pc);//
 
 	read_instruct(c, new);
 	p->pc = id(p->pc + *p->l);
 	insert_process(c, new);
-	ft_printf("\t{green}{bold}END\tFORK\n{eoc}");//
 }
 
 void				_ex_lld(t_core *c, t_process *p)
@@ -136,7 +135,7 @@ void				_ex_lfork(t_core *c, t_process *p)
 	}
 	c->v[5](c, p, 0);
 	*new = *p;
-	new->pc = id(p->pc + c->v[3](c, p, p->l[1]));
+	new->pc = id(p->pc + c->v[*p->ins.param](c, p, p->l[1]));
 
 	ft_printf("\t\tnew->pc %#x %u\n", new->pc, new->pc);//
 

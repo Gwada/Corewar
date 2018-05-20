@@ -32,7 +32,6 @@ int				get_reg_ind(t_core *c, t_process *p, int ind)
 
 int				get_dir_value(t_core *c, t_process *p, int ind)
 {
-	ft_printf("\t\t{red}direct{eoc}\t");//
 	int			i;
 	int			n;
 
@@ -40,7 +39,9 @@ int				get_dir_value(t_core *c, t_process *p, int ind)
 	n = 0;
 	while (++i < (p->ins.label_size ? 2 : 4))
 		n = (n << 8) | c->ram[id(p->pc + ind + i)];
-	ft_printf("value: %#x\n", n);
+
+	ft_printf("\t\t{red}direct{eoc}\t\tvalue:\t\t%#x\n", n);//
+
 	return (n);
 }
 

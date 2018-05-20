@@ -60,7 +60,7 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 
 int					get_ind(t_core *core, t_process *process, int ind)
 {
-	ft_printf("\t\t{red}direct (short){eoc}\n");//
+
 	int				i;
 	short			n;
 
@@ -69,6 +69,7 @@ int					get_ind(t_core *core, t_process *process, int ind)
 	while (i < 2)
 		n = (n << 8) | (core->ram[id(process->pc + ind + i++)]);
 	(void)process;
+	ft_printf("\t\t{red}direct (short){eoc}\t\tvalue = %#x\n", n);//
 	return ((short)n);
 }
 

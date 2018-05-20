@@ -52,11 +52,11 @@ void				_ex_ld(t_core *c, t_process *p)
 	if (!(reg = c->v[p->ins.param[1]](c, p, p->l[2])) || reg > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 
-	ft_printf("\t\treg: %hhu\tp->reg[reg]: %#x\n", reg, p->reg[reg]);
+	ft_printf("p->reg[%2hhu]:\t%#x\n", reg, p->reg[reg]);
 
 	p->reg[reg] = c->v[*p->ins.param](c, p, p->l[1]);
 
-	ft_printf("\t\tp->reg[reg]: %#x\n", p->reg[reg]);
+	ft_printf("\t\tp->reg[%2hhu]: %#x\n", reg, p->reg[reg]);
 
 	p->carry = p->reg[reg] ? 0 : 1;
 	p->pc = id(p->pc + *p->l);

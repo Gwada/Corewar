@@ -25,36 +25,18 @@ void				_ex_and(t_core *c, t_process *p)
 	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
 	if (*p->ins.param & T_REG && (!p_1 || p_1 > 16))
 		return ((void)(p->pc = id(p->pc + *p->l)));
-
-	ft_printf("\t\tp_1: %#x\n", p_1);//
-
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
-
-	ft_printf("\t\tp_1: %#x\n", p_1);//
-
 	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
 		return ((void)(p->pc = id(p->pc + *p->l)));
-
-	ft_printf("\t\tp_2: %#x\n", p_2);//
-
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
-
-	ft_printf("\t\tp_2: %#x\n", p_2);//
-
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
-
-	ft_printf("\t\t1 p_3: %#x\n\t\t1 p_3: %#x\n", p_3, p->reg[p_3]);//
-
 	p->reg[p_3] = p_1 & p_2;
-
-	ft_printf("\t\t2 p_3: %#x\n", p->reg[p_3]);//
-
 	p->carry = (p->reg[p_3] == 0);
 	p->pc = id(p->pc + *p->l);
 
-	ft_printf("{green}{bold}\tEND\tAND{eoc}\n");//
+	ft_printf("\t\tp->reg[%2hhu]: (%#x) = (p->reg[%2hhu]: (%#x)) + (p->reg[%2hhu]: (%#x) (res: %#x)\n{green}{bold}\tEND\tAND{eoc}\n", p_3, p->reg[p_3], p_1, p->reg[p_1], p_2, p->reg[p_2], p->reg[p_1] + p->reg[p_2]);//
 }
 
 void				_ex_or(t_core *c, t_process *p)
