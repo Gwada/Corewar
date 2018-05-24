@@ -47,7 +47,7 @@ int				get_dir_value(t_core *c, t_process *p, int ind)
 
 int				get_ind_value(t_core *c, t_process *p, int ind)
 {
-	ft_printf("\t\t{red}indirect{eoc}\t");//
+	ft_printf("\t\t{red}indirect{eoc}");//
 	int			i;
 	int			n;
 	short		addr;

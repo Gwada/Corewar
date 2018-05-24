@@ -70,7 +70,7 @@ static void			check_instruct(t_core *c, unsigned char opc)
 						c->ex[opc](c, tmp);
 
 	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);//
-	nanosleep((const struct timespec[]){{0, 100000000L}}, NULL);
+	nanosleep((const struct timespec[]){{0, 500000000L}}, NULL);//
 
 					}
 					else
@@ -114,7 +114,7 @@ static void		put_champ(t_core *core)
 	i = 0;
 	while (i < core->player && core->p[i].id != core->last_live_player)
 		++i;
-	ft_printf("le joueur %u(%s) a gagne\n", core->p[i].id, core->p[i].name);
+	ft_printf("le joueur %d(%s) a gagne\n", -core->p[i].id, core->p[i].name);
 }
 void				corewar(t_core *core)
 {

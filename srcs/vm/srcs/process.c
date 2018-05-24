@@ -107,6 +107,7 @@ t_process		*init_process(t_core *core, int i)
 		if (!(new = new_process(core)))
 			return (clean_process(lst));
 		new->pc = core->p[i].oc;
+		core->p[i].id = -core->p[i].id;
 		new->reg[1] = core->p[i].id;
 		read_instruct(core, new);
 		insert_process(core, new);

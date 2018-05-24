@@ -25,7 +25,7 @@ void				_ex_live(t_core *c, t_process *p)
 	++c->total_live;
 	++p->live;
 	++c->current_cycle_live;
-	id_p = c->v[*p->ins.param](c, p, p->l[1]);
+	id_p = c->v[2](c, p, p->l[1]);
 	while (++i < (int)c->player)
 		if (id_p == c->p[i].id)
 		{
@@ -33,7 +33,7 @@ void				_ex_live(t_core *c, t_process *p)
 			++c->p[i].current_cycle_live;
 			c->last_live_player = id_p;
 			ft_printf("{green}un processus dit que le joueur");
-			ft_printf(" %d(%s) est en vie\n{eoc}", id_p, c->p[i].name);
+			ft_printf(" %d(%s) est en vie\n{eoc}", -id_p, c->p[i].name);
 		}
 
 	ft_printf("\t\tid_p: %#x | %d\ttotal_live_payer: %u\n", id_p, id_p, c->p[i - 1].total_live);//
