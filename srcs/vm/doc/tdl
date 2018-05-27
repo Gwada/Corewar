@@ -1,0 +1,16 @@
+{
+Pour chaque process opcode de l'instruction courante en underline
+update ram && update state && update stat
+
+New instruct
+	if (instruct == live)
+		reload states
+	reload arena
+else
+	reload stat
+}
+
+cmp other visu value
+adjust visu size with 42 dump
+fill logs panel
+norme ; leaks = FINISH

@@ -38,7 +38,8 @@ typedef struct s_coord t_coord;
 #define HEX_DIGIT "0123456789ABCDEF"
 
 # define F_RELOAD	0x01
-# define F_QUIT		0x02
+# define F_PAUSE	0x02
+# define F_SKURT	0x04
 
 #define T_1		L"┌─┐┌─┐┬─┐┌─┐┬ ┬┌─┐┬─┐"
 #define T_2		L"│  │ │├┬┘├┤ │││├─┤├┬┘"
@@ -71,6 +72,7 @@ struct s_win
 struct s_visu_env
 {
 	unsigned	event_flag;
+	unsigned	fps;
 	t_coord		w_size;
 	t_win		title;
 	t_win		usages;
@@ -78,7 +80,6 @@ struct s_visu_env
 	t_win		logs;
 	t_win		states;
 	t_win		arena;
-	unsigned	frame_second;
 };
 
 /*
@@ -171,6 +172,7 @@ typedef struct				s_core
 	int						(*v[6])(struct s_core *c, t_process *p,
 							unsigned int i);
 	t_process				*ps;
+	t_process				*reverse_ps;
 }							t_core;
 
 /*

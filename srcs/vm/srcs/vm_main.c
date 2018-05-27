@@ -108,12 +108,13 @@ static	void		put_champ(t_core *c, unsigned int i)
 	}
 }
 
-static void	init_visu(t_visu_env *env)
+static void	init_visu(t_core *c)
 {
 	setlocale(LC_ALL, "");
-	ft_bzero(env, sizeof(*env));
+	ft_bzero(&c->visu, sizeof(c->visu)); // check
 	initscr();
 	raw();
+	nodelay(stdscr, TRUE);
 	noecho();
 	keypad(stdscr, TRUE);
 	start_color();
@@ -121,6 +122,7 @@ static void	init_visu(t_visu_env *env)
 	init_pair(2, COLOR_CYAN, COLOR_BLACK);
 	init_pair(3, COLOR_BLUE, COLOR_BLACK);
 	init_pair(4, COLOR_GREEN, COLOR_BLACK);
+	c->visu.event_flag |= F_RELOAD;
 }
 
 int					main(int argc, char **argv)
@@ -135,7 +137,7 @@ int					main(int argc, char **argv)
 		while (++i < (unsigned int)argc && argv[i])
 			if (get_arg(argv[i], &c, i, 0) || c.bd == ERROR)
 				return (0);
-		c.bd & VISUAL ? init_visu(&c.visu): 0;
+		c.bd & VISUAL ? init_visu(&c): 0;
 		c.player && c.bd & GET_OPT ? ft_printf("Missing one champion\n") : 0;
 		c.player && !(c.bd & GET_OPT) ? put_champ(&c, 0) : 0;
 		c.player && !(c.bd & GET_OPT) ? corewar(&c) : 0;

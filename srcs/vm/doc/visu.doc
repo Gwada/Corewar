@@ -1,11 +1,3 @@
-New instruct
-	if (instruct == live)
-		reload states
-	reload arena
-
-Quit event
-
-
 | stats window |
 
 VARIABLE
@@ -27,7 +19,6 @@ nombre de live par joueur par cycle_to_die = core->p[playerID].current_cycle_liv
 | log window |
 
 flush display log (free old string)
-
 
 | usage window |
 

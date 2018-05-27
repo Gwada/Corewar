@@ -1,0 +1,11 @@
+reg[1] == idJoureur dans process
+
+init la ram avec les bonne couleur pour chaque joueur
+je modifie la ram a chaque instruction
+
+process->pc = debut du prog dans la ram
+process->p[process->reg[1]].prog_size = taille du programme
+
+tant que (byte >= pc) && (byte <= pc + prog_size)
+	si byte == pc + prog_size
+		new process color

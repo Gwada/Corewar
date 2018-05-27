@@ -111,15 +111,26 @@ static void		put_champ(t_core *core)
 	/*ft_printf("le joueur %u(%s) a gagne\n", core->p[i].id, core->p[i].name);//*/
 }
 
+void				reverse_ps(t_core *c)
+{
+	c->reverse_ps = c->ps;
+	while (c->reverse_ps->pc != 0)
+		c->reverse_ps = c->reverse_ps->next;
+}
+
 void				corewar(t_core *core)
 {
 //	ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");//
 
 	if (!(core->ps = init_process(core, -1)))
 		return (display_error(core, 0));
-	visu(core);
+	/*ft_printf("%d\n", core->p[(core->reverse_ps->prev->reg[1] + 1) * -1].prog_size);*/
+	/*ft_printf("%d\n", (core->reverse_ps->prev->reg[1] + 1) * -1);*/
+	reverse_ps(core);
 	while (core->n_process > 0)
 	{
+		ft_printf("%d\n", core->ps->ins.op_code);
+		/*visu(core);*/
 /*		ft_printf("{bold}{yellow}current cycle: %u\t", core->current_cycle);
 		ft_printf("cycle_to_die: %d\t", core->max_cycle);
 		ft_printf("before cycle_to_die: %d\n", core->max_cycle - core->current_cycle);
@@ -129,7 +140,7 @@ void				corewar(t_core *core)
 		++core->total_cycle;
 		++core->current_cycle;
 	}
-
+	
 /*	ft_printf("\n%u process in progress at end\n", core->n_process);//
 	ft_printf("\nend after %u cycles\n", core->total_cycle);//
 	ft_printf("{bold}{red}END\tCOREWAR{eoc}\n");//
