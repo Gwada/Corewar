@@ -39,6 +39,7 @@ SRC		= vm_main.c \
 		  ex_functions_4.c \
 		  get_options.c \
 		  corewar.c \
+		  display_corewar.c \
 		  process.c \
 		  instruct.c \
 		  cycle.c \

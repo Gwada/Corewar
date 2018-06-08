@@ -14,34 +14,6 @@
 #include "time.h"
 #include "../../libft/includes/ft_printf.h"
 
-/*static t_process	*process_up(t_core *c, t_process *lst)
-{
-	t_process		*tmp;
-
-	if (c->n_process < 2)
-		return (NULL);
-	if ((!lst->prev || (lst->prev->ins.nb_cycles <= lst->ins.nb_cycles))
-	&& (!lst->next || (lst->next->ins.nb_cycles >= lst->ins.nb_cycles)))
-		return (lst->next);
-//	if (lst->next && lst->ins.nb_cycles > lst->next->ins.nb_cycles)
-//		++lst->ins.nb_cycles;
-	if (c->ps == lst)
-		c->ps = lst->next ? lst->next : lst->prev;
-	tmp = lst;
-	lst = (lst->next ? lst->next : NULL);
-	if (tmp->next)
-	{
-		lst->prev = tmp->prev ? tmp->prev : NULL;
-		tmp->prev ? tmp->prev->next = lst : 0;
-	}
-	else
-		tmp->prev->next = NULL;
-	tmp->next = NULL;
-	tmp->prev = NULL;
-	insert_process(c, tmp);
-	return (lst);
-}*/
-
 static void			check_instruct(t_core *c, unsigned char opc)
 {
 /*
@@ -61,20 +33,9 @@ static void			check_instruct(t_core *c, unsigned char opc)
 				{
 					if (c->ft[opc](&c->ram[id(tmp->pc + 1)], tmp))
 					{
-
-	system("clear");//
-	ft_printf("{bold}{magenta}cycle:\t\t[%5d]\t{green}current_cycle:\t[%4d]\t{green}current_live:\t[%4d]\tmax_cycle:\t[%4d]\t{red}last_decr:\t[%2d]\nn_process:\t[%3d]\t{yellow}p->pc:\t\t[%5u]\topc:\t\t[%2hhu]\n\n{eoc}", c->total_cycle, c->current_cycle, c->current_cycle_live, c->max_cycle, c->last_decr, c->n_process, tmp->pc, opc);//
-	for (int i = 1; i <= 16; ++i)//
-	{//
-		ft_printf("reg[%2u] = {magenta}%10#x{eoc}\t", i, tmp->reg[i]);//
-		!(i % 8) ? ft_printf("\n") : 0;//
-	}//
-
+						display_corewar(c, tmp, opc, 0);
 						c->ex[opc](c, tmp);
-
-	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);//
-	nanosleep((const struct timespec[]){{0, 200000000L}}, NULL);//
-
+						display_corewar(c, tmp, opc, 1);
 					}
 					else
 						tmp->pc = id(tmp->pc + 1);
@@ -82,25 +43,10 @@ static void			check_instruct(t_core *c, unsigned char opc)
 			}
 			else
 				tmp->pc = id(tmp->pc + 1);
-/*
-			ft_printf("\t{magenta}tmp->ins.nb_cycles: ");//
-			ft_printf("%u{eoc}\n", tmp->ins.nb_cycles);//
-*/
-//			tmp = read_instruct(c, tmp) ? process_up(c, tmp) : tmp->next;
 			read_instruct(c, tmp) ? --tmp->ins.nb_cycles : 0;
-
-//			tmp = tmp->next;
 		}
 		else
-		{
-/*
-			ft_printf("\ntmp->ins.nb_cycles: %u\t", tmp->ins.nb_cycles);//
-			ft_printf("ins.name: %s\t", tmp->ins.name);//
-			ft_printf("n_process: %u\n", c->n_process);//
-*/
 			--tmp->ins.nb_cycles;
-//			tmp = tmp->next;
-		}
 		tmp = tmp->next;
 	}
 

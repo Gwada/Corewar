@@ -133,6 +133,8 @@ size_t						init_core(t_core *core, size_t ret);
 
 void						display_usage(char *name);
 int							display_error(t_core *core, int code, char *s);
+void						display_corewar(t_core *core, t_process *process,
+							unsigned char opc, int state);
 
 /*
 **	CYCLE FUNCTIONS
