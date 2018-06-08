@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 18:57:27 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/08 19:35:24 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ int				get_ind_value(t_core *c, t_process *p, int ind)
 	short		addr;
 
 	i = 0;
-	addr = (short)c->v[3](c, p, ind);
+	addr = c->v[3](c, p, ind);
 	c->ram[id(p->pc)] < 0x0d || c->ram[id(p->pc)] > 0x0f ? addr %= IDX_MOD : 0;
 	while (++i < 4)
 		n = (n << 8) | c->ram[id(p->pc + addr + i)];
 
-	ft_printf("\t\taddr: %#hx | %hd\tvalue: %8#x | %d\n", addr, addr, n, n);
+	ft_printf("\t\taddr: %#hx | %hd\tvalue: %8#x | %d\t", addr, addr, n, n);
 
 	return (n);
 }

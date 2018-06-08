@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 20:26:22 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/08 19:35:45 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 #include "time.h"
 #include "../../libft/includes/ft_printf.h"
 
-static t_process	*process_up(t_core *c, t_process *lst)
+/*static t_process	*process_up(t_core *c, t_process *lst)
 {
 	t_process		*tmp;
 
 	if (c->n_process < 2)
 		return (NULL);
-	if ((!lst->prev || (lst->prev->ins.nb_cycles < lst->ins.nb_cycles))
+	if ((!lst->prev || (lst->prev->ins.nb_cycles <= lst->ins.nb_cycles))
 	&& (!lst->next || (lst->next->ins.nb_cycles >= lst->ins.nb_cycles)))
 		return (lst->next);
-	c->ps == lst ? c->ps = lst->next : 0;
+//	if (lst->next && lst->ins.nb_cycles > lst->next->ins.nb_cycles)
+//		++lst->ins.nb_cycles;
+	if (c->ps == lst)
+		c->ps = lst->next ? lst->next : lst->prev;
 	tmp = lst;
 	lst = (lst->next ? lst->next : NULL);
 	if (tmp->next)
@@ -37,7 +40,7 @@ static t_process	*process_up(t_core *c, t_process *lst)
 	tmp->prev = NULL;
 	insert_process(c, tmp);
 	return (lst);
-}
+}*/
 
 static void			check_instruct(t_core *c, unsigned char opc)
 {
@@ -60,7 +63,7 @@ static void			check_instruct(t_core *c, unsigned char opc)
 					{
 
 	system("clear");//
-	ft_printf("{bold}cycle:\t\t[{magenta}%5d{white}]\tcurrent_cycle:\t[{green}%4d{white}]\tcurrent_live:\t[{green}%4d{white}]\tmax_cycle:\t[%4d]\tlast_decr:\t[{red}%2d{white}]\nn_process:\t[{red}%3d{white}]\tp->pc:\t\t[{yellow}%5u{white}]\topc:\t\t[{yellow}%2hhu{white}]\n\n{eoc}", c->total_cycle, c->current_cycle, c->current_cycle_live, c->max_cycle, c->last_decr, c->n_process, tmp->pc, opc);//
+	ft_printf("{bold}{magenta}cycle:\t\t[%5d]\t{green}current_cycle:\t[%4d]\t{green}current_live:\t[%4d]\tmax_cycle:\t[%4d]\t{red}last_decr:\t[%2d]\nn_process:\t[%3d]\t{yellow}p->pc:\t\t[%5u]\topc:\t\t[%2hhu]\n\n{eoc}", c->total_cycle, c->current_cycle, c->current_cycle_live, c->max_cycle, c->last_decr, c->n_process, tmp->pc, opc);//
 	for (int i = 1; i <= 16; ++i)//
 	{//
 		ft_printf("reg[%2u] = {magenta}%10#x{eoc}\t", i, tmp->reg[i]);//
@@ -70,7 +73,7 @@ static void			check_instruct(t_core *c, unsigned char opc)
 						c->ex[opc](c, tmp);
 
 	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);//
-	nanosleep((const struct timespec[]){{0, 500000000L}}, NULL);//
+	nanosleep((const struct timespec[]){{0, 200000000L}}, NULL);//
 
 					}
 					else
@@ -83,7 +86,10 @@ static void			check_instruct(t_core *c, unsigned char opc)
 			ft_printf("\t{magenta}tmp->ins.nb_cycles: ");//
 			ft_printf("%u{eoc}\n", tmp->ins.nb_cycles);//
 */
-			tmp = read_instruct(c, tmp) ? process_up(c, tmp) : tmp->next;
+//			tmp = read_instruct(c, tmp) ? process_up(c, tmp) : tmp->next;
+			read_instruct(c, tmp) ? --tmp->ins.nb_cycles : 0;
+
+//			tmp = tmp->next;
 		}
 		else
 		{
@@ -93,8 +99,9 @@ static void			check_instruct(t_core *c, unsigned char opc)
 			ft_printf("n_process: %u\n", c->n_process);//
 */
 			--tmp->ins.nb_cycles;
-			tmp = tmp->next;
+//			tmp = tmp->next;
 		}
+		tmp = tmp->next;
 	}
 
 //	ft_printf("{bold}{yellow}{underline}END\tCHECK_INSTRUCT{eoc}\n");//

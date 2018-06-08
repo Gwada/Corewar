@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 18:58:40 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/08 19:35:36 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void				_ex_live(t_core *c, t_process *p)
 
 void				_ex_ld(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tLD (charge p_1 dans p->reg[reg] + carry)\n{eoc}");//
+	ft_printf("\t{green}{bold}IN\tLD (charge p_1 dans p->reg[reg] + (modif carry))\n{eoc}");//
 
 	unsigned char	reg;
 
@@ -52,11 +52,11 @@ void				_ex_ld(t_core *c, t_process *p)
 	if (!(reg = c->v[p->ins.param[1]](c, p, p->l[2])) || reg > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 
-	ft_printf("p->reg[%2hhu]:\t%#x\n", reg, p->reg[reg]);
+	ft_printf("p->reg[%2hhu]:\t%8#x\t%10d\n", reg, p->reg[reg], p->reg[reg]);
 
 	p->reg[reg] = c->v[*p->ins.param](c, p, p->l[1]);
 
-	ft_printf("\t\tp->reg[%2hhu]: %#x\n", reg, p->reg[reg]);
+	ft_printf("\t\t{red}after{eoc}\t\tp->reg[%2hhu]:\t%8#x\t%10d\n", reg, p->reg[reg], p->reg[reg]);
 
 	p->carry = p->reg[reg] ? 0 : 1;
 	p->pc = id(p->pc + *p->l);
@@ -70,7 +70,7 @@ void				_ex_st(t_core *c, t_process *p)
 
 	int				i;
 	unsigned char	p_1;
-	int				p_2;
+	short			p_2;
 
 	c->v[5](c, p, 0);
 	i = -1;
@@ -79,7 +79,7 @@ void				_ex_st(t_core *c, t_process *p)
 
 	ft_printf("p->reg[%hhu]: %#x\n", p_1, p->reg[p_1]);//
 
-	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
+	p_2 = c->v[p->ins.param[1] & T_REG ? 1 : 3](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	if (p->ins.param[1] & T_REG)
@@ -92,11 +92,11 @@ void				_ex_st(t_core *c, t_process *p)
 	else
 	{
 
-		ft_printf("\t\t{yellow}(addr)p_2 = %#x(hex) %4hd{eoc}", p_2, p_2);//
+		ft_printf("\t{yellow}(addr)p_2 = %#hx(hex) %4hd{eoc}", p_2, p_2);//
 
 		p_2 = id(p->pc + (p_2 % IDX_MOD)); //cast ou pas?? that is the question
 
-		ft_printf("\t\t{green}(addr)p_2 = %#x(hex) %4hd\n{eoc}", p_2, p_2);//
+		ft_printf("\t{green}(addr)p_2 = %#hx(hex) %4hd\n{eoc}", p_2, p_2);//
 
 		while (++i < 4)
 			c->ram[id(p_2 + i)] = (p->reg[p_1] >> (24 - (i * 8))) & 0xff;
@@ -145,11 +145,23 @@ void				_ex_sub(t_core *c, t_process *p)
 	c->v[5](c, p, 0);
 	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
+
+	ft_printf("p->ref[%hhu]\t%#x\n", p_1, p->reg[p_1]);//
+
 	if (!(p_2 = c->v[1](c, p, p->l[2])) || p_2 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
+
+	ft_printf("p->reg[%hhu]\t%#x\n", p_2, p->reg[p_2]);//
+
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
+
+	ft_printf("p->reg[%hhu]\t%#x\t", p_3, p->reg[p_3]);//
+
 	p->reg[p_3] = p->reg[p_1] - p->reg[p_2];
+
+	ft_printf("-> {red}\t%#x{eoc}\n", p->reg[p_3]);//
+
 	p->carry = (p->reg[p_3] == 0);
 	p->pc = id(p->pc + *p->l);
 

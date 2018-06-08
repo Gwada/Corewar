@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 18:57:46 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/08 19:35:42 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,21 @@ void		_ex_xor(t_core *c, t_process *p)
 
 void				_ex_zjmp(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tZJMP (si carry == 1 charge p->pc en p->pc + (p_1 %% IDX_MOD)){eoc}\n");//
-	ft_printf("\t\tp->pc: %#x\n", p->pc);
+	ft_printf("{green}{bold}\tIN\tZJMP (si carry == 1 charge p->pc en p->pc + (p_1 %% IDX_MOD)){eoc}\n\t\tp->pc: %#x\n", p->pc);//
 
 	c->v[5](c, p, 0);
 	if (p->carry == 1)
-		p->pc = id(p->pc + ((short)c->v[3](c, p, p->l[1]) % IDX_MOD));
+	{
+		p->pc = id(p->pc + (c->v[3](c, p, p->l[1]) % IDX_MOD));
+		ft_printf("\t\t{green}OK{eoc}\n");
+	}
 	else
+	{
 		p->pc = id(p->pc + *p->l);
+		ft_printf("\t\t{red}FAILED{eoc}\n");
+	}
 
-	ft_printf("\t\tp->pc: %#x\n", p->pc);
-	ft_printf("{green}{bold}\tEND\tZJMP{eoc}\n");//
+	ft_printf("\t\tp->pc: %#x\t%d\n{green}{bold}\tEND\tZJMP{eoc}\n", p->pc, p->pc);
 }
 
 void				_ex_ldi(t_core *c, t_process *p)

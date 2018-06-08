@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/19 20:26:26 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/08 19:35:33 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ void				_ex_fork(t_core *c, t_process *p)
 	c->v[5](c, p, 0);
 	*new = *p;
 	new->pc = id(p->pc + (c->v[3](c, p, p->l[1]) % IDX_MOD));
-
-	ft_printf("\t\tnew->pc %#x %u\n\t{green}{bold}END\tFORK\n{eoc}", new->pc, new->pc);//
-
 	read_instruct(c, new);
 	p->pc = id(p->pc + *p->l);
-	insert_process(c, new);
+	new->next = c->ps;
+	c->ps = new;
+	--new->ins.nb_cycles;
+	ft_printf("\t\tnew->pc: %#x\t%u\n\t{green}{bold}END\tFORK\n{eoc}", new->pc, new->pc);//
 }
 
 void				_ex_lld(t_core *c, t_process *p)
@@ -124,7 +124,7 @@ void				_ex_lldi(t_core *c, t_process *p)
 
 void				_ex_lfork(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tFORK (nouv process pareil que le pere sauf new->pc = p->pc + p_1)\n{eoc}");//
+	ft_printf("\t{green}{bold}IN\tLFORK (nouv process pareil que le pere sauf new->pc = p->pc + p_1)\n{eoc}");//
 	t_process		*new;
 
 	if (!(new = new_process(c)))
@@ -141,7 +141,9 @@ void				_ex_lfork(t_core *c, t_process *p)
 
 	read_instruct(c, new);
 	p->pc = id(p->pc + *p->l);
-	insert_process(c, new);
+	new->next = c->ps;
+	c->ps = new;
+	--new->ins.nb_cycles;
+	ft_printf("\t\tnew->pc: %#x\t%u\n\t{green}{bold}END\tLFORK\n{eoc}", new->pc, new->pc);//
 
-	ft_printf("\t{green}{bold}END\tFORK\n{eoc}");//
 }
