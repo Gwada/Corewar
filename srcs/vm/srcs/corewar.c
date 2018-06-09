@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/08 19:35:45 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/09 20:44:14 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,28 @@
 
 static void			check_instruct(t_core *c, unsigned char opc)
 {
-/*
-	ft_printf("\n{bold}{yellow}{underline}IN\tCHECK_INSTRUCT\t");//
-	ft_printf("{red}CYCLE: %u\n{eoc}", c->total_cycle);//
-*/
+
+
+//	ft_printf("\n{bold}{yellow}{underline}IN\tCHECK_INSTRUCT\t");//
+//	ft_printf("{red}CYCLE: %u\n{eoc}", c->total_cycle);//
+
+
 	t_process		*tmp;
 
 	tmp = c->ps;
 	while (tmp)
 	{
-		if (!tmp->ins.nb_cycles)
+//		ft_printf("test0\n");//
+		if (tmp && !tmp->ins.nb_cycles)
 		{
+//			ft_printf("test1\n");//
 			if (opc_c((opc = c->ram[id(tmp->pc)] - 1)) && tmp->ins.name)
 			{
 				if (!ft_strcmp(tmp->ins.name, g_op_tab[opc].name))
 				{
 					if (c->ft[opc](&c->ram[id(tmp->pc + 1)], tmp))
 					{
+//			ft_printf("test1.1\n");//
 						display_corewar(c, tmp, opc, 0);
 						c->ex[opc](c, tmp);
 						display_corewar(c, tmp, opc, 1);
@@ -43,11 +48,18 @@ static void			check_instruct(t_core *c, unsigned char opc)
 			}
 			else
 				tmp->pc = id(tmp->pc + 1);
+//			ft_printf("test1.2 read\n");//
 			read_instruct(c, tmp) ? --tmp->ins.nb_cycles : 0;
+//			ft_printf("end read\n");//
 		}
 		else
+		{
+//		ft_printf("test2\n");//
 			--tmp->ins.nb_cycles;
+		}
+//		ft_printf("test3\n");//
 		tmp = tmp->next;
+//		ft_printf("test4\n\n");//
 	}
 
 //	ft_printf("{bold}{yellow}{underline}END\tCHECK_INSTRUCT{eoc}\n");//
@@ -71,24 +83,26 @@ static void		put_champ(t_core *core)
 }
 void				corewar(t_core *core)
 {
+
 //	ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");//
 
 	if (!(core->ps = init_process(core, -1)))
 		return ((void)display_error(core, 0, NULL));
 	while (core->n_process > 0 && core->max_cycle > 0 && core->ps)
 	{
-/*
-		ft_printf("{bold}{red}current cycle: %u\tcycle_to_die: %d\tbefore cycle_to_die: %d\tcurrent_live: %d\n{eoc}",  core->current_cycle, core->max_cycle, core->max_cycle - core->current_cycle, core->current_cycle_live);
-*/
 		check_instruct(core, 0);
+//		ft_printf("1\n");
 		if (cycle_checker(core))
 			break ;
+//		ft_printf("2\n");
 		++core->total_cycle;
 		++core->current_cycle;
 	}
-/*
+
+
 	ft_printf("{bold}\n%u process in progress at end\nend after %u cycles\n{red}END\tCOREWAR{eoc}\n", core->n_process, core->total_cycle);//
-*/
+
+
 	put_champ(core);
-	core->n_process ? clean_process(core->ps) : 0;
+	clean_process(core->ps);
 }

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 13:56:08 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/08 19:02:31 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/09 20:44:11 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,32 @@ t_process		*del_process(t_core *core, t_process *lst)
 
 	if (!lst || !core)
 		return (NULL);
-	tmp = NULL;
-	if (!lst->live)
+//	ft_printf("dp1\n"); //
+	tmp = lst;
+	lst = lst->next;
+	if (--core->n_process < 1)
 	{
-		ft_printf("One of the processes does not respond anymore.{red}");//
-		ft_printf(" FUCK THIS SHIT!!!! He must die now{eoc}\n");//
+//		ft_printf("dp2\n"); //
+		core->ps = NULL;
 	}
-	if (core->n_process-- == 1 && core->ps == lst)
+	else if (core->ps == tmp || !tmp->prev)
 	{
-		free(core->ps);
-		return((core->ps = NULL));
+//		ft_printf("dp3\n"); //
+		core->ps = core->ps->next;
+		core->ps->prev = NULL;
 	}
-	lst->next ? lst->next->prev = lst->prev : 0;
-	lst->prev ? lst->prev->next = lst->next : 0;
-	core->ps == lst ? core->ps = lst->next : 0;
-	if (lst->prev)
-		tmp = lst->prev;
-	else if (lst->next)
-		tmp = lst->next;;
-	free(lst);
-	return (tmp);
+	else
+	{
+//		ft_printf("dp4\n"); //
+		tmp->prev->next = tmp->next;
+//		ft_printf("dp4.1\n"); //
+		tmp->next ? tmp->next->prev = tmp->prev : 0;
+//		ft_printf("dp4.2\n"); //
+	}
+//	ft_printf("dp5\n"); 
+	free(tmp);
+//	ft_printf("dp6\n"); 
+	return (lst);
 }
 
 t_process		*clean_process(t_process *lst)

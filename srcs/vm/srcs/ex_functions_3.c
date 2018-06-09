@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/08 19:35:33 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/09 20:44:12 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void				_ex_sti(t_core *c, t_process *p)
 
 	p_2 = c->v[0](c, p, p_2 + p_3);
 
-	ft_printf("\t\tp->pc + (p_3 + p_2) %% IDX_MOD = %#x\n", p_2);//
+	ft_printf("\t\tp->pc + (p_3 + p_2) %% IDX_MOD = %#x\t%d\n", p_2, p_2);//
 
 	while (++i < 4)
 		c->ram[id(p_2 + i)] = (p->reg[p_1] >> (24 - (i * 8))) & 0xff;
@@ -71,6 +71,8 @@ void				_ex_fork(t_core *c, t_process *p)
 	read_instruct(c, new);
 	p->pc = id(p->pc + *p->l);
 	new->next = c->ps;
+	new->prev = NULL;
+	c->ps->prev = new;
 	c->ps = new;
 	--new->ins.nb_cycles;
 	ft_printf("\t\tnew->pc: %#x\t%u\n\t{green}{bold}END\tFORK\n{eoc}", new->pc, new->pc);//
@@ -142,8 +144,11 @@ void				_ex_lfork(t_core *c, t_process *p)
 	read_instruct(c, new);
 	p->pc = id(p->pc + *p->l);
 	new->next = c->ps;
+	new->prev = NULL;
+	c->ps->prev = new;
 	c->ps = new;
 	--new->ins.nb_cycles;
+
 	ft_printf("\t\tnew->pc: %#x\t%u\n\t{green}{bold}END\tLFORK\n{eoc}", new->pc, new->pc);//
 
 }
