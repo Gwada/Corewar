@@ -24,48 +24,48 @@ void				_ex_live(t_core *c, t_process *p)
 	++p->live;
 	++c->current_cycle_live;
 	id_p = c->v[2](c, p, p->l[1]);
-	ft_printf("live %d", id_p);
+//	ft_printf("live %d", id_p);
 	while (++i < (int)c->player)
 		if (id_p == c->p[i].id)
 		{
 			++c->p[i].total_live;
 			++c->p[i].current_cycle_live;
 			c->last_live_player = id_p;
-			ft_printf(" \"{green}un processus dit que le joueur");
-			ft_printf(" %d(%s) est en vie\n{eoc}", -id_p, c->p[i].name);
+//			ft_printf(" \"{green}un processus dit que le joueur");
+//			ft_printf(" %d(%s) est en vie\n{eoc}", -id_p, c->p[i].name);
 		}
-	ft_printf("\"\n");
+//	ft_printf("\"\n");
 	p->pc = moov_opc(c, p, *p->l);
 }
 
 void				_ex_ld(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tLD (charge p_1 dans p->reg[reg] + (modif carry))\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tLD (charge p_1 dans p->reg[reg] + (modif carry))\n{eoc}");//
 
 	unsigned char	reg;
 
 	c->v[5](c, p, 0);
 	if (!(reg = c->v[p->ins.param[1]](c, p, p->l[2])) || reg > 16)
 	{
-		ft_printf("test reg: %hhu\n", reg);
+//		ft_printf("test reg: %hhu\n", reg);
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	}
 
-	ft_printf("p->reg[%2hhu]:\t%8#x\t%10d\n", reg, p->reg[reg], p->reg[reg]);
+//	ft_printf("p->reg[%2hhu]:\t%8#x\t%10d\n", reg, p->reg[reg], p->reg[reg]);
 
 	p->reg[reg] = c->v[*p->ins.param](c, p, p->l[1]);
 
-	ft_printf("\t\t{red}after{eoc}\t\tp->reg[%2hhu]:\t%8#x\t%10d\n", reg, p->reg[reg], p->reg[reg]);
+//	ft_printf("\t\t{red}after{eoc}\t\tp->reg[%2hhu]:\t%8#x\t%10d\n", reg, p->reg[reg], p->reg[reg]);
 
 	p->carry = p->reg[reg] ? 0 : 1;
 	p->pc = moov_opc(c, p, *p->l);
 
-	ft_printf("\t{green}{bold}END\tLD\n{eoc}");//
+//	ft_printf("\t{green}{bold}END\tLD\n{eoc}");//
 }
 
 void				_ex_st(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tST (copie p_1 vers p_2)\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tST (copie p_1 vers p_2)\n{eoc}");//
 
 	int				i;
 	unsigned char	p_1;
@@ -76,7 +76,7 @@ void				_ex_st(t_core *c, t_process *p)
 	if (!(p_1 = c->v[*p->ins.param](c, p, p->l[1])) || p_1 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 
-	ft_printf("p->reg[%hhu]: %#x\n", p_1, p->reg[p_1]);//
+//	ft_printf("p->reg[%hhu]: %#x\n", p_1, p->reg[p_1]);//
 
 	p_2 = c->v[p->ins.param[1] & T_REG ? 1 : 3](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
@@ -85,17 +85,17 @@ void				_ex_st(t_core *c, t_process *p)
 	{//
 		p->reg[p_2] = p->reg[p_1];
 
-		ft_printf("\t\tp->reg[%hu] =\t%#x\n", p_2, p->reg[p_2]);//
+//		ft_printf("\t\tp->reg[%hu] =\t%#x\n", p_2, p->reg[p_2]);//
 
 	}//
 	else
 	{
 
-		ft_printf("\t{yellow}(addr)p_2 = %#hx(hex) %4hd{eoc}", p_2, p_2);//
+//		ft_printf("\t{yellow}(addr)p_2 = %#hx(hex) %4hd{eoc}", p_2, p_2);//
 
 		p_2 = id(p->pc + (p_2 % IDX_MOD)); //cast ou pas?? that is the question
 
-		ft_printf("\t{green}(addr)p_2 = %#hx(hex) %4hd\n{eoc}", p_2, p_2);//
+//		ft_printf("\t{green}(addr)p_2 = %#hx(hex) %4hd\n{eoc}", p_2, p_2);//
 
 		while (++i < 4)
 		{
@@ -106,12 +106,12 @@ void				_ex_st(t_core *c, t_process *p)
 	}
 	p->pc = moov_opc(c, p, *p->l);
 
-	ft_printf("\t{green}{bold}END\tST\n{eoc}");//
+//	ft_printf("\t{green}{bold}END\tST\n{eoc}");//
 }
 
 void				_ex_add(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tADD{eoc}\n");//
+//	ft_printf("\t{green}{bold}IN\tADD{eoc}\n");//
 
 	unsigned char	p_1;
 	unsigned char	p_2;
@@ -125,21 +125,21 @@ void				_ex_add(t_core *c, t_process *p)
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_2 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 
-	ft_printf("\t\tp_1: %u | %#x\tp->reg[p_1]: %#x\n\t\tp_2: %u | %#x\tp->reg[p_2]: %#x\n\t\tp_3: %u | %#x\tp->reg[o_3]: %#x\n\t\tp->reg[p_1] + p->reg[p_2]: %u\n", p_1, p_1, p->reg[p_1], p_2, p_2, p->reg[p_2], p_3, p_3, p->reg[p_3], p->reg[p_2] + p->reg[p_1]);//
+//	ft_printf("\t\tp_1: %u | %#x\tp->reg[p_1]: %#x\n\t\tp_2: %u | %#x\tp->reg[p_2]: %#x\n\t\tp_3: %u | %#x\tp->reg[o_3]: %#x\n\t\tp->reg[p_1] + p->reg[p_2]: %u\n", p_1, p_1, p->reg[p_1], p_2, p_2, p->reg[p_2], p_3, p_3, p->reg[p_3], p->reg[p_2] + p->reg[p_1]);//
 
 	p->reg[p_3] = p->reg[p_1] + p->reg[p_2];
 
-	ft_printf("\t\tp->reg[p_3]: %u | %p\n", p->reg[p_3], p->reg[p_3]);//
+//	ft_printf("\t\tp->reg[p_3]: %u | %p\n", p->reg[p_3], p->reg[p_3]);//
 
 	p->carry = (p->reg[p_3] == 0);
 	p->pc = moov_opc(c, p, *p->l);
 
-	ft_printf("\t{green}{bold}END\tADD{eoc}\n");//
+//	ft_printf("\t{green}{bold}END\tADD{eoc}\n");//
 }
 
 void				_ex_sub(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tSUB{eoc}\n");//
+//	ft_printf("\t{green}{bold}IN\tSUB{eoc}\n");//
 
 	unsigned char	p_1;
 	unsigned char	p_2;
@@ -149,24 +149,24 @@ void				_ex_sub(t_core *c, t_process *p)
 	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 
-	ft_printf("p->ref[%hhu]\t%#x\n", p_1, p->reg[p_1]);//
+//	ft_printf("p->ref[%hhu]\t%#x\n", p_1, p->reg[p_1]);//
 
 	if (!(p_2 = c->v[1](c, p, p->l[2])) || p_2 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 
-	ft_printf("p->reg[%hhu]\t%#x\n", p_2, p->reg[p_2]);//
+//	ft_printf("p->reg[%hhu]\t%#x\n", p_2, p->reg[p_2]);//
 
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 
-	ft_printf("p->reg[%hhu]\t%#x\t", p_3, p->reg[p_3]);//
+//	ft_printf("p->reg[%hhu]\t%#x\t", p_3, p->reg[p_3]);//
 
 	p->reg[p_3] = p->reg[p_1] - p->reg[p_2];
 
-	ft_printf("-> {red}\t%#x{eoc}\n", p->reg[p_3]);//
+//	ft_printf("-> {red}\t%#x{eoc}\n", p->reg[p_3]);//
 
 	p->carry = (p->reg[p_3] == 0);
 	p->pc = moov_opc(c, p, *p->l);
 
-	ft_printf("\t{green}{bold}END\tSUB{eoc}\n");//
+//	ft_printf("\t{green}{bold}END\tSUB{eoc}\n");//
 }

@@ -37,6 +37,8 @@
 # define ERROR				(1 << 6)
 # define VISUAL				(1 << 7)
 # define DEBUG				(1 << 8)
+# define GET_ID				(1 << 9)
+# define GET_DUMP			(1 << 10)
 
 # define FST				(1 << 0)
 # define SND				(1 << 1)
@@ -98,6 +100,7 @@ typedef struct				s_core
 	char					*first_arg;
 	unsigned char			ram[MEM_SIZE];
 	short					r_2[MEM_SIZE];
+	char					buff[512];
 	unsigned int			bd;
 	unsigned int			dump;
 	unsigned int			player;

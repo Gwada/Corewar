@@ -13,66 +13,78 @@
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
 
-static size_t			get_id(unsigned char *oct, t_core *core)
+static int				get_id(unsigned char *opt, t_core *core)
 {
 	unsigned short		id;
 
 	id = 0;
-	while (ft_isdigit(*oct))
-		if ((id = id * 10 + *oct++ - '0') > MAX_PLAYERS)
-			break ;
-	if (id < 1 || id > MAX_PLAYERS)
-		return (ft_printf("Player Id: (1-%u)\n", MAX_PLAYERS));
-	if (core->id[id])
-		return (ft_printf("Choose an other player id: {red}%hu{eoc}\n", id));
-	core->bd |= GET_OPT;
-	core->id[id] = 1;
-	core->p[core->player].id = (unsigned char)id;
-	return (0);
+	if (!*opt)
+		return (0);
+	if (ft_str_is_numeric((char*)opt))
+	{
+		while (*opt)
+			if ((id = id * 10 + *opt++ - '0') > MAX_PLAYERS)
+				break ;
+		if (id < 1 || id > MAX_PLAYERS)
+			return (ft_printf("Player Id: (1-%u)\n", MAX_PLAYERS));
+		if (core->id[id])
+			return (ft_printf("Choose an other player id: %hu\n", id));
+		core->bd |= GET_OPT;
+		core->bd &= ~GET_ID;
+		core->id[id] = 1;
+		core->p[core->player].id = (unsigned char)id;
+		return (0);
+	}
+	return (ft_printf("Invalid id player: %s\n", opt));
 }
 
-static void				get_prog_opt(unsigned char *opt, t_core *core)
+static int				get_dump(unsigned char *opt, t_core *core)
 {
 	unsigned long long	dump;
 
 	dump = 0;
 	if (!*opt)
-		return ;
-	if (*opt == 'v' && (core->bd |= VISUAL))
-		return (get_prog_opt(++opt, core));
-	if (!ft_strncmp((const char*)opt, "dump", 4) && !(core->bd & DUMP))
+		return (0);
+	if (ft_str_is_numeric((char*)opt))
 	{
-		opt += 4;
-		while (*opt && ft_isdigit(*opt))
+		while (*opt)
 			if ((dump = dump * 10 + *opt++ - '0') > IMAX)
 				break ;
-		if ((!dump || dump > IMAX) && (core->bd = ERROR))
-			return (display_usage(core->first_arg));
-		core->bd |= DUMP;
-		core->dump = (unsigned int)dump;
-		return (*opt ? get_prog_opt(opt, core) : (void)0);
+		if (dump > 0 && dump <= IMAX)
+		{
+			core->bd |= DUMP;
+			core->bd &= ~GET_DUMP;
+			core->dump = (unsigned int)dump;
+			return (0);
+		}
 	}
 	core->bd = ERROR;
 	display_usage(core->first_arg);
+	return (1);
 }
 
 int						get_options(unsigned char *opt, t_core *core)
 {
 	if (!*opt)
 		return (0);
-	if (ft_strchr("dv", *opt) && !core->player)
-		get_prog_opt(opt, core);
-	else if (*opt == 'p' && ft_isdigit(*++opt))
+	if (core->bd & GET_ID)
+		return (get_id(opt, core));
+	if (core->bd & GET_DUMP)
+		return (get_dump(opt, core));
+	++opt;
+	if (!core->player)
 	{
-		if (get_id(opt, core))
-			return (ft_printf("Invalid player id: %s\n", opt - 2));
-		while (ft_isdigit(*opt))
-			++opt;
+		if (!ft_strcmp("v", (const char*)opt) && (core->bd |= VISUAL))
+			return (0);
+		if (!ft_strcmp("dump", (const char*)opt)
+		&& !(core->bd & DUMP) && (core->bd |= GET_DUMP))
+			return (0);
+		if (!ft_strcmp("Debug", (const char *)opt) && (core->bd |= DEBUG))
+			return (0);
 	}
-	else
-	{
-		display_usage(core->first_arg);
-		return (1);
-	}
-	return (0);
+	if (!ft_strcmp("p", (const char*)opt)
+	&& !(core->bd & GET_OPT) && (core->bd |= GET_ID))
+		return (0);
+	display_usage(core->first_arg);
+	return (1);
 }

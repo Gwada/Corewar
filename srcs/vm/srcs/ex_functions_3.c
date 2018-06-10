@@ -30,9 +30,8 @@ void				_ex_sti(t_core *c, t_process *p)
 	if (p->ins.param[2] & T_REG && (!p_3 || p_3 > 16))
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->ins.param[2] & T_REG ? p_3 = p->reg[p_3]: 0;
-	ft_printf(" store %#x to p->pc + ((%d + %d) %% IDX_MOD)\"\n", p->reg[p_1], p_2, p_3);//
-
 	p_2 = c->v[0](c, p, p_2 + p_3);
+//	ft_psprintf(c->buff, "%x to p->pc + (%d %% IDX_MOD)\n", p->reg[p_1], p_2);//
 	p_3 = -1;
 	while (++p_3 < 4)
 	{
@@ -45,7 +44,7 @@ void				_ex_sti(t_core *c, t_process *p)
 
 void				_ex_fork(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tFORK (nouv process pareil que le pere sauf new->pc = p->pc + (p_1 %% IDX_MOD))\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tFORK (nouv process pareil que le pere sauf new->pc = p->pc + (p_1 %% IDX_MOD))\n{eoc}");//
 
 	t_process		*new;
 
@@ -66,12 +65,12 @@ void				_ex_fork(t_core *c, t_process *p)
 	c->ps->prev = new;
 	c->ps = new;
 	--new->ins.nb_cycles;
-	ft_printf("\t\tnew->pc: %#x\t%u\n\t{green}{bold}END\tFORK\n{eoc}", new->pc, new->pc);//
+//	ft_printf("\t\tnew->pc: %#x\t%u\n\t{green}{bold}END\tFORK\n{eoc}", new->pc, new->pc);//
 }
 
 void				_ex_lld(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tLLD\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tLLD\n{eoc}");//
 
 	unsigned char	reg;
 
@@ -82,12 +81,12 @@ void				_ex_lld(t_core *c, t_process *p)
 	p->carry = p->reg[reg] ? 0 : 1;
 	p->pc = moov_opc(c, p, *p->l);
 
-	ft_printf("\t{green}{bold}END\tLLD\n{eoc}");//
+//	ft_printf("\t{green}{bold}END\tLLD\n{eoc}");//
 }
 
 void				_ex_lldi(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tLLDI\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tLLDI\n{eoc}");//
 
 	int				i;
 	int				p_1;
@@ -106,18 +105,18 @@ void				_ex_lldi(t_core *c, t_process *p)
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
-	p_2 = c->v[0](c, p, p_2 + p_1); //cast?
+	p_2 = c->v[0](c, p, p_2 + p_1);
 	while (++i < 4)
-		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id(p_2 + i)];//cast?
+		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id(p_2 + i)];
 	p->pc = moov_opc(c, p, *p->l);
 	p->carry = p->reg[p_3] ? 0 : 1;
 
-	ft_printf("\t{green}{bold}END\tLLDI\n{eoc}");//
+//	ft_printf("\t{green}{bold}END\tLLDI\n{eoc}");//
 }
 
 void				_ex_lfork(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tLFORK (nouv process pareil que le pere sauf new->pc = p->pc + p_1)\n{eoc}");//
+//	ft_printf("\t{green}{bold}IN\tLFORK (nouv process pareil que le pere sauf new->pc = p->pc + p_1)\n{eoc}");//
 	t_process		*new;
 
 	if (!(new = new_process(c)))
@@ -131,7 +130,7 @@ void				_ex_lfork(t_core *c, t_process *p)
 	new->pc = id(p->pc + c->v[*p->ins.param](c, p, p->l[1]));
 	c->r_2[new->pc]	|= OPC;
 
-	ft_printf("\t\tnew->pc %#x %u\n", new->pc, new->pc);//
+//	ft_printf("\t\tnew->pc %#x %u\n", new->pc, new->pc);//
 
 	read_instruct(c, new);
 	p->pc = moov_opc(c, p, *p->l);
@@ -141,6 +140,6 @@ void				_ex_lfork(t_core *c, t_process *p)
 	c->ps = new;
 	--new->ins.nb_cycles;
 
-	ft_printf("\t\tnew->pc: %#x\t%u\n\t{green}{bold}END\tLFORK\n{eoc}", new->pc, new->pc);//
+//	ft_printf("\t\tnew->pc: %#x\t%u\n\t{green}{bold}END\tLFORK\n{eoc}", new->pc, new->pc);//
 
 }

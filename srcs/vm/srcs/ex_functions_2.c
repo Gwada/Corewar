@@ -15,7 +15,7 @@
 
 void				_ex_and(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tAND{eoc}\n");//
+//	ft_printf("{green}{bold}\tIN\tAND{eoc}\n");//
 
 	int				p_1;
 	int				p_2;
@@ -37,12 +37,12 @@ void				_ex_and(t_core *c, t_process *p)
 	p->pc = moov_opc(c, p, *p->l);
 
 
-	ft_printf("{green}{bold}\tEND\tAND{eoc}\n");//
+//	ft_printf("{green}{bold}\tEND\tAND{eoc}\n");//
 }
 
 void				_ex_or(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tOR{eoc}\n");//
+//	ft_printf("{green}{bold}\tIN\tOR{eoc}\n");//
 
 	int				p_1;
 	int				p_2;
@@ -63,12 +63,12 @@ void				_ex_or(t_core *c, t_process *p)
 	p->carry = (p->reg[p_3] == 0);
 	p->pc = moov_opc(c, p, *p->l);
 
-	ft_printf("{green}{bold}\tEND\tOR{eoc}\n");//
+//	ft_printf("{green}{bold}\tEND\tOR{eoc}\n");//
 }
 
 void		_ex_xor(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tXOR{eoc}\n");//
+//	ft_printf("{green}{bold}\tIN\tXOR{eoc}\n");//
 
 	int				p_1;
 	int				p_2;
@@ -89,12 +89,12 @@ void		_ex_xor(t_core *c, t_process *p)
 	p->carry = (p->reg[p_3] == 0);
 	p->pc = moov_opc(c, p, *p->l);
 
-	ft_printf("{green}{bold}\tEND\tXOR{eoc}\n");//
+//	ft_printf("{green}{bold}\tEND\tXOR{eoc}\n");//
 }
 
 void				_ex_zjmp(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tZJMP (si carry == 1 charge p->pc en p->pc + (p_1 %% IDX_MOD)){eoc}\n\t\tp->pc: %#x\n", p->pc);//
+//	ft_printf("{green}{bold}\tIN\tZJMP (si carry == 1 charge p->pc en p->pc + (p_1 %% IDX_MOD)){eoc}\n\t\tp->pc: %#x\n", p->pc);//
 
 	c->v[5](c, p, 0);
 	if (p->carry == 1)
@@ -110,12 +110,12 @@ void				_ex_zjmp(t_core *c, t_process *p)
 		ft_printf("\t\t{red}FAILED{eoc}\n");
 	}
 
-	ft_printf("\t\tp->pc: %#x\t%d\n{green}{bold}\tEND\tZJMP{eoc}\n", p->pc, p->pc);
+//	ft_printf("\t\tp->pc: %#x\t%d\n{green}{bold}\tEND\tZJMP{eoc}\n", p->pc, p->pc);
 }
 
 void				_ex_ldi(t_core *c, t_process *p)
 {
-	ft_printf("{green}{bold}\tIN\tLDI{eoc}\n");//
+//	ft_printf("{green}{bold}\tIN\tLDI{eoc}\n");//
 
 	int				i;
 	int				p_1;
@@ -139,5 +139,5 @@ void				_ex_ldi(t_core *c, t_process *p)
 		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id((short)p_2 + i)]; //cast?
 	p->pc = moov_opc(c, p, *p->l);
 
-	ft_printf("{green}{bold}\tEND\tLDI{eoc}\n");//
+//	ft_printf("{green}{bold}\tEND\tLDI{eoc}\n");//
 }

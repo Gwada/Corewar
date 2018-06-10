@@ -41,7 +41,7 @@ static void	put_process(t_process *p, int i_1, int reg)
 		!(reg % 8) ? i_1 += ft_psprintf(&buff[i_1], "\n") : 0;//
 	}
 	i_1 += ft_psprintf(&buff[i_1], "\nprocess name\t: \"{green}{bold}");//
-	i_1 += ft_psprintf(&buff[i_1], "%20s{bold}{eoc}\"\n", p->ins.description);//
+	i_1 += ft_psprintf(&buff[i_1], "%50s{bold}{eoc}\"\n", p->ins.description);//
 	i_1 += ft_psprintf(&buff[i_1], "description\t: \"");//
 
 	ft_printf("%s", buff);
@@ -56,6 +56,7 @@ static void	put_corewar(t_core *c, t_process *p, int i, int l)
 
 	hex = "0x";
 	ft_bzero(buff, 2048);
+	ft_printf("%s\n", c->buff);
 	while (i < MEM_SIZE && (j = -1) && !(l = 0))
 	{
 		l += ft_psprintf(&buff[l], "{bold}{cyan}%s%04x{eoc} : ", hex, i);//
@@ -81,7 +82,6 @@ static void	put_corewar(t_core *c, t_process *p, int i, int l)
 			l += ft_psprintf(&buff[l], " ");//
 		}
 		ft_printf("%s\n", buff);
-//		ft_printf("%s\tsize: %d\n", buff, l);//
 		ft_bzero(buff, 2048);
 		i += 64;
 	}
@@ -94,10 +94,11 @@ void		display_cw(t_core *c, t_process *p, unsigned char opc, int state)
 	{
 		system("clear");//
 		put_general(c, p, opc, 0);
-		put_process(p, 0, 0);
 	}
 	else if (state == 1)
 	{
+		put_process(p, 0, 0);
+		ft_bzero(c->buff, 512);
 		ft_printf("\n{bold}{yellow}COREWAR\tSTATES{eoc}\n");//
 		put_corewar(c, p, 0, 0);
 		nanosleep((const struct timespec[]){{0, 100000000L}}, NULL);//

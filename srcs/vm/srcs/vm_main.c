@@ -67,26 +67,25 @@ static	int			get_arg(char *s, t_core *c, int fd, int ret)
 	oct = c->p[c->player].buff;
 	if (c->player == MAX_PLAYERS)
 		return (display_error(c, 4, NULL));
-	if (*s != '-')
-	{
-		if ((ret = ft_strlen(s)) <= 4 || ft_strcmp(&s[ret - 4], ".cor"))
-			return (display_error(c, 1, s));
-		if ((fd = open(s, O_RDONLY)) == -1)
-			return (display_error(c, 2, s));
-		ret = read(fd, c->p[c->player].buff, FILE_MAX_SIZE + 1);
-		close(fd);
-		if (ret == -1)
-			return (display_error(c, 3, s));
-		get_magic_number(&oct, c, -1);
-		c->p[c->player].bd & VALID_NAME_LEN ? get_prog_size(&oct, c, -1) : 0;
-		if (!(ret = 0) && !(c->p[c->player].bd & VALID_CHAMP_LEN))
-			return (1);
-		while (!c->p[c->player].id && ++ret < MAX_PLAYERS)
-			if (!c->id[ret] && (c->id[ret] = 1))
-				c->p[c->player].id = ret;
-		++c->player;
-	}
-	return (*s == '-' ? get_options((unsigned char*)s + 1, c) : 0);
+	if ((*s == '-') || (c->bd & GET_DUMP) || (c->bd & GET_ID))
+		return (get_options((unsigned char*)s, c));
+	if ((ret = ft_strlen(s)) <= 4 || ft_strcmp(&s[ret - 4], ".cor"))
+		return (display_error(c, 1, s));
+	if ((fd = open(s, O_RDONLY)) == -1)
+		return (display_error(c, 2, s));
+	ret = read(fd, c->p[c->player].buff, FILE_MAX_SIZE + 1);
+	close(fd);
+	if (ret == -1)
+		return (display_error(c, 3, s));
+	get_magic_number(&oct, c, -1);
+	c->p[c->player].bd & VALID_NAME_LEN ? get_prog_size(&oct, c, -1) : 0;
+	if (!(ret = 0) && !(c->p[c->player].bd & VALID_CHAMP_LEN))
+		return (1);
+	while (!c->p[c->player].id && ++ret < MAX_PLAYERS)
+		if (!c->id[ret] && (c->id[ret] = 1))
+			c->p[c->player].id = ret;
+	++c->player;
+	return (0);
 }
 
 static	void		put_champ(t_core *c, unsigned int i)
