@@ -38,9 +38,9 @@ static void			check_instruct(t_core *c, unsigned char opc)
 					if (c->ft[opc](&c->ram[id(tmp->pc + 1)], tmp))
 					{
 //			ft_printf("test1.1\n");//
-						display_corewar(c, tmp, opc, 0);
+						display_cw(c, tmp, opc, 0);
 						c->ex[opc](c, tmp);
-						display_corewar(c, tmp, opc, 1);
+						display_cw(c, tmp, opc, 1);
 					}
 					else
 						tmp->pc = id(tmp->pc + 1);
@@ -83,7 +83,6 @@ static void		put_champ(t_core *core)
 }
 void				corewar(t_core *core)
 {
-
 //	ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");//
 
 	if (!(core->ps = init_process(core, -1)))

@@ -98,6 +98,7 @@ typedef struct		s_data
 	int				i_f;
 	int				error;
 	char			*str;
+	char			*str_2;
 	char			*ft;
 	char			buf[BUFF_SIZE + 1];
 	short			bd;
@@ -111,40 +112,66 @@ typedef struct		s_data
 **	*** PROTOTYPES ***
 */
 
-int					ft_atoi_p(const char *nptr);
+/*
+**		ALL VERSIONS
+*/
+
+int					ft_printf(const char *format, ...);
+int					ft_sprintf(char **str, const char *format, ...);
+int					ft_dprintf(int fd, const char *format, ...);
+int					ft_psprintf(char *str, const char *format, ...);
+
+/*
+**		TOOLS
+*/
+
+void				ft_buffering(t_data *data, const void *s, int len);
+void				ft_filler(t_data *data, char opt);
+int					ft_join_clr(t_data *data);
+void				ft_attribuate(t_data *data);
+void				ft_flags_parser(t_data *data);
+void				ft_precision_parser(t_data *data);
+void				ft_len_mod_parser(t_data *data);
+void				ft_error(t_data *data, int to_remove);
+void				ft_set_len(t_data *data);
+void				ft_no_types(t_data *data);
 void				ft_bzero(void *s, size_t n);
 char				*ft_strchr(const char *s, int c);
 int					ft_strchri(const char *s, unsigned c);
 int					ft_strchri_up(const char *s, unsigned c);
 size_t				ft_strlen(const char *s);
-int					ft_printf(const char *format, ...);
-int					ft_sprintf(char **str, const char *format, ...);
-int					ft_dprintf(int fd, const char *format, ...);
-void				ft_attribuate(t_data *data);
-void				ft_flags_parser(t_data *data);
-void				ft_precision_parser(t_data *data);
-void				ft_len_mod_parser(t_data *data);
 void				ft_put_type(t_data *data);
+
+/*
+**		NUMERICS FUNCTIONS
+*/
+
+void				ft_set_base(t_data *data);
+void				ft_set_float(t_data *data, double n);
+void				ft_itoa_p(t_data *data, long long n);
+void				ft_set_signed(t_data *data);
+void				ft_itoa_buf(t_data *data, ULX2I n, int b, int len);
+void				ft_itoa_base_p(t_data *data, ULX2I n, int b);
+int					ft_atoi_p(const char *nptr);
+
+/*
+**		STRINGS FUNCTIONS
+*/
+
+void				ft_putwchar_p(t_data *data, wchar_t c, int size, int n_b);
+void				ft_set_car(t_data *data, wchar_t c);
+void				ft_putstr_p(t_data *data);
 size_t				ft_wcharlen(wchar_t c);
 size_t				ft_wstrlen(wchar_t *ws);
 void				ft_putwstr_p(t_data *data, int len, int wlen);
-void				ft_putstr_p(t_data *data);
-void				ft_set_car(t_data *data, wchar_t c);
-void				ft_putwchar_p(t_data *data, wchar_t c, int size, int n_b);
-void				ft_set_signed(t_data *data);
-void				ft_itoa_p(t_data *data, long long n);
-void				ft_itoa_buf(t_data *data, ULX2I n, int b, int len);
-void				ft_itoa_base_p(t_data *data, ULX2I n, int b);
-void				ft_set_float(t_data *data, double n);
+
+
+/*
+**		OTHER FUNCTIONS
+*/
+
 void				ft_set_adress(t_data *data);
-void				ft_set_base(t_data *data);
 void				ft_put_bin_p(t_data *data, ULX2I n);
-void				ft_set_len(t_data *data);
-void				ft_no_types(t_data *data);
-void				ft_filler(t_data *data, char opt);
-int					ft_join_clr(t_data *data);
 void				ft_set_color(t_data *data, int len);
-void				ft_buffering(t_data *data, const void *s, int len);
-void				ft_error(t_data *data, int to_remove);
 
 #endif

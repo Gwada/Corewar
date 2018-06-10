@@ -47,19 +47,21 @@ void		ft_buffering(t_data *data, const void *s, int len)
 	src = (char*)s;
 	while (++i - len)
 	{
-		if (data->i_b == BUFF_SIZE)
+		if (!data->str_2)
 		{
-			if (!data->str)
-				write(data->fd, data->buf, BUFF_SIZE);
-			else if (data->str && !ft_join_clr(data))
+			if (data->i_b == BUFF_SIZE)
 			{
-				data->error = -1;
-				return ;
+				if (!data->str)
+					write(data->fd, data->buf, BUFF_SIZE);
+				else if (data->str && !ft_join_clr(data) && (data->error = -1))
+					return ;
+				ft_bzero(data->buf, BUFF_SIZE);
+				data->i_b = 0;
 			}
-			ft_bzero(data->buf, BUFF_SIZE);
-			data->i_b = 0;
+			data->buf[data->i_b++] = src[i];
 		}
-		data->buf[data->i_b++] = src[i];
+		else
+			*data->str_2++ = src[i];
 		data->len++;
 	}
 }
