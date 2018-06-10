@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/09 20:44:14 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/10 18:25:02 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ static void			check_instruct(t_core *c, unsigned char opc)
 						display_cw(c, tmp, opc, 1);
 					}
 					else
-						tmp->pc = id(tmp->pc + 1);
+						tmp->pc = moov_opc(c, tmp, 1);
 				}
 			}
 			else
-				tmp->pc = id(tmp->pc + 1);
+				tmp->pc = moov_opc(c, tmp, 1);
 //			ft_printf("test1.2 read\n");//
 			read_instruct(c, tmp) ? --tmp->ins.nb_cycles : 0;
 //			ft_printf("end read\n");//
@@ -99,9 +99,11 @@ void				corewar(t_core *core)
 	}
 
 
-	ft_printf("{bold}\n%u process in progress at end\nend after %u cycles\n{red}END\tCOREWAR{eoc}\n", core->n_process, core->total_cycle);//
+//	ft_printf("{bold}\n%u process in progress at end\nend after %u cycles\n{red}END\tCOREWAR{eoc}\n", core->n_process, core->total_cycle);//
 
 
 	put_champ(core);
+//	ft_printf("test2\n");
 	clean_process(core->ps);
+//	ft_printf("test3\n");
 }

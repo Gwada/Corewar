@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/09 14:55:53 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/10 20:32:55 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 //	ft_printf("\t{bold}{blue}2 END\tREAD_INSTRUCT{eoc}\n");//
 
 	return (0);
+}
+
+int					moov_opc(t_core *c, t_process *p, int new_pc)
+{
+	new_pc = id(p->pc + new_pc);
+	c->r_2[p->pc] &= ~OPC;
+	c->r_2[new_pc] |= OPC;
+	return (new_pc);
 }
 
 int					get_ind(t_core *core, t_process *process, int ind)

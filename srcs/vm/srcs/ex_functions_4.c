@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/08 19:35:24 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/10 20:33:00 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void			_ex_aff(t_core *c, t_process *p)
 	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	ft_printf("%c\n", (p->reg[p_1] % 256));
-	p->pc = id(p->pc + *p->l);
+	p->pc = moov_opc(c, p, *p->l);
 }
 
 int				get_reg_ind(t_core *c, t_process *p, int ind)
 {
-	ft_printf("\t\t{red}registre{eoc}\t");//
+//	ft_printf("\t\t{red}registre{eoc}\t");//
 	return (c->ram[id(p->pc + ind)]);
 }
 
@@ -40,25 +40,26 @@ int				get_dir_value(t_core *c, t_process *p, int ind)
 	while (++i < (p->ins.label_size ? 2 : 4))
 		n = (n << 8) | c->ram[id(p->pc + ind + i)];
 
-	ft_printf("\t\t{red}direct{eoc}\t\tvalue:\t\t%#x\n", n);//
+//	ft_printf("\t\t{red}direct{eoc}\t\tvalue:\t\t%#x\n", n);//
 
 	return (n);
 }
 
 int				get_ind_value(t_core *c, t_process *p, int ind)
 {
-	ft_printf("\t\t{red}indirect{eoc}");//
+//	ft_printf("\t\t{red}indirect{eoc}");//
 	int			i;
 	int			n;
 	short		addr;
 
-	i = 0;
+	i = -1;
+	n = 0;
 	addr = c->v[3](c, p, ind);
 	c->ram[id(p->pc)] < 0x0d || c->ram[id(p->pc)] > 0x0f ? addr %= IDX_MOD : 0;
 	while (++i < 4)
 		n = (n << 8) | c->ram[id(p->pc + addr + i)];
 
-	ft_printf("\t\taddr: %#hx | %hd\tvalue: %8#x | %d\t", addr, addr, n, n);
+//	ft_printf("\t\taddr: %#hx | %hd\tvalue: %8#x | %d\t", addr, addr, n, n);
 
 	return (n);
 }

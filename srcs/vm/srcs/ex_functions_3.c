@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/09 20:44:12 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/10 20:26:45 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,32 @@
 
 void				_ex_sti(t_core *c, t_process *p)
 {
-	ft_printf("\t{green}{bold}IN\tSTI\n{eoc}");//
-
-	int				i;
 	unsigned char	p_1;
 	int				p_2;
 	int				p_3;
 
 	c->v[5](c, p, 0);
-	i = -1;
 	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
-		return ((void)(p->pc = id(p->pc + *p->l)));
-
-	ft_printf("\t\tp_1: %hhu\tp->reg[p_1]: %#x\n", p_1, p->reg[p_1]);//
-
+		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
-		return ((void)(p->pc = id(p->pc + *p->l)));
+		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2]: 0;
-
-	ft_printf("\t\tp_2 = %#x\n", p_2);//
-
 	p_3 = c->v[p->ins.param[2]](c, p, p->l[3]);
 	if (p->ins.param[2] & T_REG && (!p_3 || p_3 > 16))
-		return ((void)(p->pc = id(p->pc + *p->l)));
+		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->ins.param[2] & T_REG ? p_3 = p->reg[p_3]: 0;
-
-	ft_printf("\t\tp_3 = %#x\n", p_3);//
+	ft_printf(" store %#x to p->pc + ((%d + %d) %% IDX_MOD)\"\n", p->reg[p_1], p_2, p_3);//
 
 	p_2 = c->v[0](c, p, p_2 + p_3);
-
-	ft_printf("\t\tp->pc + (p_3 + p_2) %% IDX_MOD = %#x\t%d\n", p_2, p_2);//
-
-	while (++i < 4)
-		c->ram[id(p_2 + i)] = (p->reg[p_1] >> (24 - (i * 8))) & 0xff;
-	p->pc = id(p->pc + *p->l);
-	ft_printf("\t{green}{bold}END\tSTI\n{eoc}");//
+	p_3 = -1;
+	while (++p_3 < 4)
+	{
+		c->ram[id(p_2 + p_3)] = (p->reg[p_1] >> (24 - (p_3 * 8))) & 0xff;
+		c->r_2[id(p_2 + p_3)] &= ~(0xff);
+		c->r_2[id(p_2 + p_3)] |= ((1 << (*p->reg - 1)) | (1 << 5));
+	}
+	p->pc = moov_opc(c, p, *p->l);
 }
 
 void				_ex_fork(t_core *c, t_process *p)
@@ -68,8 +58,9 @@ void				_ex_fork(t_core *c, t_process *p)
 	c->v[5](c, p, 0);
 	*new = *p;
 	new->pc = id(p->pc + (c->v[3](c, p, p->l[1]) % IDX_MOD));
+	c->r_2[new->pc] |= OPC;
 	read_instruct(c, new);
-	p->pc = id(p->pc + *p->l);
+	p->pc = moov_opc(c, p, *p->l);
 	new->next = c->ps;
 	new->prev = NULL;
 	c->ps->prev = new;
@@ -86,10 +77,10 @@ void				_ex_lld(t_core *c, t_process *p)
 
 	c->v[5](c, p, 0);
 	if (!(reg = c->v[1](c, p, p->l[2])) || reg > 16)
-		return ((void)(p->pc = id(p->pc + *p->l)));
+		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->reg[reg] = c->v[*p->ins.param](c, p, p->l[1]);
 	p->carry = p->reg[reg] ? 0 : 1;
-	p->pc = id(p->pc + *p->l);
+	p->pc = moov_opc(c, p, *p->l);
 
 	ft_printf("\t{green}{bold}END\tLLD\n{eoc}");//
 }
@@ -107,18 +98,18 @@ void				_ex_lldi(t_core *c, t_process *p)
 	c->v[5](c, p, 0);
 	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
 	if (*p->ins.param & T_REG && (!p_1 || p_1  > 16))
-		return ((void)(p->pc = id(p->pc + *p->l)));
+		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
 	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
-		return ((void)(p->pc = id(p->pc + *p->l)));
+		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
-		return ((void)(p->pc = id(p->pc + *p->l)));
+		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p_2 = c->v[0](c, p, p_2 + p_1); //cast?
 	while (++i < 4)
 		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id(p_2 + i)];//cast?
-	p->pc = id(p->pc + *p->l);
+	p->pc = moov_opc(c, p, *p->l);
 	p->carry = p->reg[p_3] ? 0 : 1;
 
 	ft_printf("\t{green}{bold}END\tLLDI\n{eoc}");//
@@ -138,11 +129,12 @@ void				_ex_lfork(t_core *c, t_process *p)
 	c->v[5](c, p, 0);
 	*new = *p;
 	new->pc = id(p->pc + c->v[*p->ins.param](c, p, p->l[1]));
+	c->r_2[new->pc]	|= OPC;
 
 	ft_printf("\t\tnew->pc %#x %u\n", new->pc, new->pc);//
 
 	read_instruct(c, new);
-	p->pc = id(p->pc + *p->l);
+	p->pc = moov_opc(c, p, *p->l);
 	new->next = c->ps;
 	new->prev = NULL;
 	c->ps->prev = new;

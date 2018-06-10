@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/10 13:33:52 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/10 20:32:38 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@
 # define SITH				(1 << 5)
 # define SETH				(1 << 6)
 # define EITH				(1 << 7)
+
+# define OPC				(1 << 4)
+# define NEW				(1 << 5)
 
 /*
 **	VALUES DEFINES
@@ -94,6 +97,7 @@ typedef struct				s_core
 {
 	char					*first_arg;
 	unsigned char			ram[MEM_SIZE];
+	short					r_2[MEM_SIZE];
 	unsigned int			bd;
 	unsigned int			dump;
 	unsigned int			player;
@@ -135,6 +139,7 @@ void						display_usage(char *name);
 int							display_error(t_core *core, int code, char *s);
 void						display_cw(t_core *core, t_process *process,
 							unsigned char opc, int state);
+int							moov_opc(t_core *c, t_process *p, int new_pc);
 
 /*
 **	CYCLE FUNCTIONS

@@ -6,11 +6,12 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/11 12:30:14 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/10 19:14:54 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+#include "../../libft/includes/ft_printf.h"
 
 unsigned int	_live(const unsigned char *oct, t_process *p)
 {
@@ -28,6 +29,8 @@ unsigned int	_ld(const unsigned char *oct, t_process *p)
 		return (0);
 	if (_abs(*oct, FOTH) || _abs(*oct, SND))
 		return (0);
+	for (int i = 0; i < 3; ++i)//
+		ft_printf("param %d: %d\n", i, p->ins.param[i]);//
 	return (1);
 }
 
