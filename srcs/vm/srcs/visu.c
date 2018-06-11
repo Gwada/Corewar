@@ -53,15 +53,15 @@ static void handle_event(t_core *c, char cs)
 		c->visu.event_flag |= F_SKURT;
 	else if (cs == '+') {
 		if (c->visu.fps == 0)
-			c->visu.fps = 5;
+			c->visu.fps = 50;
 		else
-			++c->visu.fps;
+			c->visu.fps += 10;
 	}
 	else if (cs == '-') {
 		if (c->visu.fps == 0)
-			c->visu.fps = 5;
+			c->visu.fps = 50;
 		else
-			--c->visu.fps;
+			c->visu.fps -= 10;
 	}
 }
 
@@ -85,6 +85,6 @@ void	visu(t_core *c, int id, t_process *p, int new_pc, int write_index)
 		if (c->visu.fps != 0)
 			usleep(1000 / c->visu.fps * 1000);
 		else
-			usleep(1000 * 10);
+			usleep(1000 * 30);
 	}
 }

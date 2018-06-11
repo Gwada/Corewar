@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/16 14:55:52 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/11 04:19:13 by fchanal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static void	init_visu(t_core *c)
 	raw();
 	nodelay(stdscr, TRUE);
 	noecho();
-	/*curs_set(0);*/
+	curs_set(0);
 	keypad(stdscr, TRUE);
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
