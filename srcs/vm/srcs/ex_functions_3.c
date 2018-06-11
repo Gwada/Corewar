@@ -50,10 +50,13 @@ void				_ex_sti(t_core *c, t_process *p)
 
 	while (++i < 4)
 		c->ram[id(p_2 + i)] = (p->reg[p_1] >> (24 - (i * 8))) & 0xff;
+	visu(c, 4, p, id(p->pc + *p->l), id(p_2));
 	p->pc = id(p->pc + *p->l);
 
 //	ft_printf("\t{green}{bold}END\tSTI\n{eoc}");//
 }
+
+
 
 void				_ex_fork(t_core *c, t_process *p)
 {
@@ -74,6 +77,7 @@ void				_ex_fork(t_core *c, t_process *p)
 //	ft_printf("\t\tnew->pc %#x %u\n", new->pc, new->pc);//
 
 	read_instruct(c, new);
+	visu(c, 6, p, id(p->pc + *p->l), new->pc);
 	p->pc = id(p->pc + *p->l);
 	insert_process(c, new);
 
@@ -91,6 +95,7 @@ void				_ex_lld(t_core *c, t_process *p)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->reg[reg] = c->v[*p->ins.param](c, p, p->l[1]);
 	p->carry = p->carry ? 0 : 1;
+	visu(c, 5, p, id(p->pc + *p->l), 0);
 	p->pc = id(p->pc + *p->l);
 
 //	ft_printf("\t{green}{bold}END\tLLD\n{eoc}");//
@@ -119,6 +124,7 @@ void				_ex_lldi(t_core *c, t_process *p)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->reg[p_3] = c->v[2](c, p, p_2 + p_1);
 	p->pc = id(p->pc + *p->l);
+	visu(c, 5, p, id(p->pc + *p->l), 0);
 	p->carry = p->carry ? 0 : 1;
 
 //	ft_printf("\t{green}{bold}END\tLLDI\n{eoc}");//
@@ -141,6 +147,7 @@ void				_ex_lfork(t_core *c, t_process *p)
 //	ft_printf("\t\tnew->pc %#x %u\n", new->pc, new->pc);//
 
 	read_instruct(c, new);
+	visu(c, 6, p, id(p->pc + *p->l), new->pc);
 	p->pc = id(p->pc + *p->l);
 	insert_process(c, new);
 

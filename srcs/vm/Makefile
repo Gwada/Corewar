@@ -16,7 +16,7 @@
 
 EXEC	= corewar
 CC		= clang
-FLAGS	= -Wall -Wextra -Werror -g3
+FLAGS	= -g3
 HEADER	= -I $(INC_DIR) -I ../../libft/includes/
 SRC_DIR	= ./srcs/
 INC_DIR	= ./includes/

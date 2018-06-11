@@ -1,16 +1,12 @@
-{
-Pour chaque process opcode de l'instruction courante en underline
-update ram && update state && update stat
+NIKE SA MERE LES LOGS
 
-New instruct
-	if (instruct == live)
-		reload states
-	reload arena
-else
-	reload stat
-}
+estetich ASPECT
+taille ? fixe : dynamique
+handle out of ram blinking & writing
 
-cmp other visu value
-adjust visu size with 42 dump
-fill logs panel
-norme ; leaks = FINISH
+player process marche ap
+fix multiple pc bug
+test blink Fork pc
+Process qui die ?
+
+

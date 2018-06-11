@@ -23,6 +23,7 @@ void			_ex_aff(t_core *c, t_process *p)
 //	ft_printf("\t\tp_1 = %#x | %u\n", p_1, p_1);
 //	ft_printf("\t\tprocess->reg[p_1]: %#x\n", process->reg[p_1]);
 	ft_printf("%c\n", (p->reg[p_1] % 256));
+	visu(c, 5, p, id(p->pc + *p->l), 0);
 	p->pc = id(p->pc + *p->l);
 }
 

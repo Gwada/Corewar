@@ -1,0 +1,4 @@
+nombre d'octet par ligne
+
+y = pc / nombre d'octet par ligne
+x = pc % nombre d'octet par ligne

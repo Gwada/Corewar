@@ -38,10 +38,10 @@ void				_ex_live(t_core *c, t_process *p)
 		++c->p[i].total_live;
 		++c->p[i].current_cycle_live;
 		c->last_live_player = id_p;
+		visu(c, 3, p, id(p->pc + *p->l), id_p);
 		/*ft_printf("{green}un processus dit que le joueur");*/
 		/*ft_printf(" %u(%s) est en vie\n{eoc}", id_p, c->p[i].name);*/
 	}
-
 /*	ft_printf("\t\tid_p: %#x | %d\t-idp: %#x | %d", id_p, id_p, -id_p, -id_p);//
 	ft_printf("\tp->live = %u\n", p->live);//
 //	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
@@ -67,6 +67,7 @@ void				_ex_ld(t_core *c, t_process *p)
 //	ft_printf("\t\tp->reg[reg]: %#x\n", p->reg[reg]);
 
 	p->carry = p->carry ? 0 : 1;
+	visu(c, 5, p, id(p->pc + *p->l), 0);
 	p->pc = id(p->pc + *p->l);
 
 //	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
@@ -108,6 +109,7 @@ void				_ex_st(t_core *c, t_process *p)
 
 		while (++i < 4)
 			c->ram[id(p_2 + i)] = (p->reg[p_1] >> (24 - (i * 8))) & 0xff;
+		visu(c, 4, p, id(p->pc + *p->l), id(p_2));
 	}
 	p->pc = id(p->pc + *p->l);
 
@@ -140,6 +142,7 @@ void				_ex_add(t_core *c, t_process *p)
 //	ft_printf("\t\tp->reg[p_3]: %u | %p\n", p->reg[p_3], p->reg[p_3]);//
 
 	p->carry = p->carry ? 0 : 1;
+	visu(c, 5, p, id(p->pc + *p->l), 0);
 	p->pc = id(p->pc + *p->l);
 
 //	ft_printf("\t{green}{bold}END\tADD{eoc}\n");//
@@ -162,6 +165,7 @@ void				_ex_sub(t_core *c, t_process *p)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->reg[p_3] = p->reg[p_1] - p->reg[p_2];
 	p->carry = p->carry ? 0 : 1;
+	visu(c, 5, p, id(p->pc + *p->l), 0);
 	p->pc = id(p->pc + *p->l);
 
 //	ft_printf("\t{green}{bold}END\tSUB{eoc}\n");//

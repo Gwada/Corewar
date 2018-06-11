@@ -54,6 +54,7 @@ void				_ex_and(t_core *c, t_process *p)
 //	ft_printf("\t\t2 p_3: %#x\n", p->reg[p_3]);//
 
 	p->carry = p->carry ? 0 : 1;
+	visu(c, 5, p, id(p->pc + *p->l), 0);
 	p->pc = id(p->pc + *p->l);
 
 //	ft_printf("{green}{bold}\tEND\tAND{eoc}\n");//
@@ -80,6 +81,7 @@ void				_ex_or(t_core *c, t_process *p)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->reg[p_3] = p_1 | p_2;
 	p->carry = p->carry ? 0 : 1;
+	visu(c, 5, p, id(p->pc + *p->l), 0);
 	p->pc = id(p->pc + *p->l);
 
 //	ft_printf("{green}{bold}\tEND\tOR{eoc}\n");//
@@ -106,6 +108,7 @@ void		_ex_xor(t_core *c, t_process *p)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->reg[p_3] = p_1 ^ p_2;
 	p->carry = p->carry ? 0 : 1;
+	visu(c, 5, p, id(p->pc + *p->l), 0);
 	p->pc = id(p->pc + *p->l);
 
 //	ft_printf("{green}{bold}\tEND\tXOR{eoc}\n");//
@@ -116,10 +119,15 @@ void				_ex_zjmp(t_core *c, t_process *p)
 //	ft_printf("{green}{bold}\tIN\tZJMP (si carry == 1 charge p->pc en p->pc + (p_1 %% IDX_MOD)){eoc}\n");//
 
 	c->v[5](c, p, 0);
-	if (p->carry == 1)
+	if (p->carry == 1) {
+		visu(c, 5, p, id(p->pc + ((short)c->v[3](c, p, p->l[1]) % IDX_MOD)), 0);
 		p->pc = id(p->pc + ((short)c->v[3](c, p, p->l[1]) % IDX_MOD));
+	}
 	else
+	{
+		visu(c, 5, p, id(p->pc + *p->l), 0);
 		p->pc = id(p->pc + *p->l);
+	}
 
 //	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
 //	ft_printf("{green}{bold}\tEND\tZJMP{eoc}\n");//
@@ -147,6 +155,7 @@ void				_ex_ldi(t_core *c, t_process *p)
 	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	p->reg[p_3] = c->v[2](c, p, (p_2 + p_1) % IDX_MOD);
+	visu(c, 5, p, id(p->pc + *p->l), 0);
 	p->pc = id(p->pc + *p->l);
 
 //	ft_printf("{green}{bold}\tEND\tLDI{eoc}\n");//

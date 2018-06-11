@@ -37,9 +37,8 @@ typedef struct s_coord t_coord;
 
 #define HEX_DIGIT "0123456789ABCDEF"
 
-# define F_RELOAD	0x01
-# define F_PAUSE	0x02
-# define F_SKURT	0x04
+# define F_PAUSE	0x01
+# define F_SKURT	0x02
 
 #define T_1		L"┌─┐┌─┐┬─┐┌─┐┬ ┬┌─┐┬─┐"
 #define T_2		L"│  │ │├┬┘├┤ │││├─┤├┬┘"
@@ -52,10 +51,24 @@ typedef struct s_coord t_coord;
 #define H_4		"  `Y888Y'"
 #define H_5		"    `Y'"
 
+#define HC_1	"           "
+#define HC_2	"           "
+#define HC_3	"           "
+#define HC_4	"         "
+#define HC_5	"       "
+
+
 #define COLOR_P1	COLOR_RED
 #define COLOR_P2	COLOR_BLUE
 #define COLOR_P3	COLOR_GREEN
 #define COLOR_P4	COLOR_CYAN
+
+#define F_STAT		1
+#define F_LOGS		2
+#define F_LIVE		3
+#define F_WRITE		4
+#define F_OI		5
+#define F_FORK		6
 
 struct s_coord
 {
@@ -271,14 +284,15 @@ void						_ex_lldi(t_core *core, t_process *process);
 void						_ex_lfork(t_core *core, t_process *process);
 void						_ex_aff(t_core *core, t_process *process);
 
-void	visu(t_core *c);
+void	visu(t_core *c, int id, t_process *p, int new_pc, int write_index);
 void	draw_basics(t_core *c);
 void	fill_title(t_core *c);
 void	fill_usages(t_core *c);
 void	fill_stats(t_core *c);
 void	fill_logs(t_core *c);
 void	fill_states(t_core *c);
-void	fill_arena(t_core *c); // make proper
+void	fill_arena(t_core *c);
+void	update_arena(t_core *c, int id, t_process *p, int new_pc, int write_index);
 void	ft_exit_alloc_failure();
 char	*ft_get_hex_memory(void *m, size_t mem_size);
 void	ft_bzero(void *m, size_t len);

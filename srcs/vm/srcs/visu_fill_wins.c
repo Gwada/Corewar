@@ -138,25 +138,35 @@ void	next_pc(t_core *c)
 	c->reverse_ps = next_process;
 }
 
-void	handle_color(t_core *c, int index) // index / 2 = byte
+int	handle_color(t_core *c, int index, t_coord *pos) // index / 2 = byte
 {
 	if (!c->reverse_ps)
-		return ;
+		return (0);
 	if ((unsigned)index / 2 >= c->reverse_ps->pc + c->p[(c->reverse_ps->reg[1] + 1) * -1].prog_size) {
 		wattrset(c->visu.arena.win, COLOR_PAIR(0));
 		next_pc(c);
 	}
 	else if ((unsigned)index / 2 >= c->reverse_ps->pc && (unsigned)index / 2 < c->reverse_ps->pc + c->p[(c->reverse_ps->reg[1] + 1) * -1].prog_size)
-		wattrset(c->visu.arena.win, COLOR_PAIR(c->reverse_ps->reg[1] * -1));
+	{
+		if ((unsigned)index / 2 == c->reverse_ps->pc)
+			return (c->reverse_ps->reg[1] * -1);
+		else
+			wattrset(c->visu.arena.win, COLOR_PAIR(c->reverse_ps->reg[1] * -1));
+	}
+	return (0);
 }
 
 #define NO_SPACE_ENABLE	1
 
 bool	put_byte(t_core *core, t_coord *pos, char *ram, int *index)
 {
-	handle_color(core, *index);
+	int color;
+
+	color = handle_color(core, *index, pos);
 	mvwaddch(core->visu.arena.win, pos->y, (pos->x)++, ram[(*index)++]);
 	mvwaddch(core->visu.arena.win, pos->y, (pos->x)++, ram[(*index)++]);
+	if (color)
+		mvwchgat(core->visu.arena.win, pos->y, pos->x - 2, 2, A_STANDOUT, color, NULL);
 	if (pos->x < core->visu.arena.size.x - 3) {
 		mvwaddch(core->visu.arena.win, pos->y, (pos->x)++, ' ');
 		return (0);
@@ -225,4 +235,70 @@ void	fill_states(t_core *c)
 		++count;
 		x += 12;
 	}
+}
+
+void	update_states(t_core *c, t_process *ps, int index)
+{
+	int		x;
+
+	x = 2 + 12 * (index - 1);
+	wattrset(c->visu.states.win, A_BLINK); // up flashing
+	mvwprintw(c->visu.states.win, 1, x, "%s", H_1);
+	mvwprintw(c->visu.states.win, 2, x, "%s", H_2);
+	mvwprintw(c->visu.states.win, 3, x, "%s", H_3);
+	mvwprintw(c->visu.states.win, 4, x, "%s", H_4);
+	mvwprintw(c->visu.states.win, 5, x, "%s", H_5);
+	wrefresh(c->visu.states.win);
+	usleep(1000 * 50);
+	wattrset(c->visu.states.win, COLOR_PAIR((x - 2) / 12 + 1));
+	mvwprintw(c->visu.states.win, 1, x, "%s", H_1);
+	mvwprintw(c->visu.states.win, 2, x, "%s", H_2);
+	mvwprintw(c->visu.states.win, 3, x, "%s", H_3);
+	mvwprintw(c->visu.states.win, 4, x, "%s", H_4);
+	mvwprintw(c->visu.states.win, 5, x, "%s", H_5);
+}
+
+void	blink_pc(t_core *c, t_process *p, int new_pc)
+{ 
+	mvwchgat(c->visu.arena.win, (p->pc / ((c->visu.arena.size.x - 3) / 3)) + 1, (p->pc % ((c->visu.arena.size.x - 3) / 3)) * 3 + 3, 2, A_NORMAL, (p->reg[1]) * -1, NULL);
+	mvwchgat(c->visu.arena.win, (new_pc / ((c->visu.arena.size.x - 3) / 3)) + 1, (new_pc % ((c->visu.arena.size.x - 3) / 3)) * 3 + 3, 2, A_STANDOUT, (p->reg[1]) * -1, NULL);
+}
+
+void	write_on_ram(t_core *c, t_process *p, int index)
+{
+	t_coord		pos;
+	int			count;
+
+	pos.y = (p->pc / ((c->visu.arena.size.x - 3) / 3)) + 1;
+	pos.x = (p->pc % ((c->visu.arena.size.x - 3) / 3)) * 3 + 3;
+	count = 0;
+	while (count < 4)
+	{
+		if (pos.x > c->visu.arena.size.x - 3)
+		{
+			if (++pos.y >= c->visu.arena.size.y -1)
+				break ;
+			pos.x = 3;
+		}
+		wattrset(c->visu.arena.win, COLOR_PAIR((p->reg[1]) * -1));
+		mvwaddch(c->visu.arena.win, pos.y, (pos.x)++, HEX_DIGIT[c->ram[index + count] >> 4]);
+		mvwaddch(c->visu.arena.win, pos.y, (pos.x)++, HEX_DIGIT[c->ram[index + count] & 0x0F]);
+		++(pos.x);
+		++count;
+	}
+}
+
+void	update_arena(t_core *c, int id, t_process *p, int new_pc, int index)
+{
+	blink_pc(c, p, new_pc);
+	if (id == 3)
+	{
+		update_states(c, p, index);
+		wrefresh(c->visu.states.win);
+	}
+	else if (id == 4)
+		write_on_ram(c, p, index);
+	else if (id == 6)
+		blink_pc(c, p, index);
+	wrefresh(c->visu.arena.win);
 }
