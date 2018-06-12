@@ -34,8 +34,10 @@ static void	load(t_core *c, int id, t_process *p, int new_pc, int index)
 
 static void handle_event(t_core *c, char cs)
 {
-	if (cs == 'q')
+	if (cs == 'q') {
+		endwin();
 		exit(0);
+	}
 	else if (cs == ' ')
 		c->visu.event_flag |= F_PAUSE;
 	else if (cs == 's')

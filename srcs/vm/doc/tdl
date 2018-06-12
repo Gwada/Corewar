@@ -1,4 +1,6 @@
-player process marche ap
+merge
+endwin + endprint
+player process implement
 
 /*pc blink < total_process*/
 	/*fork blinking pc (id == 6)*/

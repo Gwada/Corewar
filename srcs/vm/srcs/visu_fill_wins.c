@@ -70,8 +70,10 @@ void	fill_arena(t_core *core)
 	t_coord	pos;
 	int		index;
 
-	if (!(ram = ft_get_hex_memory(core->ram, MEM_SIZE)))
+	if (!(ram = ft_get_hex_memory(core->ram, MEM_SIZE))) {
+		endwin();
 		exit(1);
+	}
 	pos.y = 1;
 	index = 0;
 	while (pos.y < core->visu.arena.size.y - 1) {
