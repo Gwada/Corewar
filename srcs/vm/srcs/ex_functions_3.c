@@ -44,8 +44,6 @@ void				_ex_sti(t_core *c, t_process *p)
 
 void				_ex_fork(t_core *c, t_process *p)
 {
-//	ft_printf("\t{green}{bold}IN\tFORK (nouv process pareil que le pere sauf new->pc = p->pc + (p_1 %% IDX_MOD))\n{eoc}");//
-
 	t_process		*new;
 
 	if (!(new = new_process(c)))
@@ -56,16 +54,17 @@ void				_ex_fork(t_core *c, t_process *p)
 	}
 	c->v[5](c, p, 0);
 	*new = *p;
+	new->prev = NULL;
+	new->next = c->ps;
+	c->ps->prev = new;
+	c->ps = new;
+	if (c->bd & DEBUG)
+		ft_printf("fork pc + (%hd %% IDX_MOD)\n", c->v[3](c, p, p->l[1]));
 	new->pc = id(p->pc + (c->v[3](c, p, p->l[1]) % IDX_MOD));
 	c->r_2[new->pc] |= OPC;
 	read_instruct(c, new);
 	p->pc = moov_opc(c, p, *p->l);
-	new->next = c->ps;
-	new->prev = NULL;
-	c->ps->prev = new;
-	c->ps = new;
 	--new->ins.nb_cycles;
-//	ft_printf("\t\tnew->pc: %#x\t%u\n\t{green}{bold}END\tFORK\n{eoc}", new->pc, new->pc);//
 }
 
 void				_ex_lld(t_core *c, t_process *p)
@@ -116,7 +115,6 @@ void				_ex_lldi(t_core *c, t_process *p)
 
 void				_ex_lfork(t_core *c, t_process *p)
 {
-//	ft_printf("\t{green}{bold}IN\tLFORK (nouv process pareil que le pere sauf new->pc = p->pc + p_1)\n{eoc}");//
 	t_process		*new;
 
 	if (!(new = new_process(c)))
@@ -127,19 +125,15 @@ void				_ex_lfork(t_core *c, t_process *p)
 	}
 	c->v[5](c, p, 0);
 	*new = *p;
-	new->pc = id(p->pc + c->v[*p->ins.param](c, p, p->l[1]));
-	c->r_2[new->pc]	|= OPC;
-
-//	ft_printf("\t\tnew->pc %#x %u\n", new->pc, new->pc);//
-
-	read_instruct(c, new);
-	p->pc = moov_opc(c, p, *p->l);
 	new->next = c->ps;
 	new->prev = NULL;
 	c->ps->prev = new;
 	c->ps = new;
+	if (c->bd & DEBUG)
+		ft_printf("lfork pc + %hd\n", c->v[*p->ins.param](c, p, p->l[1]));
+	new->pc = id(p->pc + c->v[*p->ins.param](c, p, p->l[1]));
+	c->r_2[new->pc]	|= OPC;
+	read_instruct(c, new);
+	p->pc = moov_opc(c, p, *p->l);
 	--new->ins.nb_cycles;
-
-//	ft_printf("\t\tnew->pc: %#x\t%u\n\t{green}{bold}END\tLFORK\n{eoc}", new->pc, new->pc);//
-
 }

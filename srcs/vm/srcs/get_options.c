@@ -35,7 +35,9 @@ static int				get_id(unsigned char *opt, t_core *core)
 		core->p[core->player].id = (unsigned char)id;
 		return (0);
 	}
-	return (ft_printf("Invalid id player: %s\n", opt));
+	ft_printf("Invalid id player: %s\n", opt);
+	ft_printf("The player id must be a number between 1 - 4\n");
+	return (1);
 }
 
 static int				get_dump(unsigned char *opt, t_core *core)
@@ -63,6 +65,29 @@ static int				get_dump(unsigned char *opt, t_core *core)
 	return (1);
 }
 
+static int				get_debug(unsigned char *opt, t_core *core)
+{
+	unsigned long long	debug;
+
+	debug = 0;
+	if (!*opt)
+		return (0);
+	if (ft_str_is_numeric((char*)opt))
+	{
+		while (*opt)
+			if ((debug = debug * 10 + *opt++ - '0') > IMAX)
+				break ;
+		if (debug <= IMAX)
+		{
+			core->debug = (unsigned int)debug;
+			return (0);
+		}
+	}
+	core->bd = ERROR;
+	display_usage(core->first_arg);
+	return (1);
+}
+
 int						get_options(unsigned char *opt, t_core *core)
 {
 	if (!*opt)
@@ -72,16 +97,13 @@ int						get_options(unsigned char *opt, t_core *core)
 	if (core->bd & GET_DUMP)
 		return (get_dump(opt, core));
 	++opt;
-	if (!core->player)
-	{
-		if (!ft_strcmp("v", (const char*)opt) && (core->bd |= VISUAL))
-			return (0);
-		if (!ft_strcmp("dump", (const char*)opt)
-		&& !(core->bd & DUMP) && (core->bd |= GET_DUMP))
-			return (0);
-		if (!ft_strcmp("Debug", (const char *)opt) && (core->bd |= DEBUG))
-			return (0);
-	}
+	if (!ft_strcmp("v", (const char*)opt) && (core->bd |= VISUAL))
+		return (0);
+	if (!ft_strcmp("dump", (const char*)opt)
+	&& !(core->bd & DUMP) && (core->bd |= GET_DUMP))
+		return (0);
+	if (!ft_strncmp("Debug", (const char *)opt, 5) && (core->bd |= POST_DEBUG))
+		return (get_debug(opt + 5, core));
 	if (!ft_strcmp("p", (const char*)opt)
 	&& !(core->bd & GET_OPT) && (core->bd |= GET_ID))
 		return (0);

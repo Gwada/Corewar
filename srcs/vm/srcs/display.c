@@ -34,7 +34,8 @@ void		display_usage(char *name)
 
 int			display_error(t_core *core, int code, char *s)
 {
-	!code && (core->bd = ERROR) ? ft_printf("{red}MALLOC ERROR{eoc}\n") : 0;
+	core->bd = ERROR;
+	!code ? ft_printf("{red}MALLOC ERROR{eoc}\n") : 0;
 	if (code == 1)
 		ft_printf("'%s' is invalid file name or unsupported extension\n", s);
 	code == 2 ? ft_printf("'%s' can not be opened\n", s) : 0;
@@ -42,5 +43,7 @@ int			display_error(t_core *core, int code, char *s)
 	code == 4 ? ft_printf("{red}%d{eoc} maximum supported players\n", code) : 0;
 	code == 5 ? ft_printf("missing one champion\n") : 0;
 	code == 6 ? ft_printf("invalid magic number\n") : 0;
+	code == 7 ? ft_printf("missing id value 1-4\n") : 0;
+	code == 8 ? ft_printf("missing dump value\n") : 0;
 	return (1);
 }

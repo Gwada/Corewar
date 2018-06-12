@@ -14,57 +14,6 @@
 #include "time.h"
 #include "../../libft/includes/ft_printf.h"
 
-static void			check_instruct(t_core *c, unsigned char opc)
-{
-
-
-//	ft_printf("\n{bold}{yellow}{underline}IN\tCHECK_INSTRUCT\t");//
-//	ft_printf("{red}CYCLE: %u\n{eoc}", c->total_cycle);//
-
-
-	t_process		*tmp;
-
-	tmp = c->ps;
-	while (tmp)
-	{
-//		ft_printf("test0\n");//
-		if (tmp && !tmp->ins.nb_cycles)
-		{
-//			ft_printf("test1\n");//
-			if (opc_c((opc = c->ram[id(tmp->pc)] - 1)) && tmp->ins.name)
-			{
-				if (!ft_strcmp(tmp->ins.name, g_op_tab[opc].name))
-				{
-					if (c->ft[opc](&c->ram[id(tmp->pc + 1)], tmp))
-					{
-//			ft_printf("test1.1\n");//
-						display_cw(c, tmp, opc, 0);
-						c->ex[opc](c, tmp);
-						display_cw(c, tmp, opc, 1);
-					}
-					else
-						tmp->pc = moov_opc(c, tmp, 1);
-				}
-			}
-			else
-				tmp->pc = moov_opc(c, tmp, 1);
-//			ft_printf("test1.2 read\n");//
-			read_instruct(c, tmp) ? --tmp->ins.nb_cycles : 0;
-//			ft_printf("end read\n");//
-		}
-		else
-		{
-//		ft_printf("test2\n");//
-			--tmp->ins.nb_cycles;
-		}
-//		ft_printf("test3\n");//
-		tmp = tmp->next;
-//		ft_printf("test4\n\n");//
-	}
-
-//	ft_printf("{bold}{yellow}{underline}END\tCHECK_INSTRUCT{eoc}\n");//
-
-}
 static void		put_champ(t_core *core)
 {
 	unsigned	i;
@@ -81,29 +30,53 @@ static void		put_champ(t_core *core)
 		++i;
 	ft_printf("le joueur %d(%s) a gagne\n", -core->p[i].id, core->p[i].name);
 }
+
+static void			check_instruct(t_core *c, t_process *p, unsigned char opc)
+{
+	if (!p)
+		return ;
+	if (!p->ins.nb_cycles)
+	{
+		if (opc_c((opc = c->ram[id(p->pc)] - 1)) && p->ins.name)
+		{
+			if (!ft_strcmp(p->ins.name, g_op_tab[opc].name))
+			{
+				if (c->ft[opc](&c->ram[id(p->pc + 1)], p))
+				{
+					c->bd & DEBUG ? display_cw(c, p, opc, 0) : 0;
+					c->ex[opc](c, p);
+					c->bd & DEBUG ? display_cw(c, p, opc, 1) : 0;
+				}
+				else
+					p->pc = moov_opc(c, p, 1);
+			}
+		}
+		else
+			p->pc = moov_opc(c, p, 1);
+		read_instruct(c, p) ? --p->ins.nb_cycles : 0;
+	}
+	else
+		--p->ins.nb_cycles;
+	check_instruct(c, p->next, 0);
+}
+
 void				corewar(t_core *core)
 {
-//	ft_printf("{bold}{red}IN\tCOREWAR{eoc}\n");//
-
 	if (!(core->ps = init_process(core, -1)))
 		return ((void)display_error(core, 0, NULL));
 	while (core->n_process > 0 && core->max_cycle > 0 && core->ps)
 	{
-		check_instruct(core, 0);
-//		ft_printf("1\n");
 		if (cycle_checker(core))
 			break ;
-//		ft_printf("2\n");
+		check_instruct(core, core->ps, 0);
+		if (core->bd & POST_DEBUG && core->total_cycle >= core->debug)
+		{
+			core->bd &= ~(POST_DEBUG);
+			core->bd |= DEBUG;
+		}
 		++core->total_cycle;
 		++core->current_cycle;
 	}
-
-
-//	ft_printf("{bold}\n%u process in progress at end\nend after %u cycles\n{red}END\tCOREWAR{eoc}\n", core->n_process, core->total_cycle);//
-
-
 	put_champ(core);
-//	ft_printf("test2\n");
 	clean_process(core->ps);
-//	ft_printf("test3\n");
 }

@@ -22,19 +22,13 @@ static size_t	process_live_checker(t_core *core)
 	{
 		if (!tmp->live)
 		{
-//			ft_printf("plc1\n");//
 			if (!(tmp = del_process(core, tmp)))
-			{
-//			ft_printf("plc1.1\n");//
 				return (core->n_process == 0);
-			}
-//			ft_printf("plc2\n\n");//
 		}
 		else
 		{
 			tmp->live = 0;
 			tmp = tmp->next;
-//			ft_printf("plc3\n\n");//
 		}
 	}
 	return (core->n_process == 0);
@@ -42,19 +36,12 @@ static size_t	process_live_checker(t_core *core)
 
 size_t			cycle_checker(t_core *core)
 {
-//	ft_printf("cc1\n");
-	if (core->bd & DUMP && core->dump && core->total_cycle == (int)core->dump)
-	{
-//		ft_print_mem(core->ram, MEM_SIZE, 32, 0);
-//	ft_printf("cc2\n");
+	if (core->bd & DUMP & core->total_cycle >= core->dump)
 		return (1);
-	}
 	if ((int)core->current_cycle == core->max_cycle)
 	{
-//	ft_printf("cc3\n");
 		if (process_live_checker(core))
 			return (1);
-//	ft_printf("cc4\n");
 		if (core->current_cycle_live >= NBR_LIVE)
 		{
 			core->last_decr = 0;
@@ -70,7 +57,5 @@ size_t			cycle_checker(t_core *core)
 		core->current_cycle = 0;
 		core->current_cycle_live = 0;
 	}
-//	ft_printf("cc4\n");
 	return (core->max_cycle <= 0);
-
 }

@@ -65,12 +65,12 @@ static	int			get_arg(char *s, t_core *c, int fd, int ret)
 	unsigned char	*oct;
 
 	oct = c->p[c->player].buff;
-	if (c->player == MAX_PLAYERS)
-		return (display_error(c, 4, NULL));
 	if ((*s == '-') || (c->bd & GET_DUMP) || (c->bd & GET_ID))
 		return (get_options((unsigned char*)s, c));
 	if ((ret = ft_strlen(s)) <= 4 || ft_strcmp(&s[ret - 4], ".cor"))
 		return (display_error(c, 1, s));
+	if (c->player == MAX_PLAYERS)
+		return (display_error(c, 4, NULL));
 	if ((fd = open(s, O_RDONLY)) == -1)
 		return (display_error(c, 2, s));
 	ret = read(fd, c->p[c->player].buff, FILE_MAX_SIZE + 1);
@@ -115,9 +115,12 @@ int					main(int argc, char **argv)
 		while (++i < (unsigned int)argc && argv[i])
 			if (get_arg(argv[i], &c, i, 0) || c.bd == ERROR)
 				return (0);
-		c.player && c.bd & GET_OPT ? display_error(&c, 5, NULL) : 0;
-		c.player && !(c.bd & GET_OPT) ? put_champ(&c, 0) : 0;
-		c.player && !(c.bd & GET_OPT) ? corewar(&c) : 0;
+		c.bd & GET_OPT ? display_error(&c, 5, NULL) : 0;
+		c.bd & GET_ID ? display_error(&c, 7, NULL) : 0;
+		c.bd & GET_DUMP ? display_error(&c, 8, NULL) : 0;
+		c.player && !(c.bd & GET_ID) ? put_champ(&c, 0) : 0;
+		c.bd & VISUAL ? c.bd &= ~(DEBUG | POST_DEBUG) : 0;
+		c.player && !(c.bd & ERROR) ? corewar(&c) : 0;
 		!c.player ? display_usage(*argv) : 0;
 	}
 	else if (!(c.bd & INIT))

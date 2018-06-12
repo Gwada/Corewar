@@ -36,9 +36,10 @@
 # define INIT				(1 << 5)
 # define ERROR				(1 << 6)
 # define VISUAL				(1 << 7)
-# define DEBUG				(1 << 8)
-# define GET_ID				(1 << 9)
-# define GET_DUMP			(1 << 10)
+# define GET_ID				(1 << 8)
+# define GET_DUMP			(1 << 9)
+# define DEBUG				(1 << 10)
+# define POST_DEBUG			(1 << 11)
 
 # define FST				(1 << 0)
 # define SND				(1 << 1)
@@ -51,7 +52,6 @@
 
 # define OPC				(1 << 4)
 # define NEW				(1 << 5)
-
 /*
 **	VALUES DEFINES
 */
@@ -100,9 +100,10 @@ typedef struct				s_core
 	char					*first_arg;
 	unsigned char			ram[MEM_SIZE];
 	short					r_2[MEM_SIZE];
-	char					buff[512];
-	unsigned int			bd;
-	unsigned int			dump;
+	char					buff[1048];
+	int						bd;
+	int						dump;
+	int						debug;
 	unsigned int			player;
 	int						max_cycle;
 	int						total_cycle;

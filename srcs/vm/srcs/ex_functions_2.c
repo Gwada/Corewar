@@ -94,23 +94,22 @@ void		_ex_xor(t_core *c, t_process *p)
 
 void				_ex_zjmp(t_core *c, t_process *p)
 {
-//	ft_printf("{green}{bold}\tIN\tZJMP (si carry == 1 charge p->pc en p->pc + (p_1 %% IDX_MOD)){eoc}\n\t\tp->pc: %#x\n", p->pc);//
-
 	c->v[5](c, p, 0);
 	if (p->carry == 1)
 	{
 		c->r_2[p->pc] &= ~OPC;
-		p->pc = id(p->pc + (c->v[3](c, p, p->l[1]) % IDX_MOD));
+	//	p->pc = id(p->pc + (c->v[3](c, p, p->l[1]) % IDX_MOD));
+		p->pc = moov_opc(c, p, c->v[3](c, p, p->l[1]) % IDX_MOD);
 		c->r_2[p->pc] |= OPC;
-		ft_printf("\t\t{green}OK{eoc}\n");
+		if (c->bd & DEBUG)
+			ft_printf("{green}OK{eoc}\tzjmp %d\tcarry = 1\n", p->pc);
 	}
 	else
 	{
 		p->pc = moov_opc(c, p, *p->l);
-		ft_printf("\t\t{red}FAILED{eoc}\n");
+		if (c->bd & DEBUG)
+			ft_printf("{red}FAILED{eoc}\tcarry = 0\n");
 	}
-
-//	ft_printf("\t\tp->pc: %#x\t%d\n{green}{bold}\tEND\tZJMP{eoc}\n", p->pc, p->pc);
 }
 
 void				_ex_ldi(t_core *c, t_process *p)

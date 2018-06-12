@@ -20,7 +20,8 @@ void			_ex_aff(t_core *c, t_process *p)
 	c->v[5](c, p, 0);
 	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
 		return ((void)(p->pc = id(p->pc + *p->l)));
-	ft_printf("%c\n", (p->reg[p_1] % 256));
+	if (!(c->bd & VISUAL) && !(c->bd & DEBUG))
+		ft_printf("%c\n", p->reg[p_1] % 256);
 	p->pc = moov_opc(c, p, *p->l);
 }
 

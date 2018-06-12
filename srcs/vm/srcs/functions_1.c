@@ -29,8 +29,6 @@ unsigned int	_ld(const unsigned char *oct, t_process *p)
 		return (0);
 	if (_abs(*oct, FOTH) || _abs(*oct, SND))
 		return (0);
-	for (int i = 0; i < 3; ++i)//
-		ft_printf("param %d: %d\n", i, p->ins.param[i]);//
 	return (1);
 }
 
