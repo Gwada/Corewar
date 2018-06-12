@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 11:17:41 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 13:38:06 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,32 @@ static void		put_champ(t_core *core)
 
 static void			check_instruct(t_core *c, t_process *p, unsigned char opc)
 {
-	if (!p)
-		return ;
-	if (!p->ins.nb_cycles)
+	while (p)
 	{
-		if (opc_c((opc = c->ram[id(p->pc)] - 1)) && p->ins.name)
+		if (!p->ins.nb_cycles)
 		{
-			if (!ft_strcmp(p->ins.name, g_op_tab[opc].name))
+			if (opc_c((opc = c->ram[id(p->pc)] - 1)) && p->ins.name)
 			{
-				if (c->ft[opc](&c->ram[id(p->pc + 1)], p))
+				if (!ft_strcmp(p->ins.name, g_op_tab[opc].name))
 				{
-					c->bd & DEBUG ? display_cw(c, p, opc, 0) : 0;
-					c->ex[opc](c, p);
-					c->bd & DEBUG ? display_cw(c, p, opc, 1) : 0;
+					if (c->ft[opc](&c->ram[id(p->pc + 1)], p))
+					{
+						c->bd & DEBUG ? display_cw(c, p, opc, 0) : 0;
+						c->ex[opc](c, p);
+						c->bd & DEBUG ? display_cw(c, p, opc, 1) : 0;
+					}
+					else
+						p->pc = moov_opc(c, p, 1);
 				}
+			}
 				else
 					p->pc = moov_opc(c, p, 1);
-			}
+			read_instruct(c, p) ? --p->ins.nb_cycles : 0;
 		}
 		else
-			p->pc = moov_opc(c, p, 1);
-		read_instruct(c, p) ? --p->ins.nb_cycles : 0;
+			--p->ins.nb_cycles;
+		p = p->next;
 	}
-	else
-		--p->ins.nb_cycles;
-	check_instruct(c, p->next, 0);
 }
 
 void				reverse_ps(t_core *c)
