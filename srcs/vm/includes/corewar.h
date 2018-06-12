@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/11 04:24:57 by fchanal          ###   ########.fr       */
+/*   Updated: 2018/06/12 12:23:55 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,12 @@ struct s_visu_env
 };
 
 /*
-**	BINARY MASKS
+**		*** BINARY MASKS ***
 */
 
+/*
+**	GENERAL
+*/
 # define VALID_MAG			(1 << 0)
 # define VALID_NAME_LEN		(1 << 1)
 # define VALID_CHAMP_LEN	(1 << 2)
@@ -105,8 +108,13 @@ struct s_visu_env
 # define INIT				(1 << 5)
 # define ERROR				(1 << 6)
 # define VISUAL				(1 << 7)
-# define DEBUG				(1 << 8)
+# define GET_ID				(1 << 8)
+# define GET_DUMP			(1 << 9)
+# define DEBUG				(1 << 10)
 
+/*
+**	CODAGE OCTET
+*/
 # define FST				(1 << 0)
 # define SND				(1 << 1)
 # define TRD				(1 << 2)
@@ -115,6 +123,12 @@ struct s_visu_env
 # define SITH				(1 << 5)
 # define SETH				(1 << 6)
 # define EITH				(1 << 7)
+
+/*
+**	RAM STATES
+*/
+# define OPC				(1 << 4)
+# define NEW				(1 << 5)
 
 /*
 **	VALUES DEFINES
@@ -164,11 +178,14 @@ typedef struct				s_core
 	t_visu_env				visu;
 	char					*first_arg;
 	unsigned char			ram[MEM_SIZE];
-	unsigned int			bd;
-	unsigned int			dump;
+	short					r_2[MEM_SIZE];
+	char					buff[1048];
+	int						bd;
+	int						dump;
+	int						debug;
 	unsigned int			player;
 	int						max_cycle;
-	unsigned int			total_cycle;
+	int						total_cycle;
 	unsigned int			current_cycle;
 	unsigned int			last_decr;
 	unsigned int			total_live;
@@ -180,8 +197,7 @@ typedef struct				s_core
 	unsigned int			(*ft[INST_NB])(const unsigned char *c,
 							t_process *process);
 	void					(*ex[INST_NB])(struct s_core *c, t_process *p);
-	int						(*v[6])(struct s_core *c, t_process *p,
-							unsigned int i);
+	int						(*v[6])(struct s_core *c, t_process *p, int i);
 	t_process				*ps;
 	t_process				*reverse_ps;
 }							t_core;
@@ -204,7 +220,10 @@ size_t						init_core(t_core *core, size_t ret);
 */
 
 void						display_usage(char *name);
-void						display_error(t_core *core, int code);
+int							display_error(t_core *core, int code, char *s);
+void						display_cw(t_core *core, t_process *process,
+							unsigned char opc, int state);
+int							moov_opc(t_core *c, t_process *p, int new_pc);
 
 /*
 **	CYCLE FUNCTIONS
@@ -254,17 +273,17 @@ unsigned int				_lfork(const unsigned char *oct, t_process *p);
 unsigned int				_aff(const unsigned char *oct, t_process *p);
 
 int							get_mem_addr(t_core *core, t_process *process,
-							unsigned int reg);
+							int reg);
 int							get_reg_ind(t_core *core, t_process *process,
-							unsigned int reg);
+							int reg);
 int							get_ind(t_core *core, t_process *process,
-							unsigned int reg);
+							int reg);
 int							get_dir_value(t_core *core, t_process *process,
-							unsigned int ind);
+							int ind);
 int							get_ind_value(t_core *core, t_process *process,
-							unsigned int reg);
+							int reg);
 int							get_len(t_core *core, t_process *process,
-							unsigned int reg);
+							int reg);
 void						_ex_live(t_core *core, t_process *process);
 void						_ex_ld(t_core *core, t_process *process);
 void						_ex_st(t_core *core, t_process *process);

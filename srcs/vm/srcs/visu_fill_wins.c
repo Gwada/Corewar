@@ -36,7 +36,6 @@ void	fill_stats(t_core *c)
 			y += 5;
 		}
 		mvwprintw(c->visu.stats.win, y, x, "Player %d", count + 1);
-		mvwprintw(c->visu.stats.win, y + 1, x, "Process: %11d", c->p[count].total_process);
 		mvwprintw(c->visu.stats.win, y + 2, x, "Current live: %6d", c->p[count].current_cycle_live);
 		mvwprintw(c->visu.stats.win, y + 3, x, "Total live: %8d", c->p[count].total_live);
 		++count;
@@ -127,6 +126,9 @@ void	update_states(t_core *c, t_process *ps, int index)
 {
 	int		x;
 
+	index *= -1;
+	if (index > c->player)
+		return ;
 	x = 2 + 12 * (index - 1);
 	wattrset(c->visu.states.win, A_BLINK);
 	mvwprintw(c->visu.states.win, 1, x, "%s", H_1);

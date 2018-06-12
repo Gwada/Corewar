@@ -1,7 +1,7 @@
-merge
-endwin + endprint
-player process implement
+compare other visu
+norme
 
 /*pc blink < total_process*/
 	/*fork blinking pc (id == 6)*/
 /*Process qui die = --nb_process = un blink en moin*/
+/*player process decrement*/

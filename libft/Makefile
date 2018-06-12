@@ -110,6 +110,7 @@ SRC = mem/ft_memset.c \
 		ft_printf/ft_printf.c \
 		ft_printf/ft_dprintf.c \
 		ft_printf/ft_sprintf.c \
+		ft_printf/ft_psprintf.c \
 		ft_printf/parsing.c \
 		ft_printf/set_car.c \
 		ft_printf/set_string.c \

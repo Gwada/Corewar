@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/11 04:19:13 by fchanal          ###   ########.fr       */
+/*   Updated: 2018/06/12 10:58:23 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@ static	void		get_magic_number(unsigned char **b, t_core *c, int i)
 			*b += PROG_NAME_LENGTH + 4;
 			return ;
 		}
-		ft_printf("('{red}%d{eoc}' > ", ft_strlen((const char*)*b));
-		ft_printf("%u) invalid name length '%s'\n", PROG_NAME_LENGTH, *b);
+		ft_printf("('{red}%d{eoc}' bytes > ", ft_strlen((const char*)*b));
+		ft_printf("%u bytes) invalid name length '%s'\n", PROG_NAME_LENGTH, *b);
 		return ;
 	}
-	ft_printf("'%s' magic number is invalid: ", *b);
-	ft_printf("'{red}%x{eoc}' != ", c->p[c->player].magic);
-	ft_printf("%x\n", COREWAR_EXEC_MAGIC);
+	display_error(c, 6, NULL);
 }
 
 static void			get_prog_size(unsigned char **b, t_core *c, int i)
@@ -51,48 +49,44 @@ static void			get_prog_size(unsigned char **b, t_core *c, int i)
 			c->bd &= ~GET_OPT;
 			return ;
 		}
-		ft_printf("'%s' comment length is invalid ", c->p[c->player].name);
-		ft_printf("({red}%u{eoc} bytes > ", ft_strlen((const char*)*b));
-		ft_printf("%u bytes)\n", COMMENT_LENGTH);
+		ft_printf("('{red}%u{eoc}' bytes > ", ft_strlen((const char*)*b));
+		ft_printf("%u bytes): invalid comment length for ", COMMENT_LENGTH);
+		ft_printf("'%s'\n", c->p[c->player].name);
 		return ;
 	}
 	ft_printf("'%s' prog size is invalid ", c->p[c->player].name);
-	ft_printf("({red}%u{eoc} bytes > ", c->p[c->player].prog_size);
+	ft_printf("('{red}%u{eoc}' bytes > ", c->p[c->player].prog_size);
 	ft_printf("%u bytes)\n", CHAMP_MAX_SIZE);
 }
 
-static	int			get_arg(char *param, t_core *c, int fd, int ret)
+static	int			get_arg(char *s, t_core *c, int fd, int ret)
 {
 	unsigned char	*oct;
 
 	oct = c->p[c->player].buff;
+	if ((*s == '-') || (c->bd & GET_DUMP) || (c->bd & GET_ID))
+		return (get_options((unsigned char*)s, c));
+	if ((ret = ft_strlen(s)) <= 4 || ft_strcmp(&s[ret - 4], ".cor"))
+		return (display_error(c, 1, s));
 	if (c->player == MAX_PLAYERS)
-		return (ft_printf("1 - %d max players\n", MAX_PLAYERS));
-	if (*param != '-')
-	{
-		if ((fd = open(param, O_RDONLY)) == -1)
-			return (ft_printf("{red}%s{eoc} is invalid file\n", param));
-		ret = read(fd, c->p[c->player].buff, FILE_MAX_SIZE + 1);
-		close(fd);
-		if (ret == -1)
-			return (ft_printf("'%s' file can not be read\n", param));
-		get_magic_number(&oct, c, -1);
-		c->p[c->player].bd & VALID_NAME_LEN ? get_prog_size(&oct, c, -1) : 0;
-		if (!(ret = 0) && !(c->p[c->player].bd & VALID_CHAMP_LEN))
-			return (1);
-		while (!c->p[c->player].id && ++ret < MAX_PLAYERS)
-			if (!c->id[ret] && (c->id[ret] = 1))
-				c->p[c->player].id = ret;
-		++c->player;
-	}
-	else
-		return (get_options((unsigned char*)param + 1, c));
+		return (display_error(c, 4, NULL));
+	if ((fd = open(s, O_RDONLY)) == -1)
+		return (display_error(c, 2, s));
+	ret = read(fd, c->p[c->player].buff, FILE_MAX_SIZE + 1);
+	close(fd);
+	if (ret == -1)
+		return (display_error(c, 3, s));
+	get_magic_number(&oct, c, -1);
+	c->p[c->player].bd & VALID_NAME_LEN ? get_prog_size(&oct, c, -1) : 0;
+	if (!(ret = 0) && !(c->p[c->player].bd & VALID_CHAMP_LEN))
+		return (1);
+	while (!c->p[c->player].id && ++ret < MAX_PLAYERS)
+		if (!c->id[ret] && (c->id[ret] = 1))
+			c->p[c->player].id = ret;
+	++c->player;
 	return (0);
 }
 
-/*
- * Copy all champs on ram and initalise id
- */
 static	void		put_champ(t_core *c, unsigned int i)
 {
 	unsigned int	start;
@@ -111,7 +105,7 @@ static	void		put_champ(t_core *c, unsigned int i)
 static void	init_visu(t_core *c)
 {
 	setlocale(LC_ALL, "");
-	ft_bzero(&c->visu, sizeof(c->visu)); // check
+	ft_bzero(&c->visu, sizeof(c->visu));
 	initscr();
 	raw();
 	nodelay(stdscr, TRUE);
@@ -137,14 +131,16 @@ int					main(int argc, char **argv)
 		while (++i < (unsigned int)argc && argv[i])
 			if (get_arg(argv[i], &c, i, 0) || c.bd == ERROR)
 				return (0);
-		c.bd & VISUAL ? init_visu(&c): 0;
-		c.player && c.bd & GET_OPT ? ft_printf("Missing one champion\n") : 0;
-		c.player && !(c.bd & GET_OPT) ? put_champ(&c, 0) : 0;
-		c.player && !(c.bd & GET_OPT) ? corewar(&c) : 0;
+		c.bd & GET_OPT ? display_error(&c, 5, NULL) : 0;
+		c.bd & GET_ID ? display_error(&c, 7, NULL) : 0;
+		c.bd & GET_DUMP ? display_error(&c, 8, NULL) : 0;
+		c.player && !(c.bd & GET_ID) ? put_champ(&c, 0) : 0;
+		c.bd & VISUAL ? c.bd &= ~DEBUG : 0;
+		c.bd & VISUAL ? init_visu(&c) : 0;
+		c.player && !(c.bd & ERROR) ? corewar(&c) : 0;
 		!c.player ? display_usage(*argv) : 0;
 	}
 	else if (!(c.bd & INIT))
 		display_usage(*argv);
-	c.bd & VISUAL ? endwin(): 0;
 	return (0);
 }

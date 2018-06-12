@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:22:30 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/14 17:22:32 by salemdjeg        ###   ########.fr       */
+/*   Updated: 2018/05/17 16:26:48 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int			is_reg(char *param)
 int			is_dir(char *param)
 {
 	if (*param == DIRECT_CHAR && (is_lab(param + 1) || is_ind(param + 1)))
-		return(T_DIR);
+		return (T_DIR);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/03 09:33:12 by dlavaury          #+#    #+#              #
-#    Updated: 2018/05/16 20:45:07 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/06/08 11:50:21 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC		= vm_main.c \
 		  ex_functions_4.c \
 		  get_options.c \
 		  corewar.c \
+		  display_corewar.c \
 		  process.c \
 		  instruct.c \
 		  cycle.c \

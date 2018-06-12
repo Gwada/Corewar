@@ -6,73 +6,108 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 10:50:48 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/05 11:16:07 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 10:55:43 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
 
-static size_t			get_id(unsigned char *oct, t_core *core)
+static int				get_id(unsigned char *opt, t_core *core)
 {
 	unsigned short		id;
 
 	id = 0;
-	while (ft_isdigit(*oct))
-		if ((id = id * 10 + *oct++ - '0') > MAX_PLAYERS)
-			break ;
-	if (id < 1 || id > MAX_PLAYERS)
-		return (ft_printf("Player Id: (1-%u)\n", MAX_PLAYERS));
-	if (core->id[id])
-		return (ft_printf("Choose an other player id: {red}%hu{eoc}\n", id));
-	core->bd |= GET_OPT;
-	core->id[id] = 1;
-	core->p[core->player].id = (unsigned char)id;
-	return (0);
+	if (!*opt)
+		return (0);
+	if (ft_str_is_numeric((char*)opt))
+	{
+		while (*opt)
+			if ((id = id * 10 + *opt++ - '0') > MAX_PLAYERS)
+				break ;
+		if (id < 1 || id > MAX_PLAYERS)
+			return (ft_printf("Player Id: (1-%u)\n", MAX_PLAYERS));
+		if (core->id[id])
+			return (ft_printf("Choose an other player id: %hu\n", id));
+		core->bd |= GET_OPT;
+		core->bd &= ~GET_ID;
+		core->id[id] = 1;
+		core->p[core->player].id = (unsigned char)id;
+		return (0);
+	}
+	ft_printf("Invalid id player: %s\n", opt);
+	ft_printf("The player id must be a number between 1 - 4\n");
+	return (1);
 }
 
-static void				get_prog_opt(unsigned char *opt, t_core *core)
+static int				get_dump(unsigned char *opt, t_core *core)
 {
 	unsigned long long	dump;
 
 	dump = 0;
 	if (!*opt)
-		return ;
-	if (*opt == 'v' && (core->bd |= VISUAL))
-		return (get_prog_opt(++opt, core));
-	if (!ft_strncmp((const char*)opt, "dump", 4) && !(core->bd & DUMP))
+		return (0);
+	if (ft_str_is_numeric((char*)opt))
 	{
-		opt += 4;
-		while (*opt && ft_isdigit(*opt))
+		while (*opt)
 			if ((dump = dump * 10 + *opt++ - '0') > IMAX)
 				break ;
-		if ((!dump || dump > IMAX) && (core->bd = ERROR))
-			return (display_usage(core->first_arg));
-		core->bd |= DUMP;
-		core->dump = (unsigned int)dump;
-		return (*opt ? get_prog_opt(opt, core) : (void)0);
+		if (dump > 0 && dump <= IMAX)
+		{
+			core->bd |= DUMP;
+			core->bd &= ~GET_DUMP;
+			core->dump = (unsigned int)dump;
+			return (0);
+		}
 	}
 	core->bd = ERROR;
 	display_usage(core->first_arg);
+	return (1);
+}
+
+static int				get_debug(unsigned char *opt, t_core *core)
+{
+	unsigned long long	debug;
+
+	debug = 0;
+	if (!*opt && (core->bd |= DEBUG))
+		return (0);
+	if (ft_str_is_numeric((char*)opt))
+	{
+		while (*opt)
+			if ((debug = debug * 10 + *opt++ - '0') > IMAX)
+				break ;
+		if (debug <= IMAX)
+		{
+			core->debug = (unsigned int)debug;
+			core->bd |= DEBUG;
+			return (0);
+		}
+	}
+	core->bd = ERROR;
+	display_usage(core->first_arg);
+	return (1);
 }
 
 int						get_options(unsigned char *opt, t_core *core)
 {
 	if (!*opt)
 		return (0);
-	if (ft_strchr("dv", *opt) && !core->player)
-		get_prog_opt(opt, core);
-	else if (*opt == 'p' && ft_isdigit(*++opt))
-	{
-		if (get_id(opt, core))
-			return (ft_printf("Invalid player id: %s\n", opt - 2));
-		while (ft_isdigit(*opt))
-			++opt;
-	}
-	else
-	{
-		display_usage(core->first_arg);
-		return (1);
-	}
-	return (0);
+	if (core->bd & GET_ID)
+		return (get_id(opt, core));
+	if (core->bd & GET_DUMP)
+		return (get_dump(opt, core));
+	++opt;
+	if (!ft_strcmp("v", (const char*)opt) && (core->bd |= VISUAL))
+		return (0);
+	if (!ft_strcmp("dump", (const char*)opt)
+	&& !(core->bd & DUMP) && (core->bd |= GET_DUMP))
+		return (0);
+	if (!ft_strncmp("Debug", (const char *)opt, 5) && !(core->bd & DEBUG))
+		return (get_debug(opt + 5, core));
+	if (!ft_strcmp("p", (const char*)opt)
+	&& !(core->bd & GET_OPT) && (core->bd |= GET_ID))
+		return (0);
+	display_usage(core->first_arg);
+	return (1);
 }

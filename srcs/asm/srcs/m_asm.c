@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:16:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/17 14:33:06 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/05/17 16:48:05 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int			main(int ac, char **av)
 
 	i = 0;
 	ac == 1 ? handle_err(3, QUIT, NULL) : 0;
-	while (++i < ac && i < 5)
+	while (++i < ac)
 	{
 		init_data(&data);
 		parse_args(av[i], &data);

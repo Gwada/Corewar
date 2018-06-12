@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:46:57 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/16 13:53:15 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/10 14:44:04 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static void				put_hex(const unsigned char *s, size_t size,
 	{
 		buff[k++] = b[s[i + j] / 16 % 16];
 		buff[k++] = b[s[i + j] % 16];
-		j++ % 2 ? buff[k++] = ' ' : 0;
+		!(++j % 2) ? buff[k++] = ' ' : 0;
 		k > 250 && write(1, buff, k) ? k = 0 : 0;
 	}
 	while (j < elem)
 	{
 		buff[k++] = ' ';
 		buff[k++] = ' ';
-		j++ % 2 ? buff[k++] = ' ' : 0;
+		!(++j % 2) ? buff[k++] = ' ' : 0;
 		k > 253 && write(1, buff, k) ? k = 0 : 0;
 	}
 	write(1, buff, k);
