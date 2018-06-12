@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 12:24:01 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 13:38:08 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@ void				_ex_sti(t_core *c, t_process *p)
 
 	c->v[5](c, p, 0);
 	p_1 = c->v[1](c, p, p->l[1]);
-	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
+	p_2 = c->v[p->ins.param[1] & T_REG ? 1 : 3](c, p, p->l[2]);
 	p_3 = c->v[p->ins.param[2]](c, p, p->l[3]);
 	if (!p_1 || p_1 > 16 || (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16))
 	|| (p->ins.param[2] & T_REG && (p_3 < 1 || p_3 > 16)))
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
 	p->ins.param[2] & T_REG ? p_3 = p->reg[p_3] : 0;
+	c->bd & DEBUG ? ft_printf("sti r%hhu %d %d\tstore ", p_1, p_2, p_3) : 0;
 	p_2 = c->v[0](c, p, p_2 + p_3);
+	c->bd & DEBUG ? ft_printf("%#x to %d\n", p->reg[p_1], p_2) : 0;
 	p_3 = -1;
 	while (++p_3 < 4)
 	{
