@@ -64,7 +64,6 @@ typedef struct s_coord t_coord;
 #define COLOR_P4	COLOR_CYAN
 
 #define F_STAT		1
-#define F_LOGS		2
 #define F_LIVE		3
 #define F_WRITE		4
 #define F_OI		5
@@ -90,7 +89,6 @@ struct s_visu_env
 	t_win		title;
 	t_win		usages;
 	t_win		stats;
-	t_win		logs;
 	t_win		states;
 	t_win		arena;
 };
@@ -289,12 +287,14 @@ void	draw_basics(t_core *c);
 void	fill_title(t_core *c);
 void	fill_usages(t_core *c);
 void	fill_stats(t_core *c);
-void	fill_logs(t_core *c);
 void	fill_states(t_core *c);
 void	fill_arena(t_core *c);
 void	update_arena(t_core *c, int id, t_process *p, int new_pc, int write_index);
 void	ft_exit_alloc_failure();
 char	*ft_get_hex_memory(void *m, size_t mem_size);
 void	ft_bzero(void *m, size_t len);
+
+int	handle_color(t_core *c, int index, t_coord *pos);
+void	update_states(t_core *c, t_process *ps, int index);
 
 #endif

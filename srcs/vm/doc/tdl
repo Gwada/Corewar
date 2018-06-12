@@ -1,3 +1,5 @@
 player process marche ap
-fix multiple pc bug
-Process qui die ?
+
+/*pc blink < total_process*/
+	/*fork blinking pc (id == 6)*/
+/*Process qui die = --nb_process = un blink en moin*/

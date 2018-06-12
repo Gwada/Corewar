@@ -38,7 +38,6 @@ void				_ex_live(t_core *c, t_process *p)
 		++c->p[i].total_live;
 		++c->p[i].current_cycle_live;
 		c->last_live_player = id_p;
-		visu(c, 3, p, id(p->pc + *p->l), id_p);
 		/*ft_printf("{green}un processus dit que le joueur");*/
 		/*ft_printf(" %u(%s) est en vie\n{eoc}", id_p, c->p[i].name);*/
 	}
@@ -47,6 +46,7 @@ void				_ex_live(t_core *c, t_process *p)
 //	ft_print_mem(&c->ram, MEM_SIZE, 64, 0);
 	ft_printf("\t{green}{bold}END\tLIVE\n{eoc}");//
 */
+	visu(c, 3, p, id(p->pc + *p->l), id_p);
 	p->pc = id(p->pc + *p->l);
 }
 

@@ -1,12 +1,11 @@
 #include "corewar.h"
 
-static void	load(t_core *c, int id, t_process *p, int new_pc, int write_index)
+static void	load(t_core *c, int id, t_process *p, int new_pc, int index)
 {
 	if (id == 0) {
 		werase(c->visu.title.win);
 		werase(c->visu.usages.win);
 		werase(c->visu.stats.win);
-		werase(c->visu.logs.win);
 		werase(c->visu.states.win);
 		werase(c->visu.arena.win);
 		erase();
@@ -15,33 +14,23 @@ static void	load(t_core *c, int id, t_process *p, int new_pc, int write_index)
 		fill_usages(c);
 		fill_arena(c);
 		fill_stats(c);
-		fill_logs(c);
 		fill_states(c);
 		refresh();
 		wrefresh(c->visu.title.win);
 		wrefresh(c->visu.usages.win);
 		wrefresh(c->visu.arena.win);
 		wrefresh(c->visu.stats.win);
-		wrefresh(c->visu.logs.win);
 		wrefresh(c->visu.states.win);
 	}
 	else if (id == 1) {
 		fill_stats(c);
 		wrefresh(c->visu.stats.win);
 	}
-	else if (id == 2)
-		;// update && refresh logs
 	else if (id > 2) {
-		update_arena(c, id, p, new_pc, write_index);
+		update_arena(c, id, p, new_pc, index);
 		wrefresh(c->visu.arena.win);
 	}
 }
-
-
-/*static void	refresh_win(t_core *c)*/
-/*{*/
-	/*(void)c;*/
-/*}*/
 
 static void handle_event(t_core *c, char cs)
 {
@@ -65,13 +54,13 @@ static void handle_event(t_core *c, char cs)
 	}
 }
 
-void	visu(t_core *c, int id, t_process *p, int new_pc, int write_index)
+void	visu(t_core *c, int id, t_process *p, int new_pc, int index)
 {
 	if (c->visu.w_size.y == 0 && c->visu.w_size.x == 0) {
 		id = 0;
 		getmaxyx(stdscr, c->visu.w_size.y, c->visu.w_size.x);
 	}
-	load(c, id, p, new_pc, write_index);
+	load(c, id, p, new_pc, index);
 	handle_event(c, getch());
 	if (c->visu.event_flag & F_PAUSE) {
 		getchar();

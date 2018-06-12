@@ -45,7 +45,9 @@ SRC		= vm_main.c \
 		  display.c \
 		  visu.c \
 		  visu_fill_wins.c \
-		  visu_utilities.c
+		  visu_utilities.c \
+		  visu_draw_basics.c \
+		  visu_update_arena.c
 
 #################################################
 ###                   Format                  ###
@@ -77,7 +79,7 @@ _END=\x1b[0m
 
 all: $(EXEC)
 
-$(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h $(INC_DIR)/op.h $(INC_DIR)/visu.h
+$(EXEC): $(OBJ) $(INC_DIR)/$(EXEC).h $(INC_DIR)/op.h
 	@$(CC) $(FLAGS) $(HEADER) -o $(EXEC) $(OBJ) ../../libft/libft.a -lncurses
 	@echo "$(_CYAN)$(EXEC)$(_END)		: $(_GREEN)compiled$(_END)"
 
