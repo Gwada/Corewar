@@ -145,5 +145,6 @@ int					main(int argc, char **argv)
 	}
 	else if (!(c.bd & INIT))
 		display_usage(*argv);
+	c.bd & VISUAL ? endwin(): 0;
 	return (0);
 }
