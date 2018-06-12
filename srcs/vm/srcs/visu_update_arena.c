@@ -41,23 +41,31 @@ int	handle_color(t_core *c, int index, t_coord *pos)
 
 void	blink_pc(t_core *c, t_process *p, int new_pc)
 {
-	t_coord	pos;
+	t_coord			pos;
+	unsigned		color;
 
+	color = p->reg[1] * -1;
+	if (color > c->player)
+		color = 5;
 	pos.y = (p->pc / ((c->visu.arena.size.x - 3) / 3)) + 1;
 	pos.x = (p->pc % ((c->visu.arena.size.x - 3) / 3)) * 3 + 3;
 	if (pos.y < c->visu.arena.size.y - 1)
-		mvwchgat(c->visu.arena.win, pos.y, pos.x, 2, A_NORMAL, (p->reg[1]) * -1, NULL);
+		mvwchgat(c->visu.arena.win, pos.y, pos.x, 2, A_NORMAL, color, NULL);
 	pos.y = (new_pc / ((c->visu.arena.size.x - 3) / 3)) + 1;
 	pos.x = (new_pc % ((c->visu.arena.size.x - 3) / 3)) * 3 + 3;
 	if (pos.y < c->visu.arena.size.y - 1)
-		mvwchgat(c->visu.arena.win, pos.y, pos.x, 2, A_STANDOUT, (p->reg[1]) * -1, NULL);
+		mvwchgat(c->visu.arena.win, pos.y, pos.x, 2, A_STANDOUT, color, NULL);
 }
 
 void	write_on_ram(t_core *c, t_process *p, int index)
 {
 	t_coord		pos;
 	int			count;
+	unsigned 	color;
 
+	color = p->reg[1] * -1;
+	if (color > c->player)
+		color = 5;
 	if ((pos.y = (index / ((c->visu.arena.size.x - 3) / 3)) + 1) > c->visu.arena.size.y - 2)
 		return ;
 	pos.x = (index % ((c->visu.arena.size.x - 3) / 3)) * 3 + 3;
@@ -70,7 +78,7 @@ void	write_on_ram(t_core *c, t_process *p, int index)
 				break ;
 			pos.x = 3;
 		}
-		wattrset(c->visu.arena.win, COLOR_PAIR((p->reg[1]) * -1));
+		wattrset(c->visu.arena.win, COLOR_PAIR(color));
 		mvwaddch(c->visu.arena.win, pos.y, (pos.x)++, HEX_DIGIT[c->ram[index + count] >> 4]);
 		mvwaddch(c->visu.arena.win, pos.y, (pos.x)++, HEX_DIGIT[c->ram[index + count] & 0x0F]);
 		++(pos.x);
@@ -88,12 +96,11 @@ void	update_arena(t_core *c, int id, t_process *p, int new_pc, int index)
 	}
 	else if (id == 4) {
 		write_on_ram(c, p, index);
-		/*wrefresh(c->visu.arena.win);*/
-		/*sleep(4);*/
-		/*fill_arena(c);*/
-		/*wrefresh(c->visu.arena.win);*/
-		/*sleep(4);*/
-		/*exit(0);*/
+		wrefresh(c->visu.arena.win);
+		sleep(1);
+		fill_arena(c);
+		wrefresh(c->visu.arena.win);
+		sleep(1);
 	}
 	else if (id == 6)
 		blink_pc(c, p, index);
