@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 11:17:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 10:49:04 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 19:40:17 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static size_t	process_live_checker(t_core *core)
 
 size_t			cycle_checker(t_core *core)
 {
-	if (core->bd & DUMP && core->total_cycle >= core->dump)
+	if (core->dump > 0  && core->total_cycle >= core->dump)
 		return (1);
 	if ((int)core->current_cycle == core->max_cycle)
 	{

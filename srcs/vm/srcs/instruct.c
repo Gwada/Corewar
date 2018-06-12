@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 18:44:34 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 13:38:10 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 20:32:41 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 /*
 	ft_printf("\t{bold}{blue}IN\tREAD_INSTRUCT");//
 	ft_printf("\tOPC: %p P->C: %u{eoc}\n", c->ram[id(p->pc)], p->pc);//
-	ft_printf("\t\t{green}carry\t= %u\t\tid_player = %u\n{eoc}", p->carry, -p->reg[1]);//
+	ft_printf("\t\t{green}carry\t= %u\t\t", p->carry);//
+	ft_printf("id_player = %u\n{eoc}", *p->reg);//
 */
 	unsigned char	opc;
 
@@ -52,7 +53,7 @@ unsigned int		read_instruct(t_core *c, t_process *p)
 	p->ins.name = NULL;
 	p->ins.nb_cycles = 0;
 
-//	ft_printf("\t{bold}{blue}2 END\tREAD_INSTRUCT{eoc}\n");//
+//	ft_printf("\t\t{red}ERROR{eoc}\n\t{bold}{blue}2 END\tREAD_INSTRUCT{eoc}\n");//
 
 	return (0);
 }
@@ -67,7 +68,6 @@ int					moov_opc(t_core *c, t_process *p, int new_pc)
 
 int					get_ind(t_core *core, t_process *process, int ind)
 {
-
 	int				i;
 	short			n;
 
@@ -76,7 +76,6 @@ int					get_ind(t_core *core, t_process *process, int ind)
 	while (i < 2)
 		n = (n << 8) | (core->ram[id(process->pc + ind + i++)]);
 	(void)process;
-//	ft_printf("\t\t{red}direct (short){eoc}\t\tvalue = %#hx\t%hd\n", n, n);//
 	return (n);
 }
 

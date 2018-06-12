@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display_corewar.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/12 19:01:19 by dlavaury          #+#    #+#             */
+/*   Updated: 2018/06/12 19:21:43 by dlavaury         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "corewar.h"
 #include "time.h"
 #include "../../libft/includes/ft_printf.h"
@@ -39,10 +51,10 @@ static void	put_process(t_core *c, t_process *p, int i_1, int reg)
 		i_1 += ft_psprintf(&c->buff[i_1], "%10#x{eoc}\t", p->reg[reg]);//
 		!(reg % 8) ? i_1 += ft_psprintf(&c->buff[i_1], "\n") : 0;//
 	}
-*/	i_1 += ft_psprintf(&c->buff[i_1], "\nprocess name\t: \"{green}{bold}");//
+*/	i_1 += ft_psprintf(&c->buff[i_1], "\nprocess name\t: {green}{bold}");//
 	(void)reg;
-	i_1 += ft_psprintf(&c->buff[i_1], "%50s{bold}", p->ins.description);//
-	i_1 += ft_psprintf(&c->buff[i_1], "{eoc}\"\ndescription\t: ");//
+	i_1 += ft_psprintf(&c->buff[i_1], "%s{bold}", p->ins.description);//
+	i_1 += ft_psprintf(&c->buff[i_1], "{eoc}\ndescription\t: ");//
 	write(1, c->buff, i_1);
 	ft_bzero(c->buff, 1048);
 }
@@ -94,14 +106,14 @@ void		display_cw(t_core *c, t_process *p, unsigned char opc, int state)
 		return ;
 	if (!state)
 	{
-		system("clear");//
+		system("clear");
 		put_general(c, p, opc, 0);
 		put_process(c, p, 0, 0);
 	}
 	else if (state == 1)
 	{
-		ft_printf("\n{bold}{yellow}COREWAR\tSTATES{eoc}\n");//
+		ft_printf("\n{bold}{yellow}COREWAR\tSTATES{eoc}\n");
 		put_corewar(c, 0, 0);
-		nanosleep((const struct timespec[]){{0, 150000000L}}, NULL);//
+		nanosleep((const struct timespec[]){{0, 100000000L}}, NULL);
 	}
 }

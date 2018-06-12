@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 13:38:02 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 20:32:48 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 /*
 **	GENERAL
 */
+
 # define VALID_MAG			(1 << 0)
 # define VALID_NAME_LEN		(1 << 1)
 # define VALID_CHAMP_LEN	(1 << 2)
@@ -42,6 +43,7 @@
 # define GET_ID				(1 << 8)
 # define GET_DUMP			(1 << 9)
 # define DEBUG				(1 << 10)
+# define POST_DEBUG			(1 << 11)
 
 /*
 **	CODAGE OCTET

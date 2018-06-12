@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 13:38:06 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 19:14:40 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,36 @@ static void		put_champ(t_core *core)
 	ft_printf("le joueur %d(%s) a gagne\n", -core->p[i].id, core->p[i].name);
 }
 
+static void			ex_functions(t_core *c, t_process *p, unsigned char opc)
+{
+	if (p->ins.name && !ft_strcmp(p->ins.name, g_op_tab[opc].name))
+	{
+		if (c->ft[opc](&c->ram[id(p->pc + 1)], p))
+			c->ex[opc](c, p);
+		else
+			p->pc = moov_opc(c, p, p->ins.ocp ? 2 : 1);
+	}
+}
+
 static void			check_instruct(t_core *c, t_process *p, unsigned char opc)
 {
 	while (p)
 	{
 		if (!p->ins.nb_cycles)
 		{
-			if (opc_c((opc = c->ram[id(p->pc)] - 1)) && p->ins.name)
+			c->bd & DEBUG ? display_cw(c, p, opc, 0) : 0;
+			if (opc_c((opc = c->ram[id(p->pc)] - 1)))
+				ex_functions(c, p, opc);
+			else
 			{
-				if (!ft_strcmp(p->ins.name, g_op_tab[opc].name))
-				{
-					if (c->ft[opc](&c->ram[id(p->pc + 1)], p))
-					{
-						c->bd & DEBUG ? display_cw(c, p, opc, 0) : 0;
-						c->ex[opc](c, p);
-						c->bd & DEBUG ? display_cw(c, p, opc, 1) : 0;
-					}
-					else
-						p->pc = moov_opc(c, p, 1);
-				}
-			}
-				else
+				if (!read_instruct(c, p))
 					p->pc = moov_opc(c, p, 1);
-			read_instruct(c, p) ? --p->ins.nb_cycles : 0;
+				else
+					--p->ins.nb_cycles;
+			}
+			c->bd & DEBUG ? display_cw(c, p, opc, 1) : 0;
+			if (!p->ins.nb_cycles && read_instruct(c, p))
+				--p->ins.nb_cycles;
 		}
 		else
 			--p->ins.nb_cycles;
@@ -67,6 +74,11 @@ void				corewar(t_core *core)
 		return ((void)display_error(core, 0, NULL));
 	while (core->n_process > 0 && core->max_cycle > 0 && core->ps)
 	{
+		if (core->bd & POST_DEBUG && core->total_cycle >= core->debug)
+		{
+			core->bd &= ~POST_DEBUG;
+			core->bd |= DEBUG;
+		}
 		check_instruct(core, core->ps, 0);
 		if (cycle_checker(core))
 			break ;

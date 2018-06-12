@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 11:39:56 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 20:32:43 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,15 @@ void				_ex_zjmp(t_core *c, t_process *p)
 	{
 		c->r_2[p->pc] &= ~OPC;
 		if (c->bd & DEBUG)
-			ft_printf("zjmp %d\t{green}OK{eoc}\n", c->v[3](c, p, p->l[1]));
-	//	p->pc = id(p->pc + (c->v[3](c, p, p->l[1]) % IDX_MOD));
+			ft_printf("zjmp %d {green}OK{eoc}\n", c->v[3](c, p, p->l[1]));
 		p->pc = moov_opc(c, p, c->v[3](c, p, p->l[1]) % IDX_MOD);
 		c->r_2[p->pc] |= OPC;
 	}
 	else
 	{
-		p->pc = moov_opc(c, p, *p->l);
 		if (c->bd & DEBUG)
-			ft_printf("{red}FAILED{eoc}\tcarry = 0\n");
+			ft_printf("zjmp %d {red}FAILED{eoc}\n", c->v[3](c, p, p->l[1]));
+		p->pc = moov_opc(c, p, *p->l);
 	}
 }
 
