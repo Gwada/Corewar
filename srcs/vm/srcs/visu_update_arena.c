@@ -58,9 +58,9 @@ void	write_on_ram(t_core *c, t_process *p, int index)
 	t_coord		pos;
 	int			count;
 
-	if ((pos.y = (p->pc / ((c->visu.arena.size.x - 3) / 3)) + 1) > c->visu.arena.size.y - 2)
+	if ((pos.y = (index / ((c->visu.arena.size.x - 3) / 3)) + 1) > c->visu.arena.size.y - 2)
 		return ;
-	pos.x = (p->pc % ((c->visu.arena.size.x - 3) / 3)) * 3 + 3;
+	pos.x = (index % ((c->visu.arena.size.x - 3) / 3)) * 3 + 3;
 	count = 0;
 	while (count < 4)
 	{
@@ -86,8 +86,15 @@ void	update_arena(t_core *c, int id, t_process *p, int new_pc, int index)
 		update_states(c, p, index);
 		wrefresh(c->visu.states.win);
 	}
-	else if (id == 4)
+	else if (id == 4) {
 		write_on_ram(c, p, index);
+		/*wrefresh(c->visu.arena.win);*/
+		/*sleep(4);*/
+		/*fill_arena(c);*/
+		/*wrefresh(c->visu.arena.win);*/
+		/*sleep(4);*/
+		/*exit(0);*/
+	}
 	else if (id == 6)
 		blink_pc(c, p, index);
 	wrefresh(c->visu.arena.win);

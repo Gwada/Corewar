@@ -137,7 +137,7 @@ void	update_states(t_core *c, t_process *ps, int index)
 	mvwprintw(c->visu.states.win, 4, x, "%s", H_4);
 	mvwprintw(c->visu.states.win, 5, x, "%s", H_5);
 	wrefresh(c->visu.states.win);
-	usleep(1000 * 50);
+	usleep(1000 * 30);
 	wattrset(c->visu.states.win, COLOR_PAIR((x - 2) / 12 + 1));
 	mvwprintw(c->visu.states.win, 1, x, "%s", H_1);
 	mvwprintw(c->visu.states.win, 2, x, "%s", H_2);

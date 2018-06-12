@@ -76,6 +76,6 @@ void	visu(t_core *c, int id, t_process *p, int new_pc, int index)
 		if (c->visu.fps != 0)
 			usleep(1000 / c->visu.fps * 1000);
 		else
-			usleep(1000 * 30);
+			usleep(1000 * 50);
 	}
 }
