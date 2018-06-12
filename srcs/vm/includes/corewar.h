@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/10 20:32:38 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 12:23:55 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@
 # include "op.h"
 
 /*
-**	BINARY MASKS
+**		*** BINARY MASKS ***
 */
 
+/*
+**	GENERAL
+*/
 # define VALID_MAG			(1 << 0)
 # define VALID_NAME_LEN		(1 << 1)
 # define VALID_CHAMP_LEN	(1 << 2)
@@ -39,8 +42,10 @@
 # define GET_ID				(1 << 8)
 # define GET_DUMP			(1 << 9)
 # define DEBUG				(1 << 10)
-# define POST_DEBUG			(1 << 11)
 
+/*
+**	CODAGE OCTET
+*/
 # define FST				(1 << 0)
 # define SND				(1 << 1)
 # define TRD				(1 << 2)
@@ -50,8 +55,12 @@
 # define SETH				(1 << 6)
 # define EITH				(1 << 7)
 
+/*
+**	RAM STATES
+*/
 # define OPC				(1 << 4)
 # define NEW				(1 << 5)
+
 /*
 **	VALUES DEFINES
 */

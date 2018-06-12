@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/10 15:12:37 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 10:58:23 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int					main(int argc, char **argv)
 		c.bd & GET_ID ? display_error(&c, 7, NULL) : 0;
 		c.bd & GET_DUMP ? display_error(&c, 8, NULL) : 0;
 		c.player && !(c.bd & GET_ID) ? put_champ(&c, 0) : 0;
-		c.bd & VISUAL ? c.bd &= ~(DEBUG | POST_DEBUG) : 0;
+		c.bd & VISUAL ? c.bd &= ~DEBUG : 0;
 		c.player && !(c.bd & ERROR) ? corewar(&c) : 0;
 		!c.player ? display_usage(*argv) : 0;
 	}

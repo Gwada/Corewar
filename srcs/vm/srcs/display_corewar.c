@@ -90,6 +90,8 @@ static void	put_corewar(t_core *c, int i, int l)
 
 void		display_cw(t_core *c, t_process *p, unsigned char opc, int state)
 {
+	if (c->total_cycle < c->debug)
+		return ;
 	if (!state)
 	{
 		system("clear");//

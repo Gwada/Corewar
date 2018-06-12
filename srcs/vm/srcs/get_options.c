@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 10:50:48 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/05 11:16:07 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 10:55:43 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int				get_debug(unsigned char *opt, t_core *core)
 	unsigned long long	debug;
 
 	debug = 0;
-	if (!*opt)
+	if (!*opt && (core->bd |= DEBUG))
 		return (0);
 	if (ft_str_is_numeric((char*)opt))
 	{
@@ -80,6 +80,7 @@ static int				get_debug(unsigned char *opt, t_core *core)
 		if (debug <= IMAX)
 		{
 			core->debug = (unsigned int)debug;
+			core->bd |= DEBUG;
 			return (0);
 		}
 	}
@@ -102,7 +103,7 @@ int						get_options(unsigned char *opt, t_core *core)
 	if (!ft_strcmp("dump", (const char*)opt)
 	&& !(core->bd & DUMP) && (core->bd |= GET_DUMP))
 		return (0);
-	if (!ft_strncmp("Debug", (const char *)opt, 5) && (core->bd |= POST_DEBUG))
+	if (!ft_strncmp("Debug", (const char *)opt, 5) && !(core->bd & DEBUG))
 		return (get_debug(opt + 5, core));
 	if (!ft_strcmp("p", (const char*)opt)
 	&& !(core->bd & GET_OPT) && (core->bd |= GET_ID))

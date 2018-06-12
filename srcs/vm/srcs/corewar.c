@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/10 18:25:02 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 11:17:41 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,9 @@ void				corewar(t_core *core)
 		return ((void)display_error(core, 0, NULL));
 	while (core->n_process > 0 && core->max_cycle > 0 && core->ps)
 	{
+		check_instruct(core, core->ps, 0);
 		if (cycle_checker(core))
 			break ;
-		check_instruct(core, core->ps, 0);
-		if (core->bd & POST_DEBUG && core->total_cycle >= core->debug)
-		{
-			core->bd &= ~(POST_DEBUG);
-			core->bd |= DEBUG;
-		}
 		++core->total_cycle;
 		++core->current_cycle;
 	}

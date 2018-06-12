@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/10 20:26:45 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/12 12:24:01 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,15 @@ void				_ex_sti(t_core *c, t_process *p)
 	int				p_3;
 
 	c->v[5](c, p, 0);
-	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
+	p_1 = c->v[1](c, p, p->l[1]);
 	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
-	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
-	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2]: 0;
 	p_3 = c->v[p->ins.param[2]](c, p, p->l[3]);
-	if (p->ins.param[2] & T_REG && (!p_3 || p_3 > 16))
+	if (!p_1 || p_1 > 16 || (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16))
+	|| (p->ins.param[2] & T_REG && (p_3 < 1 || p_3 > 16)))
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
-	p->ins.param[2] & T_REG ? p_3 = p->reg[p_3]: 0;
+	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
+	p->ins.param[2] & T_REG ? p_3 = p->reg[p_3] : 0;
 	p_2 = c->v[0](c, p, p_2 + p_3);
-//	ft_psprintf(c->buff, "%x to p->pc + (%d %% IDX_MOD)\n", p->reg[p_1], p_2);//
 	p_3 = -1;
 	while (++p_3 < 4)
 	{
@@ -59,8 +56,9 @@ void				_ex_fork(t_core *c, t_process *p)
 	c->ps->prev = new;
 	c->ps = new;
 	if (c->bd & DEBUG)
-		ft_printf("fork pc + (%hd %% IDX_MOD)\n", c->v[3](c, p, p->l[1]));
+		ft_printf("fork pc + (%hd %% IDX_MOD) ", c->v[3](c, p, p->l[1]));
 	new->pc = id(p->pc + (c->v[3](c, p, p->l[1]) % IDX_MOD));
+	c->bd & DEBUG ? ft_printf("-> %d\n", new->pc) : 0;
 	c->r_2[new->pc] |= OPC;
 	read_instruct(c, new);
 	p->pc = moov_opc(c, p, *p->l);
@@ -69,8 +67,6 @@ void				_ex_fork(t_core *c, t_process *p)
 
 void				_ex_lld(t_core *c, t_process *p)
 {
-//	ft_printf("\t{green}{bold}IN\tLLD\n{eoc}");//
-
 	unsigned char	reg;
 
 	c->v[5](c, p, 0);
@@ -79,38 +75,29 @@ void				_ex_lld(t_core *c, t_process *p)
 	p->reg[reg] = c->v[*p->ins.param](c, p, p->l[1]);
 	p->carry = p->reg[reg] ? 0 : 1;
 	p->pc = moov_opc(c, p, *p->l);
-
-//	ft_printf("\t{green}{bold}END\tLLD\n{eoc}");//
 }
 
 void				_ex_lldi(t_core *c, t_process *p)
 {
-//	ft_printf("\t{green}{bold}IN\tLLDI\n{eoc}");//
-
-	int				i;
 	int				p_1;
 	int				p_2;
 	unsigned char	p_3;
 
-	i = -1;
 	c->v[5](c, p, 0);
 	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
-	if (*p->ins.param & T_REG && (!p_1 || p_1  > 16))
+	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
+	p_3 = c->v[1](c, p, p->l[3]);
+	if ((*p->ins.param & T_REG && (p_1 < 1 || p_1  > 16))
+	|| (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16)) || !p_3 || p_3 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
-	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
-	if (p->ins.param[1] & T_REG && (!p_2 || p_2 > 16))
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
-	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p_2 = c->v[0](c, p, p_2 + p_1);
-	while (++i < 4)
-		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id(p_2 + i)];
+	p_1 = -1;
+	while (++p_1 < 4)
+		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id(p_2 + p_1)];
 	p->pc = moov_opc(c, p, *p->l);
 	p->carry = p->reg[p_3] ? 0 : 1;
-
-//	ft_printf("\t{green}{bold}END\tLLDI\n{eoc}");//
 }
 
 void				_ex_lfork(t_core *c, t_process *p)
