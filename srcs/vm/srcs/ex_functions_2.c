@@ -6,14 +6,14 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 13:20:23 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 15:21:24 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
 
-void				_ex_and(t_core *c, t_process *p)
+void				ex_and(t_core *c, t_process *p)
 {
 	int				p_1;
 	int				p_2;
@@ -38,7 +38,7 @@ void				_ex_and(t_core *c, t_process *p)
 	p->pc = moov_opc(c, p, *p->l);
 }
 
-void				_ex_or(t_core *c, t_process *p)
+void				ex_or(t_core *c, t_process *p)
 {
 	int				p_1;
 	int				p_2;
@@ -63,7 +63,7 @@ void				_ex_or(t_core *c, t_process *p)
 	p->pc = moov_opc(c, p, *p->l);
 }
 
-void		_ex_xor(t_core *c, t_process *p)
+void				ex_xor(t_core *c, t_process *p)
 {
 	int				p_1;
 	int				p_2;
@@ -89,7 +89,7 @@ void		_ex_xor(t_core *c, t_process *p)
 	p->pc = moov_opc(c, p, *p->l);
 }
 
-void				_ex_zjmp(t_core *c, t_process *p)
+void				ex_zjmp(t_core *c, t_process *p)
 {
 	c->v[5](c, p, 0);
 	if (p->carry == 1)
@@ -108,7 +108,7 @@ void				_ex_zjmp(t_core *c, t_process *p)
 	}
 }
 
-void				_ex_ldi(t_core *c, t_process *p)
+void				ex_ldi(t_core *c, t_process *p)
 {
 	short			p_1;
 	short			p_2;
@@ -125,7 +125,7 @@ void				_ex_ldi(t_core *c, t_process *p)
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
 	if (c->bd & DEBUG)
 	{
-		ft_printf("ldi %hd %d r%hhu\t\t", p_1, p_2 , p_3);
+		ft_printf("ldi %hd %d r%hhu\t\t", p_1, p_2, p_3);
 		ft_printf("load from %d to r%hhu\n", p->pc + p_1 + p_2, p_3);
 	}
 	p_2 = c->v[0](c, p, p_2 + p_1);

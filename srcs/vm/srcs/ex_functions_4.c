@@ -6,14 +6,14 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 13:13:44 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 15:20:46 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
 
-void				_ex_aff(t_core *c, t_process *p)
+void				ex_aff(t_core *c, t_process *p)
 {
 	unsigned char	p_1;
 

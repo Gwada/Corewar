@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 19:01:19 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 11:48:16 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 15:08:03 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	put_process(t_core *c, t_process *p, int i_1, int reg)
 	i_1 += ft_psprintf(&c->buff[i_1], "%s{bold}", p->ins.description);
 	i_1 += ft_psprintf(&c->buff[i_1], "{eoc}\ndescription\t: ");
 	write(1, c->buff, i_1);
-
 }
 
 static void	get_state(t_core *c, int i, int j, int *l)
@@ -79,8 +78,10 @@ static void	put_corewar(t_core *c, int i, int l)
 	int		j;
 
 	hex = "0123456789abcdef";
-	while (i < MEM_SIZE && (j = -1) && !(l = 0))
+	while (i < MEM_SIZE)
 	{
+		j = -1;
+		l = 0;
 		l += ft_psprintf(&c->buff[l], "{bold}{cyan}%05#X{eoc} : ", i);
 		while (++j < 64 && i + j < MEM_SIZE)
 		{

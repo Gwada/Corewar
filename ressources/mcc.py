@@ -1,3 +1,4 @@
+#author ataguiro (not me)
 import os
 import binascii
 import sys
@@ -27,25 +28,25 @@ def print_header(one, buff):
                 + str(len(opcodes)) + '\033[0m      \033[1m|'
         print '| ... ' + buff[cursor - 38:cursor - 9] + ' |'
         print '| ' + buff[cursor - 9:cursor] + '\033[1;32m[' + one \
-                + ']\033[0;1m' + buff[cursor+len(one):cursor + len(one) + 12] + ' \033[1m|'
+            + ']\033[0;1m' + buff[cursor+len(one):cursor + len(one) + 12] + ' \033[1m|'
         print '| ' + buff[cursor + len(one) + 12:cursor + 51] + ' ... |'
-	print '| \033[1;32m[call _malloc] ' + one[:2] + ' ' + one[2:4] + ' ' \
-		+ one[4:6] + ' ' + one[6:8] + ' ' + one[8:10] + '\033[0;1m     |'
+        print '| \033[1;32m[call _malloc] ' + one[:2] + ' ' + one[2:4] + ' ' \
+            + one[4:6] + ' ' + one[6:8] + ' ' + one[8:10] + '\033[0;1m     |'
         print '-------------------------------------'
 
 def print_injection(one, buff):
         print '\033[1m----------- \033[31mPOISONED CODE\033[0;1m -----------'
-	print '|        \033[1;33mcall _malloc - \033[1;32m' + str(count) + ' of '\
+        print '|        \033[1;33mcall _malloc - \033[1;32m' + str(count) + ' of '\
                 + str(len(opcodes)) + '\033[0m      \033[1m|'
         print '| ... ' + buff[cursor - 38:cursor - 9] + ' |'
         print '| ' + buff[cursor - 9:cursor] + '\033[1;31m[' + mal[:-4] \
                 + '][90][90]\033[0;1m' + buff[cursor+len(one):cursor + len(one) + 8] + ' \033[1m|'
         print '| ' + buff[cursor + len(one) + 8:cursor + 47] + ' ... |'
-	print '| \033[1;31m+ [xor rax, rax] 48 31 C0\033[0;1m         |'
-	print '| \033[1;31m+ [nop]          90\033[0;1m               |'
-	print '| \033[1;31m+ [nop]          90\033[0;1m               |'
-	print '| \033[1;32m- [call _malloc] ' + one[:2] + ' ' + one[2:4] + ' ' \
-		+ one[4:6] + ' ' + one[6:8] + ' ' + one[8:10] + '\033[0;1m   |'
+        print '| \033[1;31m+ [xor rax, rax] 48 31 C0\033[0;1m         |'
+        print '| \033[1;31m+ [nop]          90\033[0;1m               |'
+        print '| \033[1;31m+ [nop]          90\033[0;1m               |'
+        print '| \033[1;32m- [call _malloc] ' + one[:2] + ' ' + one[2:4] + ' ' \
+            + one[4:6] + ' ' + one[6:8] + ' ' + one[8:10] + '\033[0;1m   |'
         print '-------------------------------------'
 
 
@@ -65,45 +66,45 @@ def make_a_mess(one):
         cursor = buff.find(one)
         print_header(one, buff)
         a = int((little_endian(check_size(buff))).encode('hex'), 16)
-	print '\033[1;33m-> Valid malloc call : \033[1;32mOK'
-	print '\033[1;33m-> Size of .text section : \033[1;32m' + str(a) + ' bytes'
-	print '\033[1;33m-> Infection possible : \033[1;32mYES'
+        print '\033[1;33m-> Valid malloc call : \033[1;32mOK'
+        print '\033[1;33m-> Size of .text section : \033[1;32m' + str(a) + ' bytes'
+        print '\033[1;33m-> Infection possible : \033[1;32mYES'
         print '\033[1;33m-> Poisoning malloc \'' + one + '\' ...\n\033[0m'
         buff = poison(buff, one)
         print_injection(one, buff)
-	new_name = prog_name + ".infected"
+        new_name = prog_name + ".infected"
         with open(new_name, "w+") as f:
                 f.write(binascii.unhexlify(buff))
                 f.close()
-	os.chmod(new_name, 0777)
-	print '\t\033[1;33m>> ' + prog_name + '.infected' + ' <<'
+        os.chmod(new_name, 0777)
+        print '\t\033[1;33m>> ' + prog_name + '.infected' + ' <<'
         print '\t\033[1;32m >> ENTER TO RUN <<\033[0m'
         raw_input("")
-	print '\033[0;33m-> Running ' + new_name + ' with vulnerable code...\n'
-	if len(sys.argv) > 2:
-		args = sys.argv[2].split()
-	al = []
-	al.append("./" + new_name)
-	if len(sys.argv) > 2:
-		for el in args:
-			al.append(el)
-	rc = call(al)
-	print '\033[1;33mCRASH : ' + ("\033[1;32mNO" if rc == 0 or rc == 1 else "\033[1;31mYES")
-	if rc != 0 and rc != 1:
-		global crash
-		crash += 1
-	if rc == -11:
-		print '\033[0;31m(SEGFAULT)'
-	print '\033[1;32mcrash count : \033[0;32m' + str(crash) + '/' + str(len(opcodes))
-	print '\033[0m'
+        print '\033[0;33m-> Running ' + new_name + ' with vulnerable code...\n'
+        if len(sys.argv) > 2:
+            args = sys.argv[2].split()
+        al = []
+        al.append("./" + new_name)
+        if len(sys.argv) > 2:
+            for el in args:
+                al.append(el)
+        rc = call(al)
+        print '\033[1;33mCRASH : ' + ("\033[1;32mNO" if rc == 0 or rc == 1 else "\033[1;31mYES")
+        if rc != 0 and rc != 1:
+            global crash
+            crash += 1
+        if rc == -11:
+            print '\033[0;31m(SEGFAULT)'
+        print '\033[1;32mcrash count : \033[0;32m' + str(crash) + '/' + str(len(opcodes))
+        print '\033[0m'
         raw_input("")
 
 def read_n_convert():
     for one in opcodes:
-        	os.system('clear')
-                make_a_mess(one)
-		global count
-		count += 1
+        os.system('clear')
+        make_a_mess(one)
+        global count
+        count += 1
 
 def get_opcodes(valid):
         global opcodes

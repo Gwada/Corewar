@@ -6,14 +6,14 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 13:28:22 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 15:20:31 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
 
-void				_ex_sti(t_core *c, t_process *p)
+void				ex_sti(t_core *c, t_process *p)
 {
 	unsigned char	p_1;
 	int				p_2;
@@ -41,7 +41,7 @@ void				_ex_sti(t_core *c, t_process *p)
 	p->pc = moov_opc(c, p, *p->l);
 }
 
-void				_ex_fork(t_core *c, t_process *p)
+void				ex_fork(t_core *c, t_process *p)
 {
 	t_process		*new;
 
@@ -67,7 +67,7 @@ void				_ex_fork(t_core *c, t_process *p)
 	--new->ins.nb_cycles;
 }
 
-void				_ex_lld(t_core *c, t_process *p)
+void				ex_lld(t_core *c, t_process *p)
 {
 	unsigned char	reg;
 
@@ -81,7 +81,7 @@ void				_ex_lld(t_core *c, t_process *p)
 	p->pc = moov_opc(c, p, *p->l);
 }
 
-void				_ex_lldi(t_core *c, t_process *p)
+void				ex_lldi(t_core *c, t_process *p)
 {
 	short			p_1;
 	short			p_2;
@@ -91,7 +91,7 @@ void				_ex_lldi(t_core *c, t_process *p)
 	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
 	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
 	p_3 = c->v[1](c, p, p->l[3]);
-	if ((*p->ins.param & T_REG && (p_1 < 1 || p_1  > 16))
+	if ((*p->ins.param & T_REG && (p_1 < 1 || p_1 > 16))
 	|| (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16)) || !p_3 || p_3 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
@@ -107,7 +107,7 @@ void				_ex_lldi(t_core *c, t_process *p)
 	exit(0);
 }
 
-void				_ex_lfork(t_core *c, t_process *p)
+void				ex_lfork(t_core *c, t_process *p)
 {
 	t_process		*new;
 
@@ -126,7 +126,7 @@ void				_ex_lfork(t_core *c, t_process *p)
 	if (c->bd & DEBUG)
 		ft_printf("lfork pc + %hd\n", c->v[*p->ins.param](c, p, p->l[1]));
 	new->pc = id(p->pc + c->v[*p->ins.param](c, p, p->l[1]));
-	c->r_2[new->pc]	|= OPC;
+	c->r_2[new->pc] |= OPC;
 	read_instruct(c, new);
 	p->pc = moov_opc(c, p, *p->l);
 	--new->ins.nb_cycles;

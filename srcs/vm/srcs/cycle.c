@@ -6,12 +6,12 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 11:17:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 12:47:28 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 14:55:20 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-#include "../../libft/includes/ft_printf.h"//
+#include "../../libft/includes/ft_printf.h"
 
 static size_t	process_live_checker(t_core *core)
 {
@@ -36,9 +36,9 @@ static size_t	process_live_checker(t_core *core)
 
 size_t			cycle_checker(t_core *core)
 {
-	if (core->dump > 0  && core->total_cycle >= core->dump)
+	if (core->dump > 0 && core->total_cycle >= core->dump)
 	{
-//		ft_print_mem(core->ram, MEM_SIZE, 32, 0);
+		ft_print_mem(core->ram, MEM_SIZE, 32, 0);
 		return (1);
 	}
 	if ((int)core->current_cycle == core->max_cycle)

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 11:48:14 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 14:58:41 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void		put_champ(t_core *core)
 	ft_printf("le joueur %d(%s) a gagne\n", -core->p[i].id, core->p[i].name);
 }
 
-static void			ex_functions(t_core *c, t_process *p, unsigned char opc)
+static void		ex_functions(t_core *c, t_process *p, unsigned char opc)
 {
 	if (p->ins.name && !ft_strcmp(p->ins.name, g_op_tab[opc].name))
 	{
@@ -46,13 +46,12 @@ static void			ex_functions(t_core *c, t_process *p, unsigned char opc)
 	}
 }
 
-static void			check_instruct(t_core *c, t_process *p, unsigned char opc)
+static void		check_instruct(t_core *c, t_process *p, unsigned char opc)
 {
 	while (p)
 	{
 		if (!p->ins.nb_cycles)
 		{
-
 			if (opc_c((opc = c->ram[id(p->pc)] - 1)))
 				ex_functions(c, p, opc);
 			else
@@ -62,7 +61,6 @@ static void			check_instruct(t_core *c, t_process *p, unsigned char opc)
 				else
 					--p->ins.nb_cycles;
 			}
-
 			if (!p->ins.nb_cycles && read_instruct(c, p))
 				--p->ins.nb_cycles;
 		}
@@ -72,7 +70,7 @@ static void			check_instruct(t_core *c, t_process *p, unsigned char opc)
 	}
 }
 
-void				corewar(t_core *core)
+void			corewar(t_core *core)
 {
 	if (!init_process(core, -1))
 		return ((void)display_error(core, 0, NULL));

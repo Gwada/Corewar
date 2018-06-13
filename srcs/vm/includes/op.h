@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   op.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/13 14:50:38 by dlavaury          #+#    #+#             */
+/*   Updated: 2018/06/13 14:52:13 by dlavaury         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
 ** Toutes les tailles sont en octets.
 ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
@@ -31,10 +43,10 @@
 # define COMMENT_CMD_STRING		".comment"
 # define REG_NUMBER				16
 
-# define CYCLE_TO_DIE			1596 //1596
-# define CYCLE_DELTA			50 //50
-# define NBR_LIVE				21 //21
-# define MAX_CHECKS				10 // 10
+# define CYCLE_TO_DIE			1596
+# define CYCLE_DELTA			50
+# define NBR_LIVE				21
+# define MAX_CHECKS				10
 
 /*
 ** t_op

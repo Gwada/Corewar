@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 20:32:48 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 15:18:40 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,26 +182,26 @@ void						exec_instruct(t_core *c, t_process *p,
 unsigned short				id(unsigned int id);
 unsigned int				opc_c(unsigned char opc);
 void						add_data(t_op *dst, t_op *src);
-unsigned int				_reg(const unsigned char oct, unsigned char opt);
-unsigned int				_ind(const unsigned char oct, unsigned char opt);
-unsigned int				_dir(const unsigned char oct, unsigned char opt);
-unsigned int				_abs(const unsigned char oct, unsigned char opt);
-unsigned int				_live(const unsigned char *oct, t_process *p);
-unsigned int				_ld(const unsigned char *oct, t_process *p);
-unsigned int				_st(const unsigned char *oct, t_process *p);
-unsigned int				_add(const unsigned char *oct, t_process *p);
-unsigned int				_sub(const unsigned char *oct, t_process *p);
-unsigned int				_and(const unsigned char *oct, t_process *p);
-unsigned int				_or(const unsigned char *oct, t_process *p);
-unsigned int				_xor(const unsigned char *oct, t_process *p);
-unsigned int				_zjmp(const unsigned char *oct, t_process *p);
-unsigned int				_ldi(const unsigned char *oct, t_process *p);
-unsigned int				_sti(const unsigned char *oct, t_process *p);
-unsigned int				_fork(const unsigned char *oct, t_process *p);
-unsigned int				_lld(const unsigned char *oct, t_process *p);
-unsigned int				_lldi(const unsigned char *oct, t_process *p);
-unsigned int				_lfork(const unsigned char *oct, t_process *p);
-unsigned int				_aff(const unsigned char *oct, t_process *p);
+unsigned int				reg_(const unsigned char oct, unsigned char opt);
+unsigned int				ind_(const unsigned char oct, unsigned char opt);
+unsigned int				dir_(const unsigned char oct, unsigned char opt);
+unsigned int				abs_(const unsigned char oct, unsigned char opt);
+unsigned int				live_(const unsigned char *oct, t_process *p);
+unsigned int				ld_(const unsigned char *oct, t_process *p);
+unsigned int				st_(const unsigned char *oct, t_process *p);
+unsigned int				add_(const unsigned char *oct, t_process *p);
+unsigned int				sub_(const unsigned char *oct, t_process *p);
+unsigned int				and_(const unsigned char *oct, t_process *p);
+unsigned int				or_(const unsigned char *oct, t_process *p);
+unsigned int				xor_(const unsigned char *oct, t_process *p);
+unsigned int				zjmp_(const unsigned char *oct, t_process *p);
+unsigned int				ldi_(const unsigned char *oct, t_process *p);
+unsigned int				sti_(const unsigned char *oct, t_process *p);
+unsigned int				fork_(const unsigned char *oct, t_process *p);
+unsigned int				lld_(const unsigned char *oct, t_process *p);
+unsigned int				lldi_(const unsigned char *oct, t_process *p);
+unsigned int				lfork_(const unsigned char *oct, t_process *p);
+unsigned int				aff_(const unsigned char *oct, t_process *p);
 
 int							get_mem_addr(t_core *core, t_process *process,
 							int reg);
@@ -215,23 +215,23 @@ int							get_ind_value(t_core *core, t_process *process,
 							int reg);
 int							get_len(t_core *core, t_process *process,
 							int reg);
-void						_ex_live(t_core *core, t_process *process);
-void						_ex_ld(t_core *core, t_process *process);
-void						_ex_st(t_core *core, t_process *process);
-void						_ex_add(t_core *core, t_process *process);
-void						_ex_sub(t_core *core, t_process *process);
-void						_ex_and(t_core *core, t_process *process);
-void						_ex_or(t_core *core, t_process *process);
-void						_ex_xor(t_core *core, t_process *process);
-void						_ex_zjmp(t_core *core, t_process *process);
-void						_ex_ldi(t_core *core, t_process *process);
-void						_ex_sti(t_core *core, t_process *process);
-void						_ex_fork(t_core *core, t_process *process);
-void						_ex_lld(t_core *core, t_process *process);
-void						_ex_lldi(t_core *core, t_process *process);
-void						_ex_lfork(t_core *core, t_process *process);
-void						_ex_aff(t_core *core, t_process *process);
+void						ex_live(t_core *core, t_process *process);
+void						ex_ld(t_core *core, t_process *process);
+void						ex_st(t_core *core, t_process *process);
+void						ex_add(t_core *core, t_process *process);
+void						ex_sub(t_core *core, t_process *process);
+void						ex_and(t_core *core, t_process *process);
+void						ex_or(t_core *core, t_process *process);
+void						ex_xor(t_core *core, t_process *process);
+void						ex_zjmp(t_core *core, t_process *process);
+void						ex_ldi(t_core *core, t_process *process);
+void						ex_sti(t_core *core, t_process *process);
+void						ex_fork(t_core *core, t_process *process);
+void						ex_lld(t_core *core, t_process *process);
+void						ex_lldi(t_core *core, t_process *process);
+void						ex_lfork(t_core *core, t_process *process);
+void						ex_aff(t_core *core, t_process *process);
 
-void	visu(t_core *c, bool s);
+void						visu(t_core *c, bool s);
 
 #endif

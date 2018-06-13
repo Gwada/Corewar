@@ -1,0 +1,3 @@
+00000001000067c6	e8 5d 68 00 00 	callq	0x10000d028 ## symbol stub for: _malloc
+0000000100008396	e8 8d 4c 00 00 	callq	0x10000d028 ## symbol stub for: _malloc
+000000010000cd1e	e8 05 03 00 00 	callq	0x10000d028 ## symbol stub for: _malloc

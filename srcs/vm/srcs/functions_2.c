@@ -6,82 +6,82 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/05/12 15:29:16 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 15:26:01 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-unsigned int	_and(const unsigned char *oct, t_process *p)
+unsigned int	and_(const unsigned char *oct, t_process *p)
 {
-	if (!(p->ins.param[0] = _reg(*oct, EITH)))
-		if (!(p->ins.param[0] = _dir(*oct, EITH)))
-			if (!(p->ins.param[0] = _ind(*oct, EITH)))
+	if (!(p->ins.param[0] = reg_(*oct, EITH)))
+		if (!(p->ins.param[0] = dir_(*oct, EITH)))
+			if (!(p->ins.param[0] = ind_(*oct, EITH)))
 				return (0);
-	if (!(p->ins.param[1] = _reg(*oct, SITH)))
-		if (!(p->ins.param[1] = _ind(*oct, SITH)))
-			if (!(p->ins.param[1] = _dir(*oct, SITH)))
+	if (!(p->ins.param[1] = reg_(*oct, SITH)))
+		if (!(p->ins.param[1] = ind_(*oct, SITH)))
+			if (!(p->ins.param[1] = dir_(*oct, SITH)))
 				return (0);
-	if (!(p->ins.param[2] = _reg(*oct, FOTH)))
+	if (!(p->ins.param[2] = reg_(*oct, FOTH)))
 		return (0);
-	if (_abs(*oct, SND))
+	if (abs_(*oct, SND))
 		return (0);
 	return (1);
 }
 
-unsigned int	_or(const unsigned char *oct, t_process *p)
+unsigned int	or_(const unsigned char *oct, t_process *p)
 {
-	if (!(p->ins.param[0] = _reg(*oct, EITH)))
-		if (!(p->ins.param[0] = _dir(*oct, EITH)))
-			if (!(p->ins.param[0] = _ind(*oct, EITH)))
+	if (!(p->ins.param[0] = reg_(*oct, EITH)))
+		if (!(p->ins.param[0] = dir_(*oct, EITH)))
+			if (!(p->ins.param[0] = ind_(*oct, EITH)))
 				return (0);
-	if (!(p->ins.param[1] = _reg(*oct, SITH)))
-		if (!(p->ins.param[1] = _ind(*oct, SITH)))
-			if (!(p->ins.param[1] = _dir(*oct, SITH)))
+	if (!(p->ins.param[1] = reg_(*oct, SITH)))
+		if (!(p->ins.param[1] = ind_(*oct, SITH)))
+			if (!(p->ins.param[1] = dir_(*oct, SITH)))
 				return (0);
-	if (!(p->ins.param[2] = _reg(*oct, FOTH)))
+	if (!(p->ins.param[2] = reg_(*oct, FOTH)))
 		return (0);
-	if (_abs(*oct, SND))
+	if (abs_(*oct, SND))
 		return (0);
 	return (1);
 }
 
-unsigned int	_xor(const unsigned char *oct, t_process *p)
+unsigned int	xor_(const unsigned char *oct, t_process *p)
 {
-	if (!(p->ins.param[0] = _reg(*oct, EITH)))
-		if (!(p->ins.param[0] = _dir(*oct, EITH)))
-			if (!(p->ins.param[0] = _ind(*oct, EITH)))
+	if (!(p->ins.param[0] = reg_(*oct, EITH)))
+		if (!(p->ins.param[0] = dir_(*oct, EITH)))
+			if (!(p->ins.param[0] = ind_(*oct, EITH)))
 				return (0);
-	if (!(p->ins.param[1] = _reg(*oct, SITH)))
-		if (!(p->ins.param[1] = _ind(*oct, SITH)))
-			if (!(p->ins.param[1] = _dir(*oct, SITH)))
+	if (!(p->ins.param[1] = reg_(*oct, SITH)))
+		if (!(p->ins.param[1] = ind_(*oct, SITH)))
+			if (!(p->ins.param[1] = dir_(*oct, SITH)))
 				return (0);
-	if (!(p->ins.param[2] = _reg(*oct, FOTH)))
+	if (!(p->ins.param[2] = reg_(*oct, FOTH)))
 		return (0);
-	if (_abs(*oct, SND))
+	if (abs_(*oct, SND))
 		return (0);
 	return (1);
 }
 
-unsigned int	_zjmp(const unsigned char *oct, t_process *p)
+unsigned int	zjmp_(const unsigned char *oct, t_process *p)
 {
 	(void)oct;
 	(void)p;
 	return (1);
 }
 
-unsigned int	_ldi(const unsigned char *oct, t_process *p)
+unsigned int	ldi_(const unsigned char *oct, t_process *p)
 {
-	if (!(p->ins.param[0] = _reg(*oct, EITH)))
-		if (!(p->ins.param[0] = _dir(*oct, EITH)))
-			if (!(p->ins.param[0] = _ind(*oct, EITH)))
+	if (!(p->ins.param[0] = reg_(*oct, EITH)))
+		if (!(p->ins.param[0] = dir_(*oct, EITH)))
+			if (!(p->ins.param[0] = ind_(*oct, EITH)))
 				return (0);
-	if (!(p->ins.param[1] = _dir(*oct, SITH)))
-		if (!(p->ins.param[1] = _reg(*oct, SITH)))
+	if (!(p->ins.param[1] = dir_(*oct, SITH)))
+		if (!(p->ins.param[1] = reg_(*oct, SITH)))
 			return (0);
-	if (!(p->ins.param[2] = _reg(*oct, FOTH)))
+	if (!(p->ins.param[2] = reg_(*oct, FOTH)))
 		return (0);
-	if (_abs(*oct, SND))
+	if (abs_(*oct, SND))
 		return (0);
 	return (1);
 }

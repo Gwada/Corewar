@@ -6,14 +6,14 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 11:54:16 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 15:19:51 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
 
-void				_ex_live(t_core *c, t_process *p)
+void				ex_live(t_core *c, t_process *p)
 {
 	int				i;
 	int				id_p;
@@ -42,7 +42,7 @@ void				_ex_live(t_core *c, t_process *p)
 	p->pc = moov_opc(c, p, *p->l);
 }
 
-void				_ex_ld(t_core *c, t_process *p)
+void				ex_ld(t_core *c, t_process *p)
 {
 	unsigned char	reg;
 
@@ -59,7 +59,7 @@ void				_ex_ld(t_core *c, t_process *p)
 	p->pc = moov_opc(c, p, *p->l);
 }
 
-void				_ex_st(t_core *c, t_process *p)
+void				ex_st(t_core *c, t_process *p)
 {
 	int				i;
 	unsigned char	p_1;
@@ -87,7 +87,7 @@ void				_ex_st(t_core *c, t_process *p)
 	p->pc = moov_opc(c, p, *p->l);
 }
 
-void				_ex_add(t_core *c, t_process *p)
+void				ex_add(t_core *c, t_process *p)
 {
 	unsigned char	p_1;
 	unsigned char	p_2;
@@ -106,7 +106,7 @@ void				_ex_add(t_core *c, t_process *p)
 	p->pc = moov_opc(c, p, *p->l);
 }
 
-void				_ex_sub(t_core *c, t_process *p)
+void				ex_sub(t_core *c, t_process *p)
 {
 	unsigned char	p_1;
 	unsigned char	p_2;

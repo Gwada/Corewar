@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 09:38:16 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 13:29:32 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 15:28:02 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,22 @@ static	void	display_init(size_t code)
 
 static void		init_tab_functions(t_core *core)
 {
-	core->ft[0] = _live;
-	core->ft[1] = _ld;
-	core->ft[2] = _st;
-	core->ft[3] = _add;
-	core->ft[4] = _sub;
-	core->ft[5] = _and;
-	core->ft[6] = _or;
-	core->ft[7] = _xor;
-	core->ft[8] = _zjmp;
-	core->ft[9] = _ldi;
-	core->ft[10] = _sti;
-	core->ft[11] = _fork;
-	core->ft[12] = _lld;
-	core->ft[13] = _lldi;
-	core->ft[14] = _lfork;
-	core->ft[15] = _aff;
+	core->ft[0] = live_;
+	core->ft[1] = ld_;
+	core->ft[2] = st_;
+	core->ft[3] = add_;
+	core->ft[4] = sub_;
+	core->ft[5] = and_;
+	core->ft[6] = or_;
+	core->ft[7] = xor_;
+	core->ft[8] = zjmp_;
+	core->ft[9] = ldi_;
+	core->ft[10] = sti_;
+	core->ft[11] = fork_;
+	core->ft[12] = lld_;
+	core->ft[13] = lldi_;
+	core->ft[14] = lfork_;
+	core->ft[15] = aff_;
 	core->v[0] = get_mem_addr;
 	core->v[1] = get_reg_ind;
 	core->v[2] = get_dir_value;
@@ -64,22 +64,22 @@ static void		init_tab_functions(t_core *core)
 
 static void		init_tab_ex_functions(t_core *core)
 {
-	core->ex[0] = _ex_live;
-	core->ex[1] = _ex_ld;
-	core->ex[2] = _ex_st;
-	core->ex[3] = _ex_add;
-	core->ex[4] = _ex_sub;
-	core->ex[5] = _ex_and;
-	core->ex[6] = _ex_or;
-	core->ex[7] = _ex_xor;
-	core->ex[8] = _ex_zjmp;
-	core->ex[9] = _ex_ldi;
-	core->ex[10] = _ex_sti;
-	core->ex[11] = _ex_fork;
-	core->ex[12] = _ex_lld;
-	core->ex[13] = _ex_lldi;
-	core->ex[14] = _ex_lfork;
-	core->ex[15] = _ex_aff;
+	core->ex[0] = ex_live;
+	core->ex[1] = ex_ld;
+	core->ex[2] = ex_st;
+	core->ex[3] = ex_add;
+	core->ex[4] = ex_sub;
+	core->ex[5] = ex_and;
+	core->ex[6] = ex_or;
+	core->ex[7] = ex_xor;
+	core->ex[8] = ex_zjmp;
+	core->ex[9] = ex_ldi;
+	core->ex[10] = ex_sti;
+	core->ex[11] = ex_fork;
+	core->ex[12] = ex_lld;
+	core->ex[13] = ex_lldi;
+	core->ex[14] = ex_lfork;
+	core->ex[15] = ex_aff;
 }
 
 size_t			init_core(t_core *core, size_t ret)
@@ -87,8 +87,8 @@ size_t			init_core(t_core *core, size_t ret)
 	ft_bzero(core, sizeof(*core));
 	PROG_NAME_LENGTH != 128 && !(ret = 0) ? display_init(0) : 0;
 	COMMENT_LENGTH != 2048 && !(ret = 0) ? display_init(1) : 0;
-	COREWAR_EXEC_MAGIC != 0xea83f3 && !(ret = 0) ? display_init(2): 0;
-	MAX_PLAYERS != 4 && !(ret = 0) ? display_init(3): 0;
+	COREWAR_EXEC_MAGIC != 0xea83f3 && !(ret = 0) ? display_init(2) : 0;
+	MAX_PLAYERS != 4 && !(ret = 0) ? display_init(3) : 0;
 	MEM_SIZE != 4 * 1024 && !(ret = 0) ? display_init(4) : 0;
 	IDX_MOD != MEM_SIZE / 8 && !(ret = 0) ? display_init(5) : 0;
 	CHAMP_MAX_SIZE != MEM_SIZE / 6 && !(ret = 0) ? display_init(6) : 0;

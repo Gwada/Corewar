@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/03 20:17:08 by dlavaury          #+#    #+#              #
-#    Updated: 2018/05/17 15:45:39 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/06/13 13:39:05 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,11 +44,11 @@ libft:
 	@make -j3 -C $(LIB)
 
 asm: libft
-	@make -j3 -C $(ASM_SRCS)
+	@make -C $(ASM_SRCS)
 	@mv -i $(ASM_SRCS)$(ASM_EXEC_NAME) ./
 
 corewar: libft
-	@make -j3 -C $(VM_SRCS)
+	@make -C $(VM_SRCS)
 	@mv -i $(VM_SRCS)$(VM_EXEC_NAME) ./
 
 clean:

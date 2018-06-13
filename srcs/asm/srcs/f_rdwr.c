@@ -6,11 +6,10 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:35:45 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/17 18:28:20 by sdjeghba         ###   ########.fr       */
+/*   Updated: 2018/06/13 14:59:01 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "../includes/asm.h"
 
 void		write_cmd(int fd, t_cmd *cmd)
