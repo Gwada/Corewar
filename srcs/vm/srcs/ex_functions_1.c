@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 19:40:35 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 11:54:16 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,13 @@ void				_ex_add(t_core *c, t_process *p)
 	unsigned char	p_3;
 
 	c->v[5](c, p, 0);
-	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
+	p_1 = c->v[1](c, p, p->l[1]);
+	p_2 = c->v[1](c, p, p->l[2]);
+	p_3 = c->v[1](c, p, p->l[3]);
+	if (!p_1 || !p_2 || !p_3 || p_1 > 16 || p_2 > 16 || p_3 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
-	if (!(p_2 = c->v[1](c, p, p->l[2])) || p_2 > 16)
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
-	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_2 > 16)
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
+	if (c->bd & DEBUG)
+		ft_printf("add r%hhu r%hhu r%hhu\n", p_1, p_2, p_3);
 	p->reg[p_3] = p->reg[p_1] + p->reg[p_2];
 	p->carry = (p->reg[p_3] == 0);
 	p->pc = moov_opc(c, p, *p->l);
@@ -112,12 +113,13 @@ void				_ex_sub(t_core *c, t_process *p)
 	unsigned char	p_3;
 
 	c->v[5](c, p, 0);
-	if (!(p_1 = c->v[1](c, p, p->l[1])) || p_1 > 16)
+	p_1 = c->v[1](c, p, p->l[1]);
+	p_2 = c->v[1](c, p, p->l[2]);
+	p_3 = c->v[1](c, p, p->l[3]);
+	if (!p_1 || !p_2 || !p_3 || p_1 > 16 || p_2 > 16 || p_3 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
-	if (!(p_2 = c->v[1](c, p, p->l[2])) || p_2 > 16)
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
-	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
+	if (c->bd & DEBUG)
+		ft_printf("sub r%hhu r%hhu r%hhu\n", p_1, p_2, p_3);
 	p->reg[p_3] = p->reg[p_1] - p->reg[p_2];
 	p->carry = (p->reg[p_3] == 0);
 	p->pc = moov_opc(c, p, *p->l);

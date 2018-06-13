@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 20:32:45 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 13:20:25 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,16 @@ void				_ex_lld(t_core *c, t_process *p)
 	if (!(reg = c->v[1](c, p, p->l[2])) || reg > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->reg[reg] = c->v[*p->ins.param](c, p, p->l[1]);
-	p->carry = p->reg[reg] ? 0 : 1;
+	if (c->bd & DEBUG)
+		ft_printf("lld %d r%hhu\n", p->reg[reg], reg);
+	p->carry = (p->reg[reg] == 0);
 	p->pc = moov_opc(c, p, *p->l);
 }
 
 void				_ex_lldi(t_core *c, t_process *p)
 {
-	int				p_1;
-	int				p_2;
+	short			p_1;
+	short			p_2;
 	unsigned char	p_3;
 
 	c->v[5](c, p, 0);
@@ -94,12 +96,15 @@ void				_ex_lldi(t_core *c, t_process *p)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
+	c->bd & DEBUG ? ft_printf("lldi %hd %hd r%hhu\n", p_1, p_2, p_3) : 0;
 	p_2 = c->v[0](c, p, p_2 + p_1);
 	p_1 = -1;
 	while (++p_1 < 4)
 		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id(p_2 + p_1)];
 	p->pc = moov_opc(c, p, *p->l);
-	p->carry = p->reg[p_3] ? 0 : 1;
+	p->carry = (p->reg[p_3] == 0);
+	ft_printf("%d\n", c->total_cycle);
+	exit(0);
 }
 
 void				_ex_lfork(t_core *c, t_process *p)

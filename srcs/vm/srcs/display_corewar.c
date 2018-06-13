@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 19:01:19 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 19:21:43 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 11:48:16 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	put_general(t_core *c, t_process *p, unsigned char opc, int i_1)
 {
 	char	buff[512];
 
-	ft_bzero(buff, 512);
 	i_1 += ft_psprintf(&buff[i_1], "{bold}{yellow}GENERAL\tSTATES{eoc}\n");
 	i_1 += ft_psprintf(&buff[i_1], "{bold}cycle:\t\t[{magenta}");
 	i_1 += ft_psprintf(&buff[i_1], "%5d{eoc}{bold}]\t", c->total_cycle);
@@ -37,26 +36,22 @@ static void	put_general(t_core *c, t_process *p, unsigned char opc, int i_1)
 	i_1 += ft_psprintf(&buff[i_1], "opc:\t\t[{yellow}");
 	i_1 += ft_psprintf(&buff[i_1], "%5hhu{eoc}{bold}]\n\n{eoc}", opc);
 	i_1 += ft_psprintf(&buff[i_1], "{bold}{yellow}PROCESS\tSTATES{eoc}\n");
-	(void)p;
-	(void)c;
-	(void)opc;
 	write(1, buff, i_1);
 }
 
 static void	put_process(t_core *c, t_process *p, int i_1, int reg)
 {
-/*	while (++reg < 17)
+	while (++reg < 17)
 	{
-		i_1 += ft_psprintf(&c->buff[i_1], "{bold}reg[%2u] = {magenta}", reg);//
-		i_1 += ft_psprintf(&c->buff[i_1], "%10#x{eoc}\t", p->reg[reg]);//
-		!(reg % 8) ? i_1 += ft_psprintf(&c->buff[i_1], "\n") : 0;//
+		i_1 += ft_psprintf(&c->buff[i_1], "{bold}reg[%2u] = {magenta}", reg);
+		i_1 += ft_psprintf(&c->buff[i_1], "%10#x{eoc}\t", p->reg[reg]);
+		!(reg % 8) ? i_1 += ft_psprintf(&c->buff[i_1], "\n") : 0;
 	}
-*/	i_1 += ft_psprintf(&c->buff[i_1], "\nprocess name\t: {green}{bold}");//
-	(void)reg;
-	i_1 += ft_psprintf(&c->buff[i_1], "%s{bold}", p->ins.description);//
-	i_1 += ft_psprintf(&c->buff[i_1], "{eoc}\ndescription\t: ");//
+	i_1 += ft_psprintf(&c->buff[i_1], "\nprocess name\t: {green}{bold}");
+	i_1 += ft_psprintf(&c->buff[i_1], "%s{bold}", p->ins.description);
+	i_1 += ft_psprintf(&c->buff[i_1], "{eoc}\ndescription\t: ");
 	write(1, c->buff, i_1);
-	ft_bzero(c->buff, 1048);
+
 }
 
 static void	get_state(t_core *c, int i, int j, int *l)
@@ -80,22 +75,23 @@ static void	get_state(t_core *c, int i, int j, int *l)
 
 static void	put_corewar(t_core *c, int i, int l)
 {
+	char	*hex;
 	int		j;
 
-	ft_bzero(c->buff, 1048);
+	hex = "0123456789abcdef";
 	while (i < MEM_SIZE && (j = -1) && !(l = 0))
 	{
-		l += ft_psprintf(&c->buff[l], "{bold}{cyan}%05#X{eoc} : ", i);//
+		l += ft_psprintf(&c->buff[l], "{bold}{cyan}%05#X{eoc} : ", i);
 		while (++j < 64 && i + j < MEM_SIZE)
 		{
 			get_state(c, i, j, &l);
-			l += ft_psprintf(&c->buff[l], "%02hhx", c->ram[i + j]);//
-			c->r_2[i + j] ? l += ft_psprintf(&c->buff[l], "{eoc}") : 0;//
-			l += ft_psprintf(&c->buff[l], " ");//
+			c->buff[l++] = hex[c->ram[i + j] / 16 % 16];
+			c->buff[l++] = hex[c->ram[i + j] % 16];
+			c->r_2[i + j] ? l += ft_psprintf(&c->buff[l], "{eoc}") : 0;
+			c->buff[l++] = ' ';
 		}
-		l += ft_psprintf(&c->buff[l], "\n");//
+		c->buff[l++] = '\n';
 		write(1, c->buff, l);
-		ft_bzero(c->buff, 1048);
 		i += 64;
 	}
 }

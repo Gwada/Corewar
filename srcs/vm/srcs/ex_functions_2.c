@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 20:32:43 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 13:20:23 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,18 @@ void				_ex_and(t_core *c, t_process *p)
 
 	c->v[5](c, p, 0);
 	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
-	if (*p->ins.param & T_REG && (p_1 < 1 || p_1 > 16))
+	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
+	p_3 = c->v[1](c, p, p->l[3]);
+	if ((*p->ins.param & T_REG && (p_1 < 1 || p_1 > 16))
+	|| (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16)) || !p_3 || p_3 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
-	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
-	if (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16))
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
-	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
+	if (c->bd & DEBUG)
+	{
+		ft_printf("and %s%d ", *p->ins.param & T_REG ? "" : "r", p_1);
+		ft_printf("%s%d r%hhu\n", p->ins.param[1] & T_REG ? "r" : "", p_2, p_3);
+	}
 	p->reg[p_3] = p_1 & p_2;
 	p->carry = (p->reg[p_3] == 0);
 	p->pc = moov_opc(c, p, *p->l);
@@ -43,15 +46,18 @@ void				_ex_or(t_core *c, t_process *p)
 
 	c->v[5](c, p, 0);
 	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
-	if (*p->ins.param & T_REG && (p_1 < 1 || p_1 > 16))
+	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
+	p_3 = c->v[1](c, p, p->l[3]);
+	if ((*p->ins.param & T_REG && (p_1 < 1 || p_1 > 16))
+	|| (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16)) || !p_3 || p_3 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
-	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
-	if (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16))
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
-	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
+	if (c->bd & DEBUG)
+	{
+		ft_printf("or %s%d ", *p->ins.param & T_REG ? "" : "r", p_1);
+		ft_printf("%s%d r%hhu\n", p->ins.param[1] & T_REG ? "r" : "", p_2, p_3);
+	}
 	p->reg[p_3] = p_1 | p_2;
 	p->carry = (p->reg[p_3] == 0);
 	p->pc = moov_opc(c, p, *p->l);
@@ -64,16 +70,20 @@ void		_ex_xor(t_core *c, t_process *p)
 	unsigned char	p_3;
 
 	c->v[5](c, p, 0);
+	c->v[5](c, p, 0);
 	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
-	if (*p->ins.param & T_REG && (p_1 < 1 || p_1 > 16))
+	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
+	p_3 = c->v[1](c, p, p->l[3]);
+	if ((*p->ins.param & T_REG && (p_1 < 1 || p_1 > 16))
+	|| (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16)) || !p_3 || p_3 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
-	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
-	if (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16))
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
-	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
+	if (c->bd & DEBUG)
+	{
+		ft_printf("xor %s%d ", *p->ins.param & T_REG ? "" : "r", p_1);
+		ft_printf("%s%d r%hhu\n", p->ins.param[1] & T_REG ? "r" : "", p_2, p_3);
+	}
 	p->reg[p_3] = p_1 ^ p_2;
 	p->carry = (p->reg[p_3] == 0);
 	p->pc = moov_opc(c, p, *p->l);
@@ -100,27 +110,27 @@ void				_ex_zjmp(t_core *c, t_process *p)
 
 void				_ex_ldi(t_core *c, t_process *p)
 {
-//	ft_printf("{green}{bold}\tIN\tLDI{eoc}\n");//
-
-	int				i;
-	int				p_1;
-	int				p_2;
+	short			p_1;
+	short			p_2;
 	unsigned char	p_3;
 
-	i = -1;
 	c->v[5](c, p, 0);
 	p_1 = c->v[*p->ins.param](c, p, p->l[1]);
-	if (*p->ins.param & T_REG && (p_1 < 1 || p_1 > 16))
+	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
+	p_3 = c->v[1](c, p, p->l[3]);
+	if ((*p->ins.param & T_REG && (p_1 < 1 || p_1 > 16))
+	|| (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16)) || !p_3 || p_3 > 16)
 		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	*p->ins.param & T_REG ? p_1 = p->reg[p_1] : 0;
-	p_2 = c->v[p->ins.param[1]](c, p, p->l[2]);
-	if (p->ins.param[1] & T_REG && (p_2 < 1 || p_2 > 16))
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
 	p->ins.param[1] & T_REG ? p_2 = p->reg[p_2] : 0;
-	if (!(p_3 = c->v[1](c, p, p->l[3])) || p_3 > 16)
-		return ((void)(p->pc = moov_opc(c, p, *p->l)));
-	p_2 = (short)c->v[0](c, p, p_2 + p_1);
-	while (++i < 4)
-		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id((short)p_2 + i)];
+	if (c->bd & DEBUG)
+	{
+		ft_printf("ldi %hd %d r%hhu\t\t", p_1, p_2 , p_3);
+		ft_printf("load from %d to r%hhu\n", p->pc + p_1 + p_2, p_3);
+	}
+	p_2 = c->v[0](c, p, p_2 + p_1);
+	p_1 = -1;
+	while (++p_1 < 4)
+		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id(p_2 + p_1)];
 	p->pc = moov_opc(c, p, *p->l);
 }
