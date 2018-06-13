@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 16:01:38 by fchanal          ###   ########.fr       */
+/*   Updated: 2018/06/13 18:30:06 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,8 @@ static void		check_instruct(t_core *c, t_process *p, unsigned char opc)
 			if (opc_c((opc = c->ram[id(p->pc)] - 1)))
 				ex_functions(c, p, opc);
 			else
-			{
-				if (!read_instruct(c, p))
-					p->pc = moov_opc(c, p, 1);
-				else
-					--p->ins.nb_cycles;
-			}
-			if (!p->ins.nb_cycles && read_instruct(c, p))
-				--p->ins.nb_cycles;
+				p->pc = moov_opc(c, p, 1);
+			read_instruct(c, p) ? --p->ins.nb_cycles : 0;
 		}
 		else
 			--p->ins.nb_cycles;

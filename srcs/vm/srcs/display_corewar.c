@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 19:01:19 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 16:30:28 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 18:41:43 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,6 @@ void		display_cw(t_core *c, t_process *p, unsigned char opc, int state)
 	{
 		ft_printf("\n{bold}{yellow}COREWAR\tSTATES{eoc}\n");
 		put_corewar(c, 0, 0);
-		nanosleep((const struct timespec[]){{0, 80000000L}}, NULL);
+		nanosleep((const struct timespec[]){{0, 100000000L}}, NULL);
 	}
 }
