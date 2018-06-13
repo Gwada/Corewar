@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/12 09:49:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/10 14:58:38 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 19:17:40 by fchanal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,6 @@ void				ft_putstr_p(t_data *data);
 size_t				ft_wcharlen(wchar_t c);
 size_t				ft_wstrlen(wchar_t *ws);
 void				ft_putwstr_p(t_data *data, int len, int wlen);
-
 
 /*
 **		OTHER FUNCTIONS
