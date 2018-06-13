@@ -44,7 +44,7 @@ void	blink_pc(t_core *c, t_process *p, int new_pc)
 	t_coord			pos;
 	unsigned		color;
 
-	color = p->reg[1] * -1;
+	color = p->reg[0];
 	if (color > c->player)
 		color = 5;
 	pos.y = (p->pc / ((c->visu.arena.size.x - 3) / 3)) + 1;
@@ -63,7 +63,7 @@ void	write_on_ram(t_core *c, t_process *p, int index)
 	int			count;
 	unsigned 	color;
 
-	color = p->reg[1] * -1;
+	color = p->reg[0];
 	if (color > c->player)
 		color = 5;
 	if ((pos.y = (index / ((c->visu.arena.size.x - 3) / 3)) + 1) > c->visu.arena.size.y - 2)
