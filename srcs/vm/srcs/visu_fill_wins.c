@@ -1,135 +1,108 @@
-#include "visu.h"
+#include "corewar.h"
 
-void	init_wins_size(t_visu_env *env)
+void	fill_usages(t_core *c)
 {
-	env->title.size.y = env->w_size.y / 8;	
-	env->title.size.x = env->w_size.x / 4;
-
-	env->usages.size.y = (int)(double)(env->w_size.y / 3.5);
-	env->usages.size.x = env->w_size.x / 4;
-
-	env->stats.size.y = (int)(double)(env->w_size.y / 2.2);
-	env->stats.size.x = env->w_size.x / 4;
-
-	env->states.size.y = (int)(double)(env->w_size.y / 6.5);
-	env->states.size.x = env->w_size.x / 4;
-
-	env->arena.size.y = env->w_size.y;
-	env->arena.size.x = env->w_size.x - (env->w_size.x / 4 + 1);
+	mvwprintw(c->visu.usages.win, (int)(double)(c->visu.usages.size.y / 2 - 1), 3, "Quit:  'q'");
+	mvwprintw(c->visu.usages.win, (int)(double)(c->visu.usages.size.y / 2), 3, "Pause: 'space'");
+	mvwprintw(c->visu.usages.win, (int)(double)(c->visu.usages.size.y / 2 - 1), c->visu.usages.size.x - 22, "Frame/Sec:    '+/-'");
+	mvwprintw(c->visu.usages.win, (int)(double)(c->visu.usages.size.y / 2), c->visu.usages.size.x - 22, "Step by step:   's'");
 }
 
-void	draw_basics(t_visu_env *env)
+void	fill_stats(t_core *c)
 {
-	//write(1, "a", 1);
-	init_wins_size(env);
+	unsigned count;
+	unsigned x;
+	unsigned y;
 
-	if (env->title.win)
-		delwin(env->title.win);
-	env->title.win = newwin(env->title.size.y, env->title.size.x, 0, 0);
-	write(1, "b", 1);
+	mvwprintw(c->visu.stats.win, 2, 3, "Cycle to die: %4d", c->max_cycle);
+	mvwprintw(c->visu.stats.win, 3, 3, "Cycle delta: %5d", CYCLE_DELTA);
+	mvwprintw(c->visu.stats.win, 4, 3, "Max check: %7d", MAX_CHECKS);
+	mvwprintw(c->visu.stats.win, 5, 3, "Live number: %5d", NBR_LIVE);
 
-	box(env->title.win, ACS_VLINE, ACS_HLINE);
-	wattrset(env->title.win, A_BOLD);
-	mvwprintw(env->title.win, 0, env->title.size.x / 2 - 4, " TITLE ");
+	mvwprintw(c->visu.stats.win, 2, c->visu.stats.size.x - 23, "Frame/Second: %6d", c->visu.fps);
+	mvwprintw(c->visu.stats.win, 3, c->visu.stats.size.x - 23, "Cycle: %13d", c->total_cycle);
+	mvwprintw(c->visu.stats.win, 4, c->visu.stats.size.x - 23, "Current cycle: %5d", c->current_cycle);
+	mvwprintw(c->visu.stats.win, 5, c->visu.stats.size.x - 23, "Last decr: %9d", c->last_decr);
+	mvwprintw(c->visu.stats.win, 6, c->visu.stats.size.x - 23, "Process: %11d", c->n_process);
 
-	if (env->usages.win)
-		delwin(env->usages.win);
-	env->usages.win = newwin(env->usages.size.y, env->usages.size.x, env->title.size.y, 0);
-
-	box(env->usages.win, ACS_VLINE, ACS_HLINE);
-	wattrset(env->usages.win, A_BOLD);
-	mvwprintw(env->usages.win, 0, env->usages.size.x / 2 - 4, " USAGE ");
-
-	if (env->stats.win)
-		delwin(env->stats.win);
-	env->stats.win = newwin(env->stats.size.y, env->stats.size.x, env->title.size.y + env->usages.size.y, 0);
-
-	box(env->stats.win, ACS_VLINE, ACS_HLINE);
-	wattrset(env->stats.win, A_BOLD);
-	mvwprintw(env->stats.win, 0, env->stats.size.x / 2 - 4, " STATS ");
-
-	if (env->states.win)
-		delwin(env->states.win);
-	env->states.win = newwin(env->states.size.y, env->states.size.x ,env->title.size.y + env->usages.size.y + env->stats.size.y,0);
-
-	box(env->states.win, ACS_VLINE, ACS_HLINE);
-	wattrset(env->states.win, A_BOLD);
-	mvwprintw(env->states.win, 0, env->states.size.x / 2 - 4, " STATES ");
-
-	if (env->arena.win)
-		delwin(env->arena.win);
-	env->arena.win = newwin(env->arena.size.y, env->arena.size.x, 0, env->w_size.x / 4 + 1);
-
-	box(env->arena.win, ACS_VLINE, ACS_HLINE);
-	wattrset(env->arena.win, A_BOLD);
-	mvwprintw(env->arena.win, 0, env->arena.size.x / 2 - 4, " ARENA ");
+	count = 0;
+	x = 3;
+	y = 10;
+	while (count < c->player)
+	{
+		if (count == 2)
+		{
+			x = 3;
+			y += 5;
+		}
+		mvwprintw(c->visu.stats.win, y, x, "Player %d", count + 1);
+		mvwprintw(c->visu.stats.win, y + 2, x, "Current live: %6d", c->p[count].current_cycle_live);
+		mvwprintw(c->visu.stats.win, y + 3, x, "Total live: %8d", c->p[count].total_live);
+		++count;
+		x = c->visu.stats.size.x - 23;
+	}
 }
 
-void	fill_usages(t_visu_env *env)
+#define NO_SPACE_ENABLE	1
+
+bool	put_byte(t_core *core, t_coord *pos, char *ram, int *index)
 {
-	(void)env;
+	int color;
+
+	color = handle_color(core, *index, pos);
+	mvwaddch(core->visu.arena.win, pos->y, (pos->x)++, ram[(*index)++]);
+	mvwaddch(core->visu.arena.win, pos->y, (pos->x)++, ram[(*index)++]);
+	if (color)
+		mvwchgat(core->visu.arena.win, pos->y, pos->x - 2, 2, A_STANDOUT, color, NULL);
+	if (pos->x < core->visu.arena.size.x - 3) {
+		mvwaddch(core->visu.arena.win, pos->y, (pos->x)++, ' ');
+		return (0);
+	}
+	else
+		return (NO_SPACE_ENABLE);
 }
 
-void	fill_stats(t_core *c, t_visu_env *env)
-{
-	(void)c; (void)env;
-}
 
-void	fill_arena(t_core *c, t_visu_env *env) // make proper
+void	fill_arena(t_core *core)
 {
-	char		*m;
-	uint8_t		space;
-	uint32_t	index;
+	char	*ram;
+	t_coord	pos;
+	int		index;
 
-	if (!(m = ft_get_hex_memory(c->ram, MEM_SIZE)))
-		ft_exit_alloc_failure();
-	space = 0;
+	if (!(ram = ft_get_hex_memory(core->ram, MEM_SIZE))) {
+		endwin();
+		exit(1);
+	}
+	pos.y = 1;
 	index = 0;
-	for (int i = 1 ; i < env->arena.size.y - 1 ; ++i) {
-		for (int j = 3 ; j < env->arena.size.x - 3 ; ++j) {
-			if (index == MEM_SIZE * 2)
-			{
-				free(m);
+	while (pos.y < core->visu.arena.size.y - 1) {
+		pos.x = 3;
+		while (1) {
+			if (index >= MEM_SIZE * 2) {
+				free(ram);
 				return ;
 			}
-			if (space == 2)
-			{
-				if (j == env->arena.size.x - 5)
-					break ;
-				else if (j == 3)
-				{
-					mvwaddch(env->arena.win, i, j, m[index++]);
-					space = 1;
-				}
-				else
-				{
-					mvwaddch(env->arena.win, i, j, ' ');
-					space = 0;
-				}
-			}
-			else
-			{
-				mvwaddch(env->arena.win, i, j, m[index++]);
-				++space;
-			}
+			if (put_byte(core, &pos, ram, &index) == NO_SPACE_ENABLE)
+				break ;
 		}
+		++pos.y;
 	}
-	free(m);
+	free(ram);
 }
 
-void	fill_title(t_visu_env *env)
+void	fill_title(t_core *c)
 {
-	wattrset(env->title.win, COLOR_PAIR(1));
-	mvwprintw(env->title.win, 1, env->title.size.x / 2 - 12, "%S", T_1);
-	wattrset(env->title.win, COLOR_PAIR(2));
-	mvwprintw(env->title.win, 2, env->title.size.x / 2 - 12, "%S", T_2);
-	wattrset(env->title.win, COLOR_PAIR(3));
-	mvwprintw(env->title.win, 3, env->title.size.x / 2 - 12, "%S", T_3);
-	wattrset(env->title.win, COLOR_PAIR(1));
-	mvwprintw(env->title.win, 4, 2, "%S", T_4);
+	wattrset(c->visu.title.win, COLOR_PAIR(1));
+	mvwprintw(c->visu.title.win, 1, c->visu.title.size.x / 2 - 12, "%S", T_1);
+	wattrset(c->visu.title.win, COLOR_PAIR(2));
+	mvwprintw(c->visu.title.win, 2, c->visu.title.size.x / 2 - 12, "%S", T_2);
+	wattrset(c->visu.title.win, COLOR_PAIR(3));
+	mvwprintw(c->visu.title.win, 3, c->visu.title.size.x / 2 - 12, "%S", T_3);
+	wattrset(c->visu.title.win, COLOR_PAIR(1));
+	mvwprintw(c->visu.title.win, 4, 2, "%S", T_4);
 }
 
-void	fill_states(t_core *c, t_visu_env *env)
+void	fill_states(t_core *c)
 {
 	unsigned	x;
 	unsigned	count;
@@ -138,13 +111,37 @@ void	fill_states(t_core *c, t_visu_env *env)
 	x = 2;
 	while (count < c->player)
 	{
-		wattrset(env->states.win, COLOR_PAIR(count + 1));
-		mvwprintw(env->states.win, 1, x, "%s", H_1);
-		mvwprintw(env->states.win, 2, x, "%s", H_2);
-		mvwprintw(env->states.win, 3, x, "%s", H_3);
-		mvwprintw(env->states.win, 4, x, "%s", H_4);
-		mvwprintw(env->states.win, 5, x, "%s", H_5);
+		wattrset(c->visu.states.win, COLOR_PAIR(count + 1));
+		mvwprintw(c->visu.states.win, 1, x, "%s", H_1);
+		mvwprintw(c->visu.states.win, 2, x, "%s", H_2);
+		mvwprintw(c->visu.states.win, 3, x, "%s", H_3);
+		mvwprintw(c->visu.states.win, 4, x, "%s", H_4);
+		mvwprintw(c->visu.states.win, 5, x, "%s", H_5);
 		++count;
 		x += 12;
 	}
+}
+
+void	update_states(t_core *c, t_process *ps, int index)
+{
+	int		x;
+
+	index *= -1;
+	if (index > c->player)
+		return ;
+	x = 2 + 12 * (index - 1);
+	wattrset(c->visu.states.win, A_BLINK);
+	mvwprintw(c->visu.states.win, 1, x, "%s", H_1);
+	mvwprintw(c->visu.states.win, 2, x, "%s", H_2);
+	mvwprintw(c->visu.states.win, 3, x, "%s", H_3);
+	mvwprintw(c->visu.states.win, 4, x, "%s", H_4);
+	mvwprintw(c->visu.states.win, 5, x, "%s", H_5);
+	wrefresh(c->visu.states.win);
+	usleep(1000 * 30);
+	wattrset(c->visu.states.win, COLOR_PAIR((x - 2) / 12 + 1));
+	mvwprintw(c->visu.states.win, 1, x, "%s", H_1);
+	mvwprintw(c->visu.states.win, 2, x, "%s", H_2);
+	mvwprintw(c->visu.states.win, 3, x, "%s", H_3);
+	mvwprintw(c->visu.states.win, 4, x, "%s", H_4);
+	mvwprintw(c->visu.states.win, 5, x, "%s", H_5);
 }

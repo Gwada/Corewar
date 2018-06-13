@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 14:58:41 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 16:01:38 by fchanal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,18 @@ static void		check_instruct(t_core *c, t_process *p, unsigned char opc)
 	}
 }
 
-void			corewar(t_core *core)
+void				reverse_ps(t_core *c)
+{
+	c->reverse_ps = c->ps;
+	while (c->reverse_ps->pc != 0)
+		c->reverse_ps = c->reverse_ps->next;
+}
+
+void				corewar(t_core *core)
 {
 	if (!init_process(core, -1))
 		return ((void)display_error(core, 0, NULL));
+	core->bd & VISUAL ? reverse_ps(core): 0;
 	while (core->n_process > 0 && core->max_cycle > 0 && core->ps)
 	{
 		check_instruct(core, core->ps, 0);
@@ -81,7 +89,9 @@ void			corewar(t_core *core)
 			break ;
 		++core->total_cycle;
 		++core->current_cycle;
+		core->bd & VISUAL ? visu(core, 1, NULL, 0, 0) : 0;
 	}
+	core->bd & VISUAL ? endwin(): 0;
 	put_champ(core);
 	clean_process(core->ps);
 }

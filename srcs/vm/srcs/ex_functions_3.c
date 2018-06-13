@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 15:20:31 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 15:59:22 by fchanal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void				ex_sti(t_core *c, t_process *p)
 		c->r_2[id(p_2 + p_3)] &= ~(0xff);
 		c->r_2[id(p_2 + p_3)] |= ((1 << (*p->reg - 1)) | (1 << 5));
 	}
+	c->bd & VISUAL ? visu(c, 4, p, id(p->pc + *p->l), id(p_2)) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -63,6 +64,7 @@ void				ex_fork(t_core *c, t_process *p)
 	c->bd & DEBUG ? ft_printf("-> %d\n", new->pc) : 0;
 	c->r_2[new->pc] |= OPC;
 	read_instruct(c, new);
+	c->bd & VISUAL ? visu(c, 6, p, id(p->pc + *p->l), new->pc) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 	--new->ins.nb_cycles;
 }
@@ -78,6 +80,7 @@ void				ex_lld(t_core *c, t_process *p)
 	if (c->bd & DEBUG)
 		ft_printf("lld %d r%hhu\n", p->reg[reg], reg);
 	p->carry = (p->reg[reg] == 0);
+	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -101,10 +104,9 @@ void				ex_lldi(t_core *c, t_process *p)
 	p_1 = -1;
 	while (++p_1 < 4)
 		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id(p_2 + p_1)];
+	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 	p->carry = (p->reg[p_3] == 0);
-	ft_printf("%d\n", c->total_cycle);
-	exit(0);
 }
 
 void				ex_lfork(t_core *c, t_process *p)
@@ -128,6 +130,7 @@ void				ex_lfork(t_core *c, t_process *p)
 	new->pc = id(p->pc + c->v[*p->ins.param](c, p, p->l[1]));
 	c->r_2[new->pc] |= OPC;
 	read_instruct(c, new);
+	c->bd & VISUAL ? visu(c, 6, p, id(p->pc + *p->l), new->pc) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 	--new->ins.nb_cycles;
 }

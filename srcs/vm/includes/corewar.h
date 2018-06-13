@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 15:18:40 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 16:03:27 by fchanal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,75 @@
 # include <fcntl.h>
 # include <ncurses.h>
 # include "op.h"
+#include <locale.h>
+#include <stdint.h>
+#include <stdlib.h>
+
+/*
+** VISUALISATOR
+*/
+
+typedef struct s_win t_win;
+typedef struct s_visu_env t_visu_env;
+typedef struct s_coord t_coord;
+
+#define HEX_DIGIT "0123456789ABCDEF"
+
+# define F_PAUSE	0x01
+# define F_SKURT	0x02
+
+#define T_1		L"┌─┐┌─┐┬─┐┌─┐┬ ┬┌─┐┬─┐"
+#define T_2		L"│  │ │├┬┘├┤ │││├─┤├┬┘"
+#define T_3		L"└─┘└─┘┴└─└─┘└┴┘┴ ┴┴└─"
+#define T_4		L"2018 fchanal dlavaury sdjeghba"
+
+#define H_1		",d88b.d88b,"
+#define H_2		"88888888888"
+#define H_3		"`Y8888888Y'"
+#define H_4		"  `Y888Y'"
+#define H_5		"    `Y'"
+
+#define HC_1	"           "
+#define HC_2	"           "
+#define HC_3	"           "
+#define HC_4	"         "
+#define HC_5	"       "
+
+
+#define COLOR_P1	COLOR_RED
+#define COLOR_P2	COLOR_BLUE
+#define COLOR_P3	COLOR_GREEN
+#define COLOR_P4	COLOR_CYAN
+
+#define F_STAT		1
+#define F_LIVE		3
+#define F_WRITE		4
+#define F_OI		5
+#define F_FORK		6
+
+struct s_coord
+{
+	int		y;
+	int		x;
+};
+
+struct s_win
+{
+	WINDOW	*win;
+	t_coord	size;
+};
+
+struct s_visu_env
+{
+	unsigned	event_flag;
+	unsigned	fps;
+	t_coord		w_size;
+	t_win		title;
+	t_win		usages;
+	t_win		stats;
+	t_win		states;
+	t_win		arena;
+};
 
 /*
 **		*** BINARY MASKS ***
@@ -108,6 +177,7 @@ typedef struct				s_process
 
 typedef struct				s_core
 {
+	t_visu_env				visu;
 	char					*first_arg;
 	unsigned char			ram[MEM_SIZE];
 	short					r_2[MEM_SIZE];
@@ -131,6 +201,7 @@ typedef struct				s_core
 	void					(*ex[INST_NB])(struct s_core *c, t_process *p);
 	int						(*v[6])(struct s_core *c, t_process *p, int i);
 	t_process				*ps;
+	t_process				*reverse_ps;
 }							t_core;
 
 /*
@@ -232,6 +303,19 @@ void						ex_lldi(t_core *core, t_process *process);
 void						ex_lfork(t_core *core, t_process *process);
 void						ex_aff(t_core *core, t_process *process);
 
-void						visu(t_core *c, bool s);
+void	visu(t_core *c, int id, t_process *p, int new_pc, int write_index);
+void	draw_basics(t_core *c);
+void	fill_title(t_core *c);
+void	fill_usages(t_core *c);
+void	fill_stats(t_core *c);
+void	fill_states(t_core *c);
+void	fill_arena(t_core *c);
+void	update_arena(t_core *c, int id, t_process *p, int new_pc, int write_index);
+void	ft_exit_alloc_failure();
+char	*ft_get_hex_memory(void *m, size_t mem_size);
+void	ft_bzero(void *m, size_t len);
+
+int	handle_color(t_core *c, int index, t_coord *pos);
+void	update_states(t_core *c, t_process *ps, int index);
 
 #endif

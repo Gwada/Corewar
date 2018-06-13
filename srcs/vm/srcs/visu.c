@@ -1,79 +1,81 @@
-#include "visu.h"
+#include "corewar.h"
 
-static void	load(t_core *c, t_visu_env *env)
+static void	load(t_core *c, int id, t_process *p, int new_pc, int index)
 {
-	if (env->event_flag & F_RELOAD)
-	{
+	if (id == 0) {
+		werase(c->visu.title.win);
+		werase(c->visu.usages.win);
+		werase(c->visu.stats.win);
+		werase(c->visu.states.win);
+		werase(c->visu.arena.win);
 		erase();
-		draw_basics(env);
-		fill_title(env);
-		fill_usages(env);
-		fill_stats(c, env);
-		fill_states(c, env);
-		fill_arena(c, env);
-		env->event_flag &= ~F_RELOAD;
+		draw_basics(c);
+		fill_title(c);
+		fill_usages(c);
+		fill_arena(c);
+		fill_stats(c);
+		fill_states(c);
+		refresh();
+		wrefresh(c->visu.title.win);
+		wrefresh(c->visu.usages.win);
+		wrefresh(c->visu.arena.win);
+		wrefresh(c->visu.stats.win);
+		wrefresh(c->visu.states.win);
 	}
-	else
-	{
-		mvwprintw(env->stats.win, 2, 2, "salut");
-		fill_stats(c, env);
-		// if new instruction
-		if (42 == 42) // to handle
-			fill_arena(c, env);
+	else if (id == 1) {
+		fill_stats(c);
+		wrefresh(c->visu.stats.win);
+	}
+	else if (id > 2) {
+		update_arena(c, id, p, new_pc, index);
+		wrefresh(c->visu.arena.win);
 	}
 }
 
-static void	init_color_pair()
+static void handle_event(t_core *c, char cs)
 {
-	init_pair(1, COLOR_RED, COLOR_BLACK);
-	init_pair(2, COLOR_CYAN, COLOR_BLACK);
-	init_pair(3, COLOR_BLUE, COLOR_BLACK);
-	init_pair(4, COLOR_GREEN, COLOR_BLACK);
-}
-
-static void	init(t_visu_env *env)
-{
-	setlocale(LC_ALL, "");
-	ft_bzero(env, sizeof(*env));
-	initscr();
-	raw();
-	noecho();
-	keypad(stdscr, TRUE);
-	start_color();
-	init_color_pair();
-}
-
-static void	refresh_win(t_visu_env *env)
-{
-	wrefresh(env->title.win);
-	wrefresh(env->usages.win);
-	wrefresh(env->stats.win);
-	wrefresh(env->states.win);
-	wrefresh(env->arena.win);
-}
-
-#include <stdio.h>
-
-void	print_info(t_core *c) // tmp
-{
-	dprintf(2, "PROCES -> %d\n", c->n_process);
-}
-
-void	visu(t_core *c, bool s)
-{
-	(void)s;
-	t_visu_env		env;
-	t_coord			tmp;
-
-	init(&env);
-	getmaxyx(stdscr, tmp.y, tmp.x);
-	if (tmp.y != env.w_size.y || tmp.x != env.w_size.x) {
-		env.event_flag |= F_RELOAD;
-		env.w_size.y = tmp.y;
-		env.w_size.x = tmp.x;
+	if (cs == 'q') {
+		endwin();
+		exit(0);
 	}
-	load(c, &env);
-	refresh_win(&env);
-	getchar();
-	endwin();
+	else if (cs == ' ')
+		c->visu.event_flag |= F_PAUSE;
+	else if (cs == 's')
+		c->visu.event_flag |= F_SKURT;
+	else if (cs == '+') {
+		if (c->visu.fps == 0)
+			c->visu.fps = 50;
+		else
+			c->visu.fps += 10;
+	}
+	else if (cs == '-') {
+		if (c->visu.fps == 0)
+			c->visu.fps = 50;
+		else
+			c->visu.fps -= 10;
+	}
+}
+
+void	visu(t_core *c, int id, t_process *p, int new_pc, int index)
+{
+	if (c->visu.w_size.y == 0 && c->visu.w_size.x == 0) {
+		id = 0;
+		getmaxyx(stdscr, c->visu.w_size.y, c->visu.w_size.x);
+	}
+	load(c, id, p, new_pc, index);
+	handle_event(c, getch());
+	if (c->visu.event_flag & F_PAUSE) {
+		getchar();
+		c->visu.event_flag &= ~F_PAUSE;
+	}
+	if (c->visu.event_flag & F_SKURT) {
+		if (getchar() != 's')
+		c->visu.event_flag &= ~F_SKURT;
+	}
+	if (id == 1) {
+		if (c->visu.fps != 0)
+			usleep(1000 / c->visu.fps * 1000);
+		else
+			usleep(1000 * 50);
+	}
 }

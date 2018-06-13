@@ -39,6 +39,7 @@ void				ex_live(t_core *c, t_process *p)
 			}
 		}
 	c->bd & DEBUG && !(c->bd & VISUAL) ? ft_printf("\n") : 0;
+	c->bd & VISUAL ? visu(c, 3, p, id(p->pc + *p->l), id_p) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -56,6 +57,7 @@ void				ex_ld(t_core *c, t_process *p)
 	c->bd & DEBUG ? ft_printf("ld %d r%hhu", p->reg[reg], reg) : 0;
 	p->carry = (p->reg[reg] == 0);
 	c->bd & DEBUG ? ft_printf("\tcarry = %d\n", p->carry) : 0;
+	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -84,6 +86,7 @@ void				ex_st(t_core *c, t_process *p)
 			c->r_2[id(p_2 + i)] &= ~(0xff);
 			c->r_2[id(p_2 + i)] |= ((1 << (*p->reg - 1)) | (1 << 5));
 		}
+	c->bd & VISUAL ? visu(c, 4, p, id(p->pc + *p->l), id(p_2)) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -103,6 +106,7 @@ void				ex_add(t_core *c, t_process *p)
 		ft_printf("add r%hhu r%hhu r%hhu\n", p_1, p_2, p_3);
 	p->reg[p_3] = p->reg[p_1] + p->reg[p_2];
 	p->carry = (p->reg[p_3] == 0);
+	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -122,5 +126,6 @@ void				ex_sub(t_core *c, t_process *p)
 		ft_printf("sub r%hhu r%hhu r%hhu\n", p_1, p_2, p_3);
 	p->reg[p_3] = p->reg[p_1] - p->reg[p_2];
 	p->carry = (p->reg[p_3] == 0);
+	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }

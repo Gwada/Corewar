@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 15:21:24 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 16:00:54 by fchanal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void				ex_and(t_core *c, t_process *p)
 	}
 	p->reg[p_3] = p_1 & p_2;
 	p->carry = (p->reg[p_3] == 0);
+	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -60,6 +61,7 @@ void				ex_or(t_core *c, t_process *p)
 	}
 	p->reg[p_3] = p_1 | p_2;
 	p->carry = (p->reg[p_3] == 0);
+	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -86,6 +88,7 @@ void				ex_xor(t_core *c, t_process *p)
 	}
 	p->reg[p_3] = p_1 ^ p_2;
 	p->carry = (p->reg[p_3] == 0);
+	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -97,11 +100,13 @@ void				ex_zjmp(t_core *c, t_process *p)
 		c->r_2[p->pc] &= ~OPC;
 		if (c->bd & DEBUG)
 			ft_printf("zjmp %d {green}OK{eoc}\n", c->v[3](c, p, p->l[1]));
+		c->bd & VISUAL ? visu(c, 5, p, id(p->pc + ((short)c->v[3](c, p, p->l[1]) % IDX_MOD)), 0) : 0;
 		p->pc = moov_opc(c, p, c->v[3](c, p, p->l[1]) % IDX_MOD);
 		c->r_2[p->pc] |= OPC;
 	}
 	else
 	{
+		c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
 		if (c->bd & DEBUG)
 			ft_printf("zjmp %d {red}FAILED{eoc}\n", c->v[3](c, p, p->l[1]));
 		p->pc = moov_opc(c, p, *p->l);
@@ -132,5 +137,6 @@ void				ex_ldi(t_core *c, t_process *p)
 	p_1 = -1;
 	while (++p_1 < 4)
 		p->reg[p_3] = (p->reg[p_3] << 8) | c->ram[id(p_2 + p_1)];
+	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }

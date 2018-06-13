@@ -6,13 +6,12 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 18:19:30 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/12 14:53:23 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 15:56:29 by fchanal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "../../libft/includes/ft_printf.h"
-#include "visu.h"
 
 static	void		get_magic_number(unsigned char **b, t_core *c, int i)
 {
@@ -103,6 +102,24 @@ static	void		put_champ(t_core *c, unsigned int i)
 	}
 }
 
+static void	init_visu(t_core *c)
+{
+	setlocale(LC_ALL, "");
+	ft_bzero(&c->visu, sizeof(c->visu));
+	initscr();
+	raw();
+	nodelay(stdscr, TRUE);
+	noecho();
+	curs_set(0);
+	keypad(stdscr, TRUE);
+	start_color();
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	init_pair(2, COLOR_CYAN, COLOR_BLACK);
+	init_pair(3, COLOR_BLUE, COLOR_BLACK);
+	init_pair(4, COLOR_GREEN, COLOR_BLACK);
+	init_pair(5, COLOR_BLACK, COLOR_WHITE);
+}
+
 int					main(int argc, char **argv)
 {
 	unsigned int	i;
@@ -120,6 +137,7 @@ int					main(int argc, char **argv)
 		c.bd & GET_DUMP ? display_error(&c, 8, NULL) : 0;
 		c.player && !(c.bd & GET_ID) ? put_champ(&c, 0) : 0;
 		c.bd & VISUAL ? c.bd &= ~DEBUG : 0;
+		c.bd & VISUAL ? init_visu(&c) : 0;
 		c.player && !(c.bd & ERROR) ? corewar(&c) : 0;
 		!c.player ? display_usage(*argv) : 0;
 	}

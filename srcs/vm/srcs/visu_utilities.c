@@ -1,10 +1,4 @@
-#include "visu.h"
-
-void	ft_exit_alloc_failure()
-{
-	// error message
-	exit(1);
-}
+#include "corewar.h"
 
 char	*ft_get_hex_memory(void *m, size_t mem_size)
 {
@@ -12,7 +6,7 @@ char	*ft_get_hex_memory(void *m, size_t mem_size)
 	char	*rusher;
 	uint8_t	*tmp;
 
-	if (!m || !(ret = (char*)malloc(mem_size * 2)))
+	if (!mem_size || !m || !(ret = (char*)malloc(mem_size * 2)))
 		return (NULL);
 	rusher = ret;
 	tmp = (uint8_t*)m;
