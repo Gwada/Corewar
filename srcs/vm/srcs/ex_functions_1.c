@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 18:43:09 by fchanal          ###   ########.fr       */
+/*   Updated: 2018/06/13 19:13:24 by fchanal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void				ex_live(t_core *c, t_process *p)
 	++p->live;
 	++c->current_cycle_live;
 	id_p = c->v[2](c, p, p->l[1]);
-	i = -1 && c->bd & DEBUG ? ft_printf("live %d\t", id_p) : 0;
+	(i = -1) && c->bd & DEBUG ? ft_printf("live %d\t", id_p) : 0;
 	while (++i < 4)
 		if (id_p >= -4 && id_p < 0 && id_p == c->p[i].id)
 		{
