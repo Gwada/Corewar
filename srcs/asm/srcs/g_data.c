@@ -6,7 +6,7 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:24:20 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/17 18:37:49 by sdjeghba         ###   ########.fr       */
+/*   Updated: 2018/06/13 16:58:02 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void		get_params(char **tab, t_cmd *cmd, t_data *data)
 		cmd->ocp += get_code(tab[i]) * ((1 << (3 - i) * 2));
 		cmd->size += get_size(tab[i], cmd->opcode);
 	}
+	i = 0;
 	data->header->prog_size += cmd->size;
 }
 
@@ -60,13 +61,13 @@ void		get_label(char **line, t_cmd *cmd, t_data *data)
 void		get_cmd(char *line, t_cmd *cmd, t_data *d)
 {
 	int		i;
-	char	**tab;
+	size_t	pl;
 
-	if (!*line)
+	pl = -1;
+	if ((i = 16) && !*line)
 		return ;
 	while (*line && ft_isblank(*line))
 		line++;
-	i = 16;
 	while (i-- > 0)
 		if (!ft_strncmp(line, g_op_tab[i].name, ft_strlen(g_op_tab[i].name)))
 		{
@@ -74,16 +75,14 @@ void		get_cmd(char *line, t_cmd *cmd, t_data *d)
 			break ;
 		}
 	i < 0 ? handle_err(12, d->line, d) : 0;
-	!cmd->opcode || !ft_isblank(line[ft_strlen(g_op_tab[i].name)]) ?
+	!cmd->opcode || (!ft_isblank(line[ft_strlen(g_op_tab[i].name)]) &&
+			line[ft_strlen(g_op_tab[i].name)] != DIRECT_CHAR) ?
 		handle_err(12, d->line, d) : 0;
-	while (*line && !ft_isblank(*line))
+	while (++pl < ft_strlen(g_op_tab[i].name))
 		line++;
 	while (*line && ft_isblank(*line))
 		line++;
-	(tab = ft_strsplit(line, SEPARATOR_CHAR)) ? 0 : handle_err(13, QUIT, d);
-	ft_tablen(tab) != g_op_tab[i].nb_param ? handle_err(13, d->line, d) : 0;
-	get_params(tab, cmd, d);
-	tab ? ft_free_tab(tab) : 0;
+	handle_tab(line, cmd, d, i);
 }
 
 void		get_name(char *line, t_data *data, int fd)
@@ -96,7 +95,6 @@ void		get_name(char *line, t_data *data, int fd)
 	while (ft_count_char(s, '"') < 2 && get_next_line(fd, &data->gnl) > 0)
 	{
 		data->line++;
-		ft_char_replace(s, COMMENT_CHAR, '\0');
 		s = ft_strjoin_free_s1(s, "\n");
 		s = ft_strjoin_free_s1(s, data->gnl);
 		data->gnl ? ft_strdel(&data->gnl) : 0;
@@ -121,7 +119,6 @@ void		get_comment(char *line, t_data *data, int fd)
 	while (ft_count_char(s, '"') < 2 && get_next_line(fd, &data->gnl) > 0)
 	{
 		data->line++;
-		ft_char_replace(s, COMMENT_CHAR, '\0');
 		s = ft_strjoin_free_s1(s, "\n");
 		s = ft_strjoin_free_s1(s, data->gnl);
 		data->gnl ? ft_strdel(&data->gnl) : 0;
