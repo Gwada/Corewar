@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:40:49 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 14:54:14 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 16:56:26 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define S_FLAGS    S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
 # define QUIT -42
 # define MALLOC_ERR 42
+# define ASM_COM ';'
 
 typedef struct		s_label
 {
@@ -48,6 +49,7 @@ typedef struct		s_data
 	uint8_t			name;
 	uint8_t			comment;
 	uint8_t			eof;
+	int				ret;
 	t_cmd			*cmd;
 	t_header		*header;
 }					t_data;
@@ -58,6 +60,7 @@ void				read_cmd(int fd, t_data *data);
 void				read_header(int fd, t_data *data);
 void				read_file(t_data *data);
 
+void				replace_comname(t_data *data);
 int					is_reg(char *param);
 int					is_dir(char *param);
 int					is_ind(char *param);
@@ -69,6 +72,7 @@ t_label				*go_lastlabel(t_label *label);
 void				put_err(char *msg, int line);
 void				handle_err(int num, int line, t_data *data);
 
+void				handle_tab(char *line, t_cmd *cmd, t_data *d, int i);
 int					get_optab_index(int opcode);
 int					get_size(char *param, int op);
 int					get_code(char *param);

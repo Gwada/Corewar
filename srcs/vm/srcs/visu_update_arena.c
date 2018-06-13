@@ -18,7 +18,7 @@ void				blink_pc(t_core *c, t_process *p, unsigned new_pc)
 	unsigned		color;
 
 	color = p->reg[0];
-	if (color > c->player)
+	if (color > 4)
 		color = 5;
 	pos.y = (p->pc / ((c->visu.arena.size.x - 3) / 3)) + 1;
 	pos.x = (p->pc % ((c->visu.arena.size.x - 3) / 3)) * 3 + 3;

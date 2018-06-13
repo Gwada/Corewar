@@ -6,11 +6,17 @@
 /*   By: salemdjeghbala <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 17:22:30 by salemdjeg         #+#    #+#             */
-/*   Updated: 2018/05/17 16:26:48 by sdjeghba         ###   ########.fr       */
+/*   Updated: 2018/06/13 16:29:08 by sdjeghba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
+
+void		replace_comname(t_data *data)
+{
+	ft_char_replace(data->gnl, COMMENT_CHAR, '\0');
+	ft_char_replace(data->gnl, ASM_COM, '\0');
+}
 
 int			is_reg(char *param)
 {
