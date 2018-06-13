@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 15:19:51 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/06/13 18:43:09 by fchanal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ void				ex_live(t_core *c, t_process *p)
 	int				i;
 	int				id_p;
 
-	i = -1;
 	c->v[5](c, p, 0);
 	++c->total_live;
 	++p->live;
 	++c->current_cycle_live;
 	id_p = c->v[2](c, p, p->l[1]);
-	c->bd & DEBUG ? ft_printf("live %d\t", id_p) : 0;
+	i = -1 && c->bd & DEBUG ? ft_printf("live %d\t", id_p) : 0;
 	while (++i < 4)
 		if (id_p >= -4 && id_p < 0 && id_p == c->p[i].id)
 		{
@@ -39,7 +38,7 @@ void				ex_live(t_core *c, t_process *p)
 			}
 		}
 	c->bd & DEBUG && !(c->bd & VISUAL) ? ft_printf("\n") : 0;
-	c->bd & VISUAL ? visu(c, 3, p, id(p->pc + *p->l), id_p) : 0;
+	c->bd & VISUAL ? visu(c, 3, p, SO(id(p->pc + *p->l), id_p)) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -57,7 +56,7 @@ void				ex_ld(t_core *c, t_process *p)
 	c->bd & DEBUG ? ft_printf("ld %d r%hhu", p->reg[reg], reg) : 0;
 	p->carry = (p->reg[reg] == 0);
 	c->bd & DEBUG ? ft_printf("\tcarry = %d\n", p->carry) : 0;
-	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
+	c->bd & VISUAL ? visu(c, 5, p, SO(id(p->pc + *p->l), 0)) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -86,7 +85,7 @@ void				ex_st(t_core *c, t_process *p)
 			c->r_2[id(p_2 + i)] &= ~(0xff);
 			c->r_2[id(p_2 + i)] |= ((1 << (*p->reg - 1)) | (1 << 5));
 		}
-	c->bd & VISUAL ? visu(c, 4, p, id(p->pc + *p->l), id(p_2)) : 0;
+	c->bd & VISUAL ? visu(c, 4, p, SO(id(p->pc + *p->l), id(p_2))) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -106,7 +105,7 @@ void				ex_add(t_core *c, t_process *p)
 		ft_printf("add r%hhu r%hhu r%hhu\n", p_1, p_2, p_3);
 	p->reg[p_3] = p->reg[p_1] + p->reg[p_2];
 	p->carry = (p->reg[p_3] == 0);
-	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
+	c->bd & VISUAL ? visu(c, 5, p, SO(id(p->pc + *p->l), 0)) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
@@ -126,6 +125,6 @@ void				ex_sub(t_core *c, t_process *p)
 		ft_printf("sub r%hhu r%hhu r%hhu\n", p_1, p_2, p_3);
 	p->reg[p_3] = p->reg[p_1] - p->reg[p_2];
 	p->carry = (p->reg[p_3] == 0);
-	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
+	c->bd & VISUAL ? visu(c, 5, p, SO(id(p->pc + *p->l), 0)) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   visu_utilities.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fchanal <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/13 17:22:25 by fchanal           #+#    #+#             */
+/*   Updated: 2018/06/13 18:45:45 by fchanal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "corewar.h"
 
 char	*ft_get_hex_memory(void *m, size_t mem_size)
@@ -38,4 +50,22 @@ void	ft_bzero(void *m, size_t len)
 			len -= 8;
 		}
 	}
+}
+
+void	init_visu(t_core *c)
+{
+	setlocale(LC_ALL, "");
+	ft_bzero(&c->visu, sizeof(c->visu));
+	initscr();
+	raw();
+	nodelay(stdscr, TRUE);
+	noecho();
+	curs_set(0);
+	keypad(stdscr, TRUE);
+	start_color();
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	init_pair(2, COLOR_CYAN, COLOR_BLACK);
+	init_pair(3, COLOR_BLUE, COLOR_BLACK);
+	init_pair(4, COLOR_GREEN, COLOR_BLACK);
+	init_pair(5, COLOR_BLACK, COLOR_WHITE);
 }

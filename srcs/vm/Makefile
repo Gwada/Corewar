@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/03 09:33:12 by dlavaury          #+#    #+#              #
-#    Updated: 2018/06/13 14:24:36 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/06/13 17:40:46 by fchanal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,9 @@ SRC		= vm_main.c \
 		  cycle.c \
 		  display.c \
 		  visu.c \
+		  visu_color.c \
 		  visu_fill_wins.c \
+		  visu_fill_wins_2.c \
 		  visu_utilities.c \
 		  visu_draw_basics.c \
 		  visu_update_arena.c

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 16:42:35 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 16:01:38 by fchanal          ###   ########.fr       */
+/*   Updated: 2018/06/13 18:40:50 by fchanal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "time.h"
 #include "../../libft/includes/ft_printf.h"
 
-static void		put_champ(t_core *core)
+static void			put_champ(t_core *core)
 {
 	unsigned	i;
 
@@ -31,7 +31,7 @@ static void		put_champ(t_core *core)
 	ft_printf("le joueur %d(%s) a gagne\n", -core->p[i].id, core->p[i].name);
 }
 
-static void		ex_functions(t_core *c, t_process *p, unsigned char opc)
+static void			ex_functions(t_core *c, t_process *p, unsigned char opc)
 {
 	if (p->ins.name && !ft_strcmp(p->ins.name, g_op_tab[opc].name))
 	{
@@ -46,7 +46,7 @@ static void		ex_functions(t_core *c, t_process *p, unsigned char opc)
 	}
 }
 
-static void		check_instruct(t_core *c, t_process *p, unsigned char opc)
+static void			check_instruct(t_core *c, t_process *p, unsigned char opc)
 {
 	while (p)
 	{
@@ -81,7 +81,7 @@ void				corewar(t_core *core)
 {
 	if (!init_process(core, -1))
 		return ((void)display_error(core, 0, NULL));
-	core->bd & VISUAL ? reverse_ps(core): 0;
+	core->bd & VISUAL ? reverse_ps(core) : 0;
 	while (core->n_process > 0 && core->max_cycle > 0 && core->ps)
 	{
 		check_instruct(core, core->ps, 0);
@@ -89,9 +89,9 @@ void				corewar(t_core *core)
 			break ;
 		++core->total_cycle;
 		++core->current_cycle;
-		core->bd & VISUAL ? visu(core, 1, NULL, 0, 0) : 0;
+		core->bd & VISUAL ? visu(core, 1, NULL, 0) : 0;
 	}
-	core->bd & VISUAL ? endwin(): 0;
+	core->bd & VISUAL ? endwin() : 0;
 	put_champ(core);
 	clean_process(core->ps);
 }

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 19:59:20 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/06/13 15:57:29 by fchanal          ###   ########.fr       */
+/*   Updated: 2018/06/13 18:32:58 by fchanal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void				ex_aff(t_core *c, t_process *p)
 		return ((void)(p->pc = id(p->pc + *p->l)));
 	if (!(c->bd & VISUAL) && !(c->bd & DEBUG))
 		ft_printf("%c\n", p->reg[p_1] % 256);
-	c->bd & VISUAL ? visu(c, 5, p, id(p->pc + *p->l), 0) : 0;
+	c->bd & VISUAL ? visu(c, 5, p, SO(id(p->pc + *p->l), 0)) : 0;
 	p->pc = moov_opc(c, p, *p->l);
 }
 
