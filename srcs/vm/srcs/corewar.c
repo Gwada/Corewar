@@ -70,7 +70,7 @@ static void			check_instruct(t_core *c, t_process *p, unsigned char opc)
 
 void				corewar(t_core *core)
 {
-	if (!(core->ps = init_process(core, -1)))
+	if (!init_process(core, -1))
 		return ((void)display_error(core, 0, NULL));
 	while (core->n_process > 0 && core->max_cycle > 0 && core->ps)
 	{
@@ -87,4 +87,5 @@ void				corewar(t_core *core)
 	}
 	put_champ(core);
 	clean_process(core->ps);
+	ft_printf("%d\n", core->total_cycle);
 }

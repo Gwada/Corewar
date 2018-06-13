@@ -37,7 +37,10 @@ static size_t	process_live_checker(t_core *core)
 size_t			cycle_checker(t_core *core)
 {
 	if (core->dump > 0  && core->total_cycle >= core->dump)
+	{
+		ft_print_mem(core->ram, MEM_SIZE, 32, 0);
 		return (1);
+	}
 	if ((int)core->current_cycle == core->max_cycle)
 	{
 		if (process_live_checker(core))

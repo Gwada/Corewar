@@ -53,47 +53,19 @@ t_process			*del_process(t_core *core, t_process *lst)
 
 t_process			*clean_process(t_process *lst)
 {
-	if (!lst)
-		return (NULL);
-	if (lst->next)
+	t_process		*tmp;
+
+	while (lst)
 	{
-		lst->next->prev = NULL;
-		lst->next = clean_process(lst->next);
+		tmp = lst->next;
+		free(lst);
+		lst = tmp;
 	}
-	if (lst->prev)
-	{
-		lst->prev->next = NULL;
-		lst->prev = clean_process(lst->prev);
-	}
-	free(lst);
 	return (NULL);
 }
 
 void				insert_process(t_core *c, t_process *new)
 {
-/*	t_process		*tmp;
-
-	if (!c || !new || (!c->ps && (c->ps = new)))
-		return ;
-	tmp = c->ps;
-	while (tmp->next && new->ins.nb_cycles > tmp->ins.nb_cycles)
-		tmp = tmp->next;
-	if (new->ins.nb_cycles <= tmp->ins.nb_cycles)
-	{
-		new->next = tmp;
-		new->prev = tmp->prev;
-		tmp->prev ? tmp->prev->next = new : 0;
-		tmp->prev = new;
-	}
-	else
-	{
-		new->prev = tmp;
-		new->next = tmp->next;
-		tmp->next ? tmp->next->prev = new : 0;
-		tmp->next = new;
-	}
-	tmp->prev && c->ps == tmp->prev ? c->ps = tmp->prev : 0;
-	*/
 	if (!c->ps)
 	{
 		new->next = NULL;
@@ -111,14 +83,12 @@ void				insert_process(t_core *c, t_process *new)
 t_process			*init_process(t_core *core, int i)
 {
 	unsigned int	process;
-	t_process		*lst;
 	t_process		*new;
 
-	lst = NULL;
 	while (++i < (int)core->player)
 	{
 		if (!(new = new_process(core)))
-			return (clean_process(lst));
+			return (clean_process(core->ps));
 		new->pc = core->p[i].oc;
 		core->r_2[new->pc] |= OPC;
 		*new->reg = core->p[i].id;
@@ -130,6 +100,5 @@ t_process			*init_process(t_core *core, int i)
 		while (process < core->p[i].prog_size)
 			core->r_2[new->pc + process++] |= 1 << (*new->reg - 1);
 	}
-	lst = core->ps;
-	return (lst);
+	return (core->ps);
 }
