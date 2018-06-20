@@ -52,19 +52,16 @@ void		ft_precision_parser(t_data *data)
 	n2 = 0;
 	if (*data->ft >= '1' && *data->ft <= '9')
 	{
-		n2 = ft_atoi_p(data->ft);
-		data->min_s = n2 > n1 ? n2 : n1;
 		while (*data->ft >= '0' && *data->ft <= '9')
-			++data->ft;
+			n2 = n2 * 10 + *data->ft++ - '0';
+		data->min_s = n2 > n1 ? n2 : n1;
 	}
-	if (*data->ft == '.')
+	if (*data->ft == '.' && (data->bd |= PREC))
 	{
 		++data->ft;
-		n2 = ft_atoi_p(data->ft);
-		data->prec = n2 > 0 ? n2 : 0;
 		while (*data->ft >= '0' && *data->ft <= '9')
-			++data->ft;
-		data->bd |= PREC;
+			n2 = n2 * 10 + *data->ft++ - '0';
+		data->prec = n2 > 0 ? n2 : 0;
 	}
 }
 

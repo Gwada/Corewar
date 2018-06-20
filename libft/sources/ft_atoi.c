@@ -14,29 +14,16 @@
 
 int		ft_atoi(const char *nptr)
 {
-	int					i;
-	int					num;
 	int					pos_num;
 	unsigned long long	max;
 
-	i = 0;
 	max = 0;
-	num = 0;
 	pos_num = 1;
-	while (nptr[i] == ' ' || (nptr[i] >= 7 && nptr[i] <= 13))
-		i++;
-	if (nptr[i] == '-' || nptr[i] == '+')
-	{
-		if (nptr[i] == '-')
-			pos_num = -1;
-		i++;
-	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-	{
-		max = max * 10 + nptr[i] - '0';
-		if (max > INTMAXLEN)
+	while (*nptr == ' ' || (*nptr >= 7 && *nptr <= 13))
+		++nptr;
+	(*nptr == '-' && (pos_num = -1)) || (*nptr == '+') ? ++nptr : 0;
+	while (*nptr >= '0' && *nptr <= '9')
+		if ((max = max * 10 + *nptr++ - '0') > INTMAXLEN)
 			return ((pos_num == 1) ? -1 : 0);
-		num = num * 10 + nptr[i++] - '0';
-	}
-	return (num * pos_num);
+	return ((int)(max * pos_num));
 }

@@ -110,7 +110,7 @@ void			ft_itoa_buf(t_data *d, ULX2I n, int b, int len)
 	char		nbr[len];
 
 	if (n && !(d->bd & POINTEUR) && d->bd & ZERO && d->bd & DIESE
-			&& b == 16 && !(d->bd & LONGX2) && d->c_len > 3)
+	&& b == 16 && !(d->bd & LONGX2) && d->c_len > 3)
 		d->c_len -= 2;
 	c = 'a' - 10 - ((d->bd & MAJ) >> 1);
 	len = d->c_len;

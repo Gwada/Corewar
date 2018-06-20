@@ -18,17 +18,14 @@ char	*ft_itoa(int n)
 	char			*sn;
 	unsigned int	ui;
 
+	ui = (n < 0) ? -n : n;
 	number = ft_countnumber(n);
 	if (!(sn = (char*)malloc(sizeof(char) * (number + 1))))
 		return (NULL);
 	sn[number] = '\0';
-	ui = (n < 0) ? -n : n;
 	while (--number >= 0)
 	{
-		if (!number && n < 0)
-			sn[number] = '-';
-		else
-			sn[number] = ui % 10 + '0';
+		sn[number] = (!number && n < 0) ? '-' : ui % 10 + '0';
 		ui /= 10;
 	}
 	return (sn);
